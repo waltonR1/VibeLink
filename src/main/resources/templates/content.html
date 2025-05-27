@@ -29,7 +29,7 @@
 						<div class="sidebox__content" th:if="${byfriend.size}>0">
 							<div class="sidebox__user" th:each="item:${byfriend}">
 								<a href="#" class="sidebox__user-img">
-									<img th:src="${item.imgurl}" alt="">
+									<img th:src="${item.imgUrl}" alt="">
 								</a>
 								<div class="sidebox__user-title">
 									<h5><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h5>
@@ -48,7 +48,7 @@
 							<div class="sidebox__content" th:if="${byshare.size}>0">
 								<div class="sidebox__user" th:each="item:${byshare}">
 									<a href="#" class="sidebox__user-img">
-										<img th:src="${item.imgurl}" alt="">
+										<img th:src="${item.imgUrl}" alt="">
 									</a>
 									<div class="sidebox__user-title">
 										<h5><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h5>
@@ -67,7 +67,7 @@
 						<div class="sidebox__content" th:if="${byhobby.size}>0">
 							<div class="sidebox__user" th:each="item:${byhobby}">
 								<a href="#" class="sidebox__user-img">
-									<img th:src="${item.imgurl}" alt="">
+									<img th:src="${item.imgUrl}" alt="">
 								</a>
 								<div class="sidebox__user-title">
 									<h5><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h5>

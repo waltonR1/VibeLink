@@ -1,6 +1,6 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.domain.util.ResponseInfo;
+import com.isep.vibelink.util.ResponseInfo;
 import com.isep.vibelink.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

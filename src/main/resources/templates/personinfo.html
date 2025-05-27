@@ -126,7 +126,7 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<img v-if="imgurl!=null" alt="这里是描述图片" id="upload_img" v-bind:src="imgurl" style="max-width: 100%;margin-bottom: 10px;">
+										<img v-if="imgUrl!=null" alt="这里是描述图片" id="upload_img" v-bind:src="imgUrl" style="max-width: 100%;margin-bottom: 10px;">
 									</div>
 									<div class="col-12">
 										<button class="form__btn" type="button" v-on:click="uploadImg">
@@ -158,7 +158,7 @@
 						address:[[${user.address}]],
 						email:[[${user.email}]],
 
-						imgurl:[[${user.imgurl}]],
+						imgUrl:[[${user.imgUrl}]],
 					},
 					methods:{
 						uploadImg:function(event){
@@ -172,8 +172,8 @@
 								this.$http.post('/upload', param, {emulateJSON: true}).then(function (res) {
 									if (res.status === 200) {
 										alert("上传成功");
-										this.imgurl = "/upload/" + res.data.data;
-										document.getElementById("upload_img").setAttribute("src", this.imgurl);
+										this.imgUrl = "/upload/" + res.data.data;
+										document.getElementById("upload_img").setAttribute("src", this.imgUrl);
 									} else {
 										alert("操作失败");
 										alert(res.status);
@@ -226,13 +226,13 @@
 							}
 						},
 						fiximg:function () {
-							console.log(this.imgurl);
-							if(this.imgurl=='' || this.imgurl==null)
+							console.log(this.imgUrl);
+							if(this.imgUrl=='' || this.imgUrl==null)
 								alert("请您先上传图片");
 							else{
 								this.$http.post('/user/fiximg', {
 									account:this.account,
-									imgurl:this.imgurl
+									imgUrl:this.imgUrl
 								}, {emulateJSON:true}).then(function(res){
 									if(res.status===200){
 										alert("头像更改成功，请重新登录系统更新状态！");

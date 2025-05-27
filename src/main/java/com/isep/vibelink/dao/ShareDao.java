@@ -13,11 +13,11 @@ import java.util.List;
 public interface ShareDao extends Neo4jRepository<Share,Long> {
 
     @Query("match (user:User) where user.account=$account\n" +
-            "create (share:Share{publishaccount:$account,publisher:$publisher,publisherimg:$publisherimg," +
-            "title:$title,content:$content,related_hobby:$related_hobby,hobbyid:$hobbyid,imgurl:$imgurl,time:$time,address:$address})\n" +
+            "create (share:Share{publishAccount:$account,publisher:$publisher,publisherImg:$publisherimg," +
+            "title:$title,content:$content,relatedHobby:$related_hobby,hobbyId:$hobbyid,imgUrl:$imgurl,time:$time,address:$address})\n" +
             "create (user)-[publish:Publish]->(share) return share")
-    Share publishShare(String account, String publisher, String publisherimg,
-                       String title,String content, String related_hobby,Long hobbyid, String imgurl, String address, String time);
+    Share publishShare(String account, String publisher, String publisherImg,
+                       String title,String content, String relatedHobby,Long hobbyId, String imgUrl, String address, String time);
 
     @Query("match (user:User) where user.account=$account\n" +
             "match (share:Share) where ID(share)=$shareid\n" +
@@ -34,6 +34,6 @@ public interface ShareDao extends Neo4jRepository<Share,Long> {
 
     @Query("match (user:User) where user.account=$account\n" +
             "match (user)-[:Like]->(hobbies)\n" +
-            "match (share:Share) where share.related_hobby in hobbies.hname return share")
+            "match (share:Share) where share.relatedHobby in hobbies.hName return share")
     ArrayList<Share> recommendByHobby(@Param("account") String account);
 }

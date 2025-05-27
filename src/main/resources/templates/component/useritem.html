@@ -2,7 +2,7 @@
 <div th:fragment="unfollowitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="item:${recommends}" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgurl}" alt="用户头像">
+            <img th:src="${item.imgUrl}" alt="用户头像">
         </div>
         <div class="profile__wrap">
             <h2 class="profile__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h2>
@@ -28,7 +28,7 @@
 <div th:fragment="followitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="item:${recommends}" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgurl}" alt="用户头像">
+            <img th:src="${item.imgUrl}" alt="用户头像">
         </div>
         <div class="profile__wrap">
             <h2 class="profile__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h2>

@@ -1,4 +1,4 @@
-package com.isep.vibelink.domain.util;
+package com.isep.vibelink.util;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author  高谦
  * 上传文件的service
  */
 @Service

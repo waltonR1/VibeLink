@@ -4,7 +4,7 @@ import com.isep.vibelink.dao.FollowDao;
 import com.isep.vibelink.dao.ShareDao;
 import com.isep.vibelink.domain.node.Share;
 import com.isep.vibelink.domain.node.User;
-import com.isep.vibelink.domain.util.ResponseInfo;
+import com.isep.vibelink.util.ResponseInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,13 @@ public class ShareController {
     @ResponseBody
     public ResponseInfo addShare(
             @RequestParam("account") String account, @RequestParam("publisher") String publisher,
-            @RequestParam("publisherimg") String publisherimg, @RequestParam("title") String title,
-            @RequestParam("content") String content, @RequestParam("related_hobby") String related_hobby,
-            @RequestParam("hobbyid") Long hobbyid,
-            @RequestParam("imgurl") String imgurl, @RequestParam("address") String address){
+            @RequestParam("publisherImg") String publisherImg, @RequestParam("title") String title,
+            @RequestParam("content") String content, @RequestParam("relatedHobby") String relatedHobby,
+            @RequestParam("hobbyId") Long hobbyId,
+            @RequestParam("imgUrl") String imgUrl, @RequestParam("address") String address){
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time=format.format(new Date());
-        Share share=shareDao.publishShare(account,publisher,publisherimg,title,content,related_hobby,hobbyid,imgurl,address,time);
+        Share share=shareDao.publishShare(account,publisher,publisherImg,title,content,relatedHobby,hobbyId,imgUrl,address,time);
         return new ResponseInfo(share!=null?"success":"fail",share!=null,share);
     }
 

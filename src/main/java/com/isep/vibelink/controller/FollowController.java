@@ -3,7 +3,7 @@ package com.isep.vibelink.controller;
 import com.isep.vibelink.dao.FollowDao;
 import com.isep.vibelink.dao.UserDao;
 import com.isep.vibelink.domain.node.User;
-import com.isep.vibelink.domain.util.ResponseInfo;
+import com.isep.vibelink.util.ResponseInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

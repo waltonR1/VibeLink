@@ -11,10 +11,10 @@ public interface LikeDao extends Neo4jRepository<Like,Long> {
             "match (hobby:Hobby) where ID(hobby)=$hobbyid\n" +
             "create (user)-[like:Like]->(hobby) \n" +
             "create (user)<-[liked:Like]-(hobby) return count(liked)+count(like)")
-    Integer likeHobby(String account, Long hobbyid);
+    Integer likeHobby(String account, Long hobbyId);
 
     @Query("match (user:User) where user.account=$account\n" +
             "match (hobby:Hobby) where ID(hobby)=$hobbyid\n" +
             "match (user)-[like:Like]-(hobby) delete like return count(like)")
-    Integer unlikeHobby(String account, Long hobbyid);
+    Integer unlikeHobby(String account, Long hobbyId);
 }

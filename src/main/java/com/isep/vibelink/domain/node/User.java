@@ -30,15 +30,15 @@ public class User extends BaseNode {
     private String email;
     @Property(name = "address")
     private String address;
-    @Property(name = "imgurl")
-    private String imgurl;
+    @Property(name = "imgUrl")
+    private String imgUrl;
 
     @Relationship(type = "Follow", direction = Relationship.Direction.OUTGOING)
     private List<Follow> followings;
 
     @Relationship(type = "Like")
-    private List<Like> myhobbys;
+    private List<Like> myHobbies;
 
     @Relationship(type = "Publish", direction = Relationship.Direction.OUTGOING)
-    private List<Publish> myshares;
+    private List<Publish> myShares;
 }

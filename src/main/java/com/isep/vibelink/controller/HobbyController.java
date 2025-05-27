@@ -5,7 +5,7 @@ import com.isep.vibelink.dao.HobbyDao;
 import com.isep.vibelink.dao.LikeDao;
 import com.isep.vibelink.domain.node.Hobby;
 import com.isep.vibelink.domain.node.User;
-import com.isep.vibelink.domain.util.ResponseInfo;
+import com.isep.vibelink.util.ResponseInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +58,9 @@ public class HobbyController {
 
     @PostMapping("/hobby/addhobby")
     @ResponseBody
-    public ResponseInfo addHobby(@RequestParam("hname") String hname,
-                                 @RequestParam("htype") String htype){
-        Hobby hobby=hobbyDao.addHobby(hname,htype);
+    public ResponseInfo addHobby(@RequestParam("hName") String hName,
+                                 @RequestParam("hType") String hType){
+        Hobby hobby=hobbyDao.addHobby(hName, hType);
         if(hobby==null){
             return new ResponseInfo("fail",false,null);
         }
@@ -76,16 +76,16 @@ public class HobbyController {
 
     @GetMapping("/hobby/search")
     @ResponseBody
-    public ResponseInfo search(@RequestParam("hname") String hname){
-        ArrayList<Hobby> hobbies=(ArrayList<Hobby>) hobbyDao.searchHobbyByName(".*"+hname+".*");
+    public ResponseInfo search(@RequestParam("hName") String hName){
+        ArrayList<Hobby> hobbies=(ArrayList<Hobby>) hobbyDao.searchHobbyByName(".*"+hName+".*");
         return new ResponseInfo("",true,hobbies);
     }
 
     @PostMapping("/hobby/fix")
     @ResponseBody
-    public ResponseInfo fix(@RequestParam("id") Long id, @RequestParam("hname") String hname,
-                            @RequestParam("htype") String htype){
-        Hobby hobby=hobbyDao.fixHobby(id,hname,htype);
+    public ResponseInfo fix(@RequestParam("id") Long id, @RequestParam("hName") String hName,
+                            @RequestParam("hType") String hType){
+        Hobby hobby=hobbyDao.fixHobby(id,hName,hType);
         if(hobby!=null){
             return new ResponseInfo("修改成功",true,hobby);
         }

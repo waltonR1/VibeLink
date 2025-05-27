@@ -42,7 +42,7 @@
                     <div class="sidebox__nav">点击设置相关兴趣（话题）</div>
                     <ul class="post__tags sidebox__nav">
                         <a v-for="hobby in hobbies" v-on:click="select(hobby.id)" v-bind:class="{'selected':hobby.selected}">
-                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{hobby.hname}}</font></font>
+                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{hobby.hName}}</font></font>
                         </a>
                     </ul>
                 </div>
@@ -115,15 +115,15 @@
             data: {
                 keyword:'',
                 hobbies:[],
-                related_hobby:'',
+                relatedHobby:'',
                 // 右侧
                 title:'',
                 content:'',
                 address:'',
-                imgurl:'',
-                hobbyid:'',
+                imgUrl:'',
+                hobbyId:'',
                 account:[[${user.account}]],
-                publisherimg:[[${user.imgurl}]],
+                publisherImg:[[${user.imgUrl}]],
                 publisher:[[${user.nickname}]]
             },
             methods:{
@@ -138,8 +138,8 @@
                         this.$http.post('/upload', param, {emulateJSON: true}).then(function (res) {
                             if (res.status === 200) {
                                 alert("上传成功");
-                                this.imgurl = "/upload/" + res.data.data;
-                                document.getElementById("upload_img").setAttribute("src", this.imgurl);
+                                this.imgUrl = "/upload/" + res.data.data;
+                                document.getElementById("upload_img").setAttribute("src", this.imgUrl);
                             } else {
                                 alert(res.status);
                             }
@@ -149,7 +149,7 @@
                     }
                 },
                 searchHobby:function(event){
-                    this.$http.get('/hobby/search',{params : {hname:this.keyword}}).then(function(res){
+                    this.$http.get('/hobby/search',{params : {hName:this.keyword}}).then(function(res){
                         if(res.status===200){
                             console.log(res);
                             var hobbies=res.data.data;
@@ -162,43 +162,43 @@
                         console.log(res.status);
                     });
                 },
-                select:function(hobbyid){
+                select:function(hobbyId){
                     for(var i=0;i<this.hobbies.length;i++){
-                        if(this.hobbies[i].id===hobbyid){
+                        if(this.hobbies[i].id===hobbyId){
                             this.hobbies[i].selected=true;
-                            this.related_hobby=this.hobbies[i].hname;
-                            this.hobbyid=hobbyid;
+                            this.relatedHobby=this.hobbies[i].hName;
+                            this.hobbyId=hobbyId;
                         }else{
                             this.hobbies[i].selected=false;
                         }
                     }
                 },
                 publishShare:function (event) {
-                    console.log(this.hobbyid);
-                    console.log(this.related_hobby);
+                    console.log(this.hobbyId);
+                    console.log(this.relatedHobby);
                     console.log(this.title);
                     console.log(this.content);
                     console.log(this.address);
-                    console.log(this.imgurl);
+                    console.log(this.imgUrl);
                     console.log(this.account);
                     console.log(this.publisher);
-                    console.log(this.publisherimg);
+                    console.log(this.publisherImg);
 
-                    if(this.hobbyid=='' || this.related_hobby=='' || this.title==''||this.content==''||
-                    this.address===''||this.imgurl===''|| this.account===''|| this.publisher=='' || this.publisherimg==''){
+                    if(this.hobbyId=='' || this.relatedHobby=='' || this.title==''||this.content==''||
+                    this.address===''||this.imgUrl===''|| this.account===''|| this.publisher=='' || this.publisherImg==''){
                         alert("请你填写完整的信息");
                     }else {
                         this.$http.post('/share/add', {
-                            hobbyid: this.hobbyid,
-                            related_hobby: this.related_hobby,
+                            hobbyId: this.hobbyId,
+                            relatedHobby: this.relatedHobby,
 
                             title: this.title,
                             content: this.content,
                             address: this.address,
-                            imgurl: this.imgurl,
+                            imgUrl: this.imgUrl,
 
                             account: this.account,
-                            publisherimg: this.publisherimg,
+                            publisherImg: this.publisherImg,
                             publisher: this.publisher
                         }, {emulateJSON:true}).then(function(res){
                             if(res.status===200){

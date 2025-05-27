@@ -6,7 +6,7 @@ import com.isep.vibelink.dao.ShareDao;
 import com.isep.vibelink.dao.UserDao;
 import com.isep.vibelink.domain.node.Share;
 import com.isep.vibelink.domain.node.User;
-import com.isep.vibelink.domain.util.ResponseInfo;
+import com.isep.vibelink.util.ResponseInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,8 +164,8 @@ public class UserController {
 
     @PostMapping("/user/fiximg")
     @ResponseBody
-    public ResponseInfo fixImg(@RequestParam("account") String account,@RequestParam("imgurl") String imgurl){
-        Long num=userDao.fiximg(account,imgurl);
+    public ResponseInfo fixImg(@RequestParam("account") String account,@RequestParam("imgUrl") String imgUrl){
+        Long num=userDao.fiximg(account,imgUrl);
         return new ResponseInfo(num>0?"success":"fail",num>0,num);
     }
 }

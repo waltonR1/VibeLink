@@ -26,18 +26,18 @@
 				<div th:replace="component/userinfo::userinfo(${user})"></div>
 				<div class="col-12 col-md-7 col-lg-8 col-xl-6">
 					<script type="text/javascript" th:inline="javascript">
-						function likeit(hobbyid) {
+						function likeit(hobbyId) {
 							var formData=new FormData();
 							formData.append("account",[[${user.account}]])
-							formData.append("hobbyid",hobbyid);
+							formData.append("hobbyId",hobbyId);
 							var xhr=new XMLHttpRequest();
 							xhr.open("POST","/user/like");
 							xhr.onload=function (ev) {
 								if(xhr.status===200){
 									alert("关注成功！");
-									var btn=document.getElementById("btn-"+hobbyid);
+									var btn=document.getElementById("btn-"+hobbyId);
 									btn.setAttribute("class","post__actions-btn post__actions-btn--red");
-									btn.setAttribute("onclick","unlikeit("+hobbyid+")");
+									btn.setAttribute("onclick","unlikeit("+hobbyId+")");
 								}else{
 									alert("操作失败，请联系管理员!");
 								}
@@ -45,18 +45,18 @@
 							xhr.send(formData);
 						}
 
-						function unlikeit(hobbyid) {
+						function unlikeit(hobbyId) {
 							var formData=new FormData();
 							formData.append("account",[[${user.account}]]);
-							formData.append("hobbyid",hobbyid)
+							formData.append("hobbyId",hobbyId)
 							var xhr=new XMLHttpRequest();
 							xhr.open("POST","/user/unlike");
 							xhr.onload=function (ev) {
 								if(xhr.status===200){
 									alert("已取消关注");
-									var btn=document.getElementById("btn-"+hobbyid);
+									var btn=document.getElementById("btn-"+hobbyId);
 									btn.setAttribute("class","post__actions-btn post__actions-btn--green");
-									btn.setAttribute("onclick","likeit("+hobbyid+")");
+									btn.setAttribute("onclick","likeit("+hobbyId+")");
 								}else{
 									alert("操作失败，请联系管理员!");
 								}
@@ -83,16 +83,16 @@
 									</div>
 									<div class="col-12 col-lg-12">
 										<div class="form__group">
-											<label for="hname" class="form__label"><font style="vertical-align: inherit;">
+											<label for="hName" class="form__label"><font style="vertical-align: inherit;">
 												<font style="vertical-align: inherit;">兴趣名称</font></font></label>
-											<input name="hname" id="hname" type="text" class="form__input">
+											<input name="hName" id="hName" type="text" class="form__input">
 										</div>
 									</div>
 									<div class="col-12 col-lg-12">
 										<div class="form__group">
-											<label for="htype" class="form__label"><font style="vertical-align: inherit;">
+											<label for="hType" class="form__label"><font style="vertical-align: inherit;">
 												<font style="vertical-align: inherit;">兴趣类型</font></font></label>
-											<input name="htype" id="htype" type="text" class="form__input">
+											<input name="hType" id="hType" type="text" class="form__input">
 										</div>
 									</div>
 									<div class="col-12">
@@ -104,14 +104,14 @@
 							</form>
 							<script>
 								function addhobby() {
-									var hname=document.getElementById("hname").value;
-									var htype=document.getElementById("htype").value;
-									if(hname=='' || htype==''){
+									var hName=document.getElementById("hName").value;
+									var hType=document.getElementById("hType").value;
+									if(hName=='' || hType==''){
 										alert("请您输入完整的信息");
 									}else{
 										var formData=new FormData();
-										formData.append("htype",htype);
-										formData.append("hname",hname);
+										formData.append("hType",hType);
+										formData.append("hName",hName);
 										var xhr=new XMLHttpRequest();
 										xhr.open("POST","/hobby/addhobby");
 										xhr.onload=function (ev) {

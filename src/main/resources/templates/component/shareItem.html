@@ -46,7 +46,7 @@
 <div class="post" th:each="item:${shares}">
     <div class="post__head">
         <a href="#" class="post__head-img">
-            <img th:src="${item.publisherimg}" alt="">
+            <img th:src="${item.publisherImg}" alt="">
         </a>
         <div class="post__head-title">
             <h5><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.publisher}]]</font></font></a></h5>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="post__tags">
-        <img th:if="${item.imgurl}!=null" th:src="${item.imgurl}" alt="" style="max-width: 100%">
+        <img th:if="${item.imgUrl}!=null" th:src="${item.imgUrl}" alt="" style="max-width: 100%">
     </div>
 
     <div class="post__stats">

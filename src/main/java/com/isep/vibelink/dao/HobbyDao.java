@@ -13,8 +13,8 @@ public interface HobbyDao extends Neo4jRepository<Hobby,Long> {
     @Query("match (hobby:Hobby) RETURN hobby")
     List<Hobby> getAllHobbies();
 
-    @Query("create (hobby:Hobby{hname:$hname,htype:$htype}) return hobby")
-    Hobby addHobby(String hname,String htype);
+    @Query("create (hobby:Hobby{hName:$hName,hType:$htype}) return hobby")
+    Hobby addHobby(String hName,String hType);
 
     @Query("match (hobby:Hobby) where ID(hobby)=$id delete hobby")
     Hobby deleteWithId(Long id);
@@ -22,11 +22,11 @@ public interface HobbyDao extends Neo4jRepository<Hobby,Long> {
     @Query("match (hobby:Hobby) where ID(hobby)=$id return hobby")
     Hobby getHobbyById(@Param("id") Integer id);
 
-    @Query("match (hobby:Hobby) where ID(hobby)=$id set hobby.hname=$hname,hobby.htype=$htype return hobby")
-    Hobby fixHobby(@Param("id") Long id,@Param("hname") String hname,@Param("htype") String htype);
+    @Query("match (hobby:Hobby) where ID(hobby)=$id set hobby.hName=$hName,hobby.hType=$htype return hobby")
+    Hobby fixHobby(@Param("id") Long id,@Param("hName") String hName,@Param("hType") String hType);
 
-    @Query("match (hobby:Hobby) where hobby.hname=~$hname return hobby")
-    List<Hobby> searchHobbyByName(@Param("hname") String hname);
+    @Query("match (hobby:Hobby) where hobby.hName=~$hName return hobby")
+    List<Hobby> searchHobbyByName(@Param("hName") String hName);
 
     @Query("match (user:User) where user.account=$account\n" +
             "match ((user)-[:Like]->(hobby:Hobby)) return hobby")
