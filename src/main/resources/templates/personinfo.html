@@ -68,7 +68,7 @@
 									</div>
 
 									<div class="col-12">
-										<button class="form__btn" type="button" v-on:click="fixinfo">
+										<button class="form__btn" type="button" v-on:click="fixInfo">
 											<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">保存更改</font></font></span>
 										</button>
 									</div>
@@ -85,8 +85,8 @@
 
 									<div class="col-12 col-lg-6">
 										<div class="form__group">
-											<label for="newpass" class="form__label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">新密码：</font></font></label>
-											<input name="newpass" id="newpass" type="password" class="form__input" v-model="newpass">
+											<label for="newPass" class="form__label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">新密码：</font></font></label>
+											<input name="newPass" id="newPass" type="password" class="form__input" v-model="newPass">
 										</div>
 									</div>
 
@@ -98,7 +98,7 @@
 									</div>
 
 									<div class="col-12">
-										<button class="form__btn" type="button" v-on:click="fixpass">
+										<button class="form__btn" type="button" v-on:click="fixPass">
 											<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更改密码</font></font></span>
 										</button>
 									</div>
@@ -134,7 +134,7 @@
 										</button>
 									</div>
 									<div class="col-12">
-										<button class="form__btn" type="button" v-on:click="fiximg">
+										<button class="form__btn" type="button" v-on:click="fixImg">
 											<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更改头像</font></font></span>
 										</button>
 									</div>
@@ -150,7 +150,7 @@
 					data: {
 						account: [[${user.account}]],
 
-						newpass:'',
+						newPass:'',
 						confirmpass:'',
 
 						nickname:[[${user.nickname}]],
@@ -183,14 +183,14 @@
 								});
 							}
 						},
-						fixpass:function () {
-							if(this.newpass=='' || this.confirmpass=='')
+						fixPass:function () {
+							if(this.newPass=='' || this.confirmpass=='')
 								alert("请您完整填写信息");
 							else {
-								this.$http.post('/user/fixpass', {
+								this.$http.post('/user/fixPass', {
 									account:this.account,
 									confirmpass: this.data.confirmpass,
-									newpass: this.newpass
+									newPass: this.newPass
 								}, {emulateJSON: true}).then(function (res) {
 									if (res.status === 200) {
 										alert("密码修改成功！");
@@ -203,11 +203,11 @@
 								});
 							}
 						},
-						fixinfo:function () {
+						fixInfo:function () {
 							if(this.nickname=='' || this.age=='' || this.address=='' || this.email=='')
 								alert("请您填写完整的信息");
 							else {
-								this.$http.post('/user/fixinfo', {
+								this.$http.post('/user/fixInfo', {
 									account:this.account,
 									nickname: this.nickname,
 									age: this.age,
@@ -225,12 +225,12 @@
 								});
 							}
 						},
-						fiximg:function () {
+						fixImg:function () {
 							console.log(this.imgUrl);
 							if(this.imgUrl=='' || this.imgUrl==null)
 								alert("请您先上传图片");
 							else{
-								this.$http.post('/user/fiximg', {
+								this.$http.post('/user/fixImg', {
 									account:this.account,
 									imgUrl:this.imgUrl
 								}, {emulateJSON:true}).then(function(res){

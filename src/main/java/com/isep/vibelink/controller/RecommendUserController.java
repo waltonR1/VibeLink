@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
- * write by qianqianjun
  * 用于实现向用户推荐朋友的功能
  */
 @Controller
@@ -33,7 +32,7 @@ public class RecommendUserController {
     FollowDao followDao;
     @Autowired
     RecommendDao recommendDao;
-    @GetMapping("/recommend/user/byfriend")
+    @GetMapping("/recommend/user/byFriend")
     public String recommendFriendsByFriend(HttpServletRequest request, Map<String,Object> map){
         HttpSession session=request.getSession();
         User user =(User) session.getAttribute("user");
@@ -41,52 +40,52 @@ public class RecommendUserController {
             return "login";
         }
         ArrayList<User> users=(ArrayList<User>) recommendDao.byFriend(user.getAccount());
-        ArrayList<User> myfollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
+        ArrayList<User> myFollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
         HashSet<User> res=new HashSet<>();
         for (User value : users) {
             if (value.getAccount().equals(user.getAccount()))
                 continue;
-            if (contains(myfollowing, value)) continue;
+            if (contains(myFollowing, value)) continue;
             res.add(value);
         }
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("recommends",res);
         map.put("user",user);
         map.put("index","朋友推荐");
         map.put("title","可能认识的人");
-        return "userlist";
+        return "userList";
     }
-    @GetMapping("/recommend/user/byshare")
+    @GetMapping("/recommend/user/byShare")
     public String recommendFriendsByShare(HttpServletRequest request, Map<String,Object> map) {
         HttpSession session=request.getSession();
         User user =(User) session.getAttribute("user");
         if(user==null){
             return "login";
         }
-        ArrayList<User> users=(ArrayList<User>) recommendDao.byshare(user.getAccount());
-        ArrayList<User> myfollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
+        ArrayList<User> users=(ArrayList<User>) recommendDao.byShare(user.getAccount());
+        ArrayList<User> myFollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
         HashSet<User> res=new HashSet<>();
         for (User value : users) {
             if (value.getAccount().equals(user.getAccount()))
                 continue;
-            if (contains(myfollowing, value)) continue;
+            if (contains(myFollowing, value)) continue;
             res.add(value);
         }
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("recommends",res);
         map.put("user",user);
         map.put("index","朋友推荐");
         map.put("title","最常互动的人");
-        return "userlist";
+        return "userList";
     }
 
-    @GetMapping("/recommend/user/byhobby")
+    @GetMapping("/recommend/user/byHobby")
     public String recommendFriendsByHobby(HttpServletRequest request, Map<String,Object> map){
         HttpSession session=request.getSession();
         User user =(User) session.getAttribute("user");
@@ -94,23 +93,23 @@ public class RecommendUserController {
             return "login";
         }
         ArrayList<User> users=(ArrayList<User>) recommendDao.byHobby(user.getAccount());
-        ArrayList<User> myfollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
+        ArrayList<User> myFollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
         HashSet<User> res=new HashSet<>();
         for (User value : users) {
             if (value.getAccount().equals(user.getAccount()))
                 continue;
-            if (contains(myfollowing, value)) continue;
+            if (contains(myFollowing, value)) continue;
             res.add(value);
         }
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("recommends",res);
         map.put("user",user);
         map.put("index","朋友推荐");
         map.put("title","趣味相投的人");
         map.put("reverse",false);
-        return "userlist";
+        return "userList";
     }
 }

@@ -75,17 +75,17 @@ public class UserController {
         // 读取动态内容
         ArrayList<Share> shares=shareDao.getFriendShares(user.getAccount());
         // 读取推荐用户列表
-        ArrayList<User> byfriend=(ArrayList<User>) recommendDao.byFriend(user.getAccount());
-        ArrayList<User> byshare=(ArrayList<User>) recommendDao.byshare(user.getAccount());
-        ArrayList<User> byhobby=(ArrayList<User>) recommendDao.byHobby(user.getAccount());
+        ArrayList<User> byFriend=(ArrayList<User>) recommendDao.byFriend(user.getAccount());
+        ArrayList<User> byShare=(ArrayList<User>) recommendDao.byShare(user.getAccount());
+        ArrayList<User> byHobby=(ArrayList<User>) recommendDao.byHobby(user.getAccount());
 
-        paramMap.put("byfriend",subList(byfriend,3,user.getAccount()));
-        paramMap.put("byshare",subList(byshare,3,user.getAccount()));
-        paramMap.put("byhobby",subList(byhobby,3,user.getAccount()));
+        paramMap.put("byFriend",subList(byFriend,3,user.getAccount()));
+        paramMap.put("byShare",subList(byShare,3,user.getAccount()));
+        paramMap.put("byHobby",subList(byHobby,3,user.getAccount()));
 
         paramMap.put("shares",shares);
         paramMap.put("user",user);
-        paramMap.put("myfollowing",following_num);
+        paramMap.put("myFollowing",following_num);
         paramMap.put("follower",follower_num);
         return "content";
     }
@@ -100,7 +100,7 @@ public class UserController {
         return "register";
     }
 
-    @GetMapping("/user/getuser")
+    @GetMapping("/user/getUser")
     @ResponseBody
     public ResponseInfo getUser(@RequestParam("account") String account){
         User user=userDao.getUserByAccount(account);
@@ -117,7 +117,7 @@ public class UserController {
         return new ResponseInfo(Integer.toString(users.size()),true,users);
     }
 
-    @PostMapping("/user/adduser")
+    @PostMapping("/user/addUser")
     public String addUser(@RequestParam("account") String account,
                           @RequestParam("password") String password,
                           @RequestParam("age") Integer age,
@@ -131,7 +131,7 @@ public class UserController {
             map.put("msg","该账号已经存在，请登录");
             return "login";
         }
-        user=userDao.adduser(account,password,nickname,age,gender,email,address);
+        user=userDao.addUser(account,password,nickname,age,gender,email,address);
         if(user!=null) {
             return "redirect:/content";
         }
@@ -139,14 +139,14 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping("/user/deleteuser")
+    @PostMapping("/user/deleteUser")
     @ResponseBody
     public ResponseInfo deleteUser(@RequestParam("account") String account){
         User user=userDao.deleteUserByAccount(account);
         return new ResponseInfo("删除成功",true,user);
     }
 
-    @PostMapping("/user/fixinfo")
+    @PostMapping("/user/fixInfo")
     @ResponseBody
     public ResponseInfo fixInfo(@RequestParam("account") String account,@RequestParam("nickname") String nickname,
                                 @RequestParam("age") Integer age,@RequestParam("email") String email,
@@ -155,17 +155,17 @@ public class UserController {
         return new ResponseInfo(num>0?"success":"fail",num>0,num);
     }
 
-    @PostMapping("/user/fixpass")
+    @PostMapping("/user/fixPass")
     @ResponseBody
-    public ResponseInfo fixPass(@RequestParam("account") String account,@RequestParam("newpass") String password){
+    public ResponseInfo fixPass(@RequestParam("account") String account,@RequestParam("newPass") String password){
         Long num=userDao.fixPass(account,password);
         return new ResponseInfo(num>0?"success":"fail",num>0,num);
     }
 
-    @PostMapping("/user/fiximg")
+    @PostMapping("/user/fixImg")
     @ResponseBody
     public ResponseInfo fixImg(@RequestParam("account") String account,@RequestParam("imgUrl") String imgUrl){
-        Long num=userDao.fiximg(account,imgUrl);
+        Long num=userDao.fixImg(account,imgUrl);
         return new ResponseInfo(num>0?"success":"fail",num>0,num);
     }
 }

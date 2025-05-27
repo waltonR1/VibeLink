@@ -7,14 +7,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeDao extends Neo4jRepository<Like,Long> {
-    @Query("match (user:User) where user.account=$account\n" +
-            "match (hobby:Hobby) where ID(hobby)=$hobbyid\n" +
-            "create (user)-[like:Like]->(hobby) \n" +
-            "create (user)<-[liked:Like]-(hobby) return count(liked)+count(like)")
+    @Query("""
+            match (user:User) where user.account=$account
+            match (hobby:Hobby) where ID(hobby)=$hobbyId
+            create (user)-[like:Like]->(hobby)
+            create (user)<-[liked:Like]-(hobby) return count(liked)+count(like)""")
     Integer likeHobby(String account, Long hobbyId);
 
-    @Query("match (user:User) where user.account=$account\n" +
-            "match (hobby:Hobby) where ID(hobby)=$hobbyid\n" +
-            "match (user)-[like:Like]-(hobby) delete like return count(like)")
+    @Query("""
+            match (user:User) where user.account=$account
+            match (hobby:Hobby) where ID(hobby)=$hobbyId
+            match (user)-[like:Like]-(hobby) delete like return count(like)""")
     Integer unlikeHobby(String account, Long hobbyId);
 }

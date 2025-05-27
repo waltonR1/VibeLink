@@ -10,11 +10,12 @@ import java.util.List;
 
 @Repository
 public interface UserDao extends Neo4jRepository<User,Long> {
-    @Query("CREATE (user:User{account:$account,password:$password," +
-            "nickname:$nickname,age:$age,gender:$gender," +
-            "email:$email,address:$address}) RETURN user")
+    @Query("""
+            CREATE (user:User{account:$account,password:$password,
+            nickname:$nickname,age:$age,gender:$gender,
+            email:$email,address:$address}) RETURN user""")
         // 添加用户
-    User adduser(@Param("account") String account, @Param("password") String password,
+    User addUser(@Param("account") String account, @Param("password") String password,
                  @Param("nickname") String nickname, @Param("age") Integer age,
                  @Param("gender") String gender, @Param("email") String email,
                  @Param("address") String address);
@@ -35,13 +36,14 @@ public interface UserDao extends Neo4jRepository<User,Long> {
         // 得到全部用户
     List<User> getAllUser();
 
-    @Query("match (user:User) where user.account=$account set " +
-            "user.email=$email,user.age=$age,user.address=$address,user.nickname=$nickname return count(user)")
+    @Query("""
+            match (user:User) where user.account=$account set
+            user.email=$email,user.age=$age,user.address=$address,user.nickname=$nickname return count(user)""")
     Long fixInfo(String account, String nickname, Integer age, String address, String email);
 
     @Query("match (user:User) where user.account=$account set user.password=$password return count(user)")
-    Long fixPass(String accout,String password);
+    Long fixPass(String account, String password);
 
-    @Query("match (user:User) where user.account=$account set user.imgUrl=$imgurl return count(user)")
-    Long fiximg(String account,String imgUrl);
+    @Query("match (user:User) where user.account=$account set user.imgUrl=$imgUrl return count(user)")
+    Long fixImg(String account, String imgUrl);
 }

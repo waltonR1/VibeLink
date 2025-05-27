@@ -48,15 +48,15 @@ public class HobbyController {
         }
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("hobbies",res);
         map.put("myhobbies",myhobbies);
         map.put("user",user);
-        return "hobbys";
+        return "hobbies";
     }
 
-    @PostMapping("/hobby/addhobby")
+    @PostMapping("/hobby/addHobby")
     @ResponseBody
     public ResponseInfo addHobby(@RequestParam("hName") String hName,
                                  @RequestParam("hType") String hType){
@@ -64,7 +64,7 @@ public class HobbyController {
         if(hobby==null){
             return new ResponseInfo("fail",false,null);
         }
-        return new ResponseInfo("sucess",true,hobby);
+        return new ResponseInfo("success",true,hobby);
     }
 
     @PostMapping("/hobby/delete")

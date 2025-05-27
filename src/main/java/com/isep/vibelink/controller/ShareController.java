@@ -43,11 +43,11 @@ public class ShareController {
     @PostMapping("/share/delete")
     @ResponseBody
     public ResponseInfo deleteShare(@RequestParam("account") String account,
-                                    @RequestParam("shareid") Long shareid){
-        Integer affect_rows=shareDao.deleteShareById(account,shareid);
+                                    @RequestParam("shareId") Long shareId){
+        Integer affect_rows=shareDao.deleteShareById(account,shareId);
         return new ResponseInfo(affect_rows>0?"success":"fail",affect_rows>0,affect_rows);
     }
-    @GetMapping("/share/getbyaccount")
+    @GetMapping("/share/getByAccount")
     @ResponseBody
     /**\
      * 这个接口需要更改，动态应该包含点赞数量和评论情况
@@ -66,7 +66,7 @@ public class ShareController {
         map.put("user",user);
         map.put("index","发现动态");
         map.put("title","发布动态");
-        return "addshare";
+        return "addShare";
     }
 
     @GetMapping("/share/friend")
@@ -78,17 +78,17 @@ public class ShareController {
         Long following_num=followDao.howManyIFollow(user.getAccount());
         Long follower_num=followDao.howManyPeopleFollowMe(user.getAccount());
         session.setAttribute("follower",follower_num);
-        session.setAttribute("myfollowing",following_num);
+        session.setAttribute("myFollowing",following_num);
 
         // 读取动态内容
         ArrayList<Share> shares=shareDao.getFriendShares(user.getAccount());
         map.put("shares",shares);
         map.put("user",user);
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("index","发现动态");
         map.put("title","好友动态");
-        return "sharelist";
+        return "shareList";
     }
 
     @GetMapping("/share/recommend")
@@ -100,16 +100,16 @@ public class ShareController {
         Long following_num=followDao.howManyIFollow(user.getAccount());
         Long follower_num=followDao.howManyPeopleFollowMe(user.getAccount());
         session.setAttribute("follower",follower_num);
-        session.setAttribute("myfollowing",following_num);
+        session.setAttribute("myFollowing",following_num);
 
         // 读取动态内容
         ArrayList<Share> shares=shareDao.recommendByHobby(user.getAccount());
         map.put("shares",shares);
         map.put("user",user);
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("index","发现动态");
         map.put("title","好友动态");
-        return "sharelist";
+        return "shareList";
     }
 }

@@ -96,14 +96,14 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<button class="form__btn" type="button" onclick="addhobby()">
+										<button class="form__btn" type="button" onclick="addHobby()">
 											<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加兴趣</font></font></span>
 										</button>
 									</div>
 								</div>
 							</form>
 							<script>
-								function addhobby() {
+								function addHobby() {
 									var hName=document.getElementById("hName").value;
 									var hType=document.getElementById("hType").value;
 									if(hName=='' || hType==''){
@@ -113,7 +113,7 @@
 										formData.append("hType",hType);
 										formData.append("hName",hName);
 										var xhr=new XMLHttpRequest();
-										xhr.open("POST","/hobby/addhobby");
+										xhr.open("POST","/hobby/addHobby");
 										xhr.onload=function (ev) {
 											if(xhr.status===200){
 												alert("添加成功");

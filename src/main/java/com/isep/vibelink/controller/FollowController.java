@@ -31,7 +31,7 @@ public class FollowController {
     @Autowired
     UserDao userDao;
 
-    @PostMapping("/follow/followit")
+    @PostMapping("/follow/followIt")
     @ResponseBody
     public ResponseInfo followIt(@RequestParam("follower") String follower,
                                  @RequestParam("following") String following){
@@ -61,11 +61,11 @@ public class FollowController {
             return "login";
         }
         ArrayList<User> follower=(ArrayList<User>) followDao.getPeopleWhoFollowMe(user.getAccount());
-        ArrayList<User> myfollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
+        ArrayList<User> myFollowing=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
         HashSet<User> recommends=new HashSet<>();
         HashSet<User> subFollowing=new HashSet<>();
         for (User value : follower) {
-            if (contains(myfollowing, value)) {
+            if (contains(myFollowing, value)) {
                 subFollowing.add(value);
                 continue;
             }
@@ -73,18 +73,18 @@ public class FollowController {
         }
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("recommends",recommends);
-        map.put("mystar",subFollowing);
+        map.put("myStar",subFollowing);
         map.put("user",user);
         map.put("title","关注我的人");
         map.put("index","首页");
-        map.put("hascategory",true);
-        return "userlist";
+        map.put("hasCategory",true);
+        return "userList";
     }
 
-    @GetMapping("/user/myfollowing")
+    @GetMapping("/user/myFollowing")
     public String getMyFollowing(HttpServletRequest request, Map<String,Object> map){
         HttpSession session=request.getSession();
         User user =(User) session.getAttribute("user");
@@ -94,12 +94,12 @@ public class FollowController {
         ArrayList<User> following=(ArrayList<User>) followDao.getMyFollowing(user.getAccount());
         Integer following_num=followDao.getMyFollowing(user.getAccount()).size();
         Integer follower_num=followDao.getPeopleWhoFollowMe(user.getAccount()).size();
-        map.put("myfollowing",following_num);
+        map.put("myFollowing",following_num);
         map.put("follower",follower_num);
         map.put("recommends",following);
         map.put("user",user);
         map.put("title","我关注的人");
         map.put("index","首页");
-        return "myfollowing";
+        return "myFollowing";
     }
 }

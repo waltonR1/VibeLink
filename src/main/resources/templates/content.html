@@ -26,8 +26,8 @@
 					<!-- sidebox -->
 					<div class="sidebox sidebox--desk">
 						<h4 class="sidebox__title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">可能认识</font></font></h4>
-						<div class="sidebox__content" th:if="${byfriend.size}>0">
-							<div class="sidebox__user" th:each="item:${byfriend}">
+						<div class="sidebox__content" th:if="${byFriend.size}>0">
+							<div class="sidebox__user" th:each="item:${byFriend}">
 								<a href="#" class="sidebox__user-img">
 									<img th:src="${item.imgUrl}" alt="">
 								</a>
@@ -37,7 +37,7 @@
 								</div>
 							</div>
 						</div>
-						<a href="/recommend/user/byfriend" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
+						<a href="/recommend/user/byFriend" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
 					</div>
 					<!-- end sidebox -->
 
@@ -45,8 +45,8 @@
 					<div class="sidebox sidebox--desk">
 						<h4 class="sidebox__title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">最常互动</font></font></h4>
 						<div class="sidebox__content">
-							<div class="sidebox__content" th:if="${byshare.size}>0">
-								<div class="sidebox__user" th:each="item:${byshare}">
+							<div class="sidebox__content" th:if="${byShare.size}>0">
+								<div class="sidebox__user" th:each="item:${byShare}">
 									<a href="#" class="sidebox__user-img">
 										<img th:src="${item.imgUrl}" alt="">
 									</a>
@@ -57,15 +57,15 @@
 								</div>
 							</div>
 						</div>
-						<a href="/recommend/user/byshare" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
+						<a href="/recommend/user/byShare" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
 					</div>
 					<!-- end sidebox -->
 
 					<!-- sidebox -->
 					<div class="sidebox sidebox--desk">
 						<h4 class="sidebox__title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">相同兴趣</font></font></h4>
-						<div class="sidebox__content" th:if="${byhobby.size}>0">
-							<div class="sidebox__user" th:each="item:${byhobby}">
+						<div class="sidebox__content" th:if="${byHobby.size}>0">
+							<div class="sidebox__user" th:each="item:${byHobby}">
 								<a href="#" class="sidebox__user-img">
 									<img th:src="${item.imgUrl}" alt="">
 								</a>
@@ -75,7 +75,7 @@
 								</div>
 							</div>
 						</div>
-						<a href="/recommend/user/byhobby" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
+						<a href="/recommend/user/byHobby" class="sidebox__more"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">查看更多</font></font></a>
 					</div>
 					<!-- end sidebox -->
 				</div>

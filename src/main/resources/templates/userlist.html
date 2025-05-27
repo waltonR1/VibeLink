@@ -26,19 +26,19 @@
 				<div class="col-12 col-md-7 col-lg-8 col-xl-9">
 					<div class="row">
 						<!-- profile -->
-						<div th:if="hascategory" th:replace="component/useritem::followitem(${mystar})"></div>
+						<div th:if="hasCategory" th:replace="component/useritem::followitem(${myStar})"></div>
 						<div th:replace="component/useritem::unfollowitem(${recommends})"></div>
 						<!-- end profile -->
 
 						<script type="text/javascript" th:inline="javascript">
-							function followit(account) {
+							function followIt(account) {
 								account=account.split("-")[1];
 								console.log(account);
 								var formData=new FormData();
 								formData.append("follower",[[${user.account}]])
 								formData.append("following",account);
 								var xhr=new XMLHttpRequest();
-								xhr.open("POST","/follow/followit");
+								xhr.open("POST","/follow/followIt");
 								xhr.onload=function (ev) {
 									if(xhr.status===200){
 										console.log(xhr);
@@ -79,7 +79,7 @@
 											var btn = document.getElementById("btn-" + account);
 											btn.setAttribute("class", "post__actions-btn post__actions-btn--blue");
 											btn.innerHTML = '<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关注</font></font></span>';
-											btn.setAttribute("onclick", "followit(this.id)");
+											btn.setAttribute("onclick", "followIt(this.id)");
 										}else{
 											alert("操作失败");
 										}

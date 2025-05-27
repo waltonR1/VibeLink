@@ -1,17 +1,17 @@
 <div th:fragment="shareitem(shares)" xmlns:th="http://www.w3.org/1999/xhtml">
 <script type="text/javascript" th:inline="javascript">
-    function praiseit(shareid) {
+    function praiseit(shareId) {
         var formData=new FormData();
         formData.append("account",[[${user.account}]])
-        formData.append("shareid",shareid);
+        formData.append("shareId",shareId);
         var xhr=new XMLHttpRequest();
-        xhr.open("POST","/praised/zan");
+        xhr.open("POST","/praised/ThumbsUp");
         xhr.onload=function (ev) {
             if(xhr.status===200){
-                var btn=document.getElementById("btn-"+shareid);
-                var icon=document.getElementById("icon-"+shareid);
-                var number=document.getElementById("share-"+shareid);
-                btn.setAttribute("onclick","unpraiseit("+shareid+")");
+                var btn=document.getElementById("btn-"+shareId);
+                var icon=document.getElementById("icon-"+shareId);
+                var number=document.getElementById("share-"+shareId);
+                btn.setAttribute("onclick","unpraiseit("+shareId+")");
                 icon.setAttribute("style","color:red;");
                 number.innerHTML=JSON.parse(xhr.response).data;
             }else{
@@ -21,18 +21,18 @@
         xhr.send(formData);
     }
 
-    function unpraiseit(shareid) {
+    function unpraiseit(shareId) {
         var formData=new FormData();
         formData.append("account",[[${user.account}]]);
-        formData.append("shareid",shareid)
+        formData.append("shareId",shareId)
         var xhr=new XMLHttpRequest();
-        xhr.open("POST","/praised/unzan");
+        xhr.open("POST","/praised/unThumbsUp");
         xhr.onload=function (ev) {
             if(xhr.status===200){
-                var btn=document.getElementById("btn-"+shareid);
-                var icon=document.getElementById("icon-"+shareid);
-                var number=document.getElementById("share-"+shareid);
-                btn.setAttribute("onclick","praiseit("+shareid+")");
+                var btn=document.getElementById("btn-"+shareId);
+                var icon=document.getElementById("icon-"+shareId);
+                var number=document.getElementById("share-"+shareId);
+                btn.setAttribute("onclick","praiseit("+shareId+")");
                 icon.setAttribute("style","");
                 number.innerHTML=JSON.parse(xhr.response).data;
             }else{

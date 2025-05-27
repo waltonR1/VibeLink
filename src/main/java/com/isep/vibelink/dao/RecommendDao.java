@@ -11,17 +11,20 @@ import java.util.List;
 @Repository
 public interface RecommendDao extends Neo4jRepository<User,Long> {
 
-    @Query("match (user:User) where user.account=$account\n" +
-            "match ((user)-[:Follow]->()-[:Follow]->(p)) return distinct p")
+    @Query("""
+            match (user:User) where user.account=$account
+            match ((user)-[:Follow]->()-[:Follow]->(p)) return distinct p""")
     List<User> byFriend(@Param("account") String account);
 
-    @Query("match (user:User) where user.account=$account\n" +
-            "match (user)-[:Like]->(hobbies)\n" +
-            "match (users)-[:Like]->(hobbies) return users")
+    @Query("""
+            match (user:User) where user.account=$account
+            match (user)-[:Like]->(hobbies)
+            match (users)-[:Like]->(hobbies) return users""")
     List<User> byHobby(@Param("account") String account);
 
-    @Query("match (user:User) where user.account=$account\n" +
-            "match (user)-[:Publish]->(shares)\n" +
-            "match (shares)-[:Praised]->(users) return users")
-    List<User> byshare(String account);
+    @Query("""
+            match (user:User) where user.account=$account
+            match (user)-[:Publish]->(shares)
+            match (shares)-[:Praised]->(users) return users""")
+    List<User> byShare(String account);
 }
