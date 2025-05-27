@@ -1,6 +1,9 @@
 package com.isep.vibelink.domain.node;
 
 import com.isep.vibelink.domain.BaseNode;
+import com.isep.vibelink.domain.relationship.Follow;
+import com.isep.vibelink.domain.relationship.Like;
+import com.isep.vibelink.domain.relationship.Publish;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.neo4j.core.schema.Node;
