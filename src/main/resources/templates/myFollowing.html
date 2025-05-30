@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{cssloader::cssloader(${title})}"></head>
+<body>
+
+<!-- header -->
+<header th:replace="~{component/header::header(${user})}"></header>
+
+<main class="main main--breadcrumb">
+	<!-- breadcrumb -->
+	<div class="breadcrumb">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<ul class="breadcrumb__wrap">
+						<li class="breadcrumb__item">
+							<a href="#" th:text="${index}">首页</a>
+						</li>
+						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">好友推荐</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 主体内容 -->
+	<div class="container">
+		<div class="row">
+			<!-- 用户信息展示 -->
+			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+
+			<!-- 推荐用户列表 -->
+			<div class="col-12 col-md-7 col-lg-8 col-xl-9">
+				<div class="row">
+					<!-- 推荐用户列表组件 -->
+					<div th:replace="~{component/useritem::followitem(${recommends})}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- JS 操作 -->
+<script type="text/javascript" th:inline="javascript">
+	function followIt(id) {
+		const account = id.split("-")[1];
+		const formData = new FormData();
+		formData.append("follower", /*[[${user.account}]]*/ '');
+		formData.append("following", account);
+
+		const btn = document.getElementById("btn-" + account);
+		btn.disabled = true;
+
+		const xhr = new XMLHttpRequest();
+		xhr.open("POST", "/follow/followIt");
+		xhr.onload = function () {
+			btn.disabled = false;
+			if (xhr.status === 200) {
+				const response = JSON.parse(xhr.responseText);
+				if (response.ok) {
+					alert("已成功关注");
+					btn.className = "post__actions-btn post__actions-btn--blue";
+					btn.innerHTML = '<span>取关</span>';
+					btn.setAttribute("onclick", "unfollowit(this.id)");
+				} else {
+					alert("操作失败！");
+				}
+			} else {
+				alert("操作失败，请联系管理员!");
+			}
+		};
+		xhr.send(formData);
+	}
+
+	function unfollowit(id) {
+		const account = id.split("-")[1];
+		const formData = new FormData();
+		formData.append("follower", /*[[${user.account}]]*/ '');
+		formData.append("following", account);
+
+		const btn = document.getElementById("btn-" + account);
+		btn.disabled = true;
+
+		const xhr = new XMLHttpRequest();
+		xhr.open("POST", "/follow/unfollow");
+		xhr.onload = function () {
+			btn.disabled = false;
+			if (xhr.status === 200) {
+				const response = JSON.parse(xhr.responseText);
+				if (response.ok) {
+					alert("已取消关注");
+					btn.className = "post__actions-btn post__actions-btn--blue";
+					btn.innerHTML = '<span>关注</span>';
+					btn.setAttribute("onclick", "followIt(this.id)");
+				} else {
+					alert("操作失败！");
+				}
+			} else {
+				alert("操作失败，请联系管理员!");
+			}
+		};
+		xhr.send(formData);
+	}
+</script>
+
+<!-- JS 尾部引入 -->
+<div th:replace="~{jsloader::jsloader}"></div>
+
+</body>
+</html>

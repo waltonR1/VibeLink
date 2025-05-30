@@ -1,32 +1,38 @@
 <div th:fragment="hobbyitem(hobbies)" class="col-12 col-sm-6 col-md-12 col-lg-4"
-     th:each="hobby:${hobbies}" xmlns:th="http://www.w3.org/1999/xhtml">
+     th:each="hobby : ${hobbies}">
     <div class="company">
         <div class="company__logo">
             <img src="/img/company.svg" alt="">
         </div>
         <div class="company__wrap">
-            <h2 class="company__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${hobby.hName}]]</font></font></a></h2>
-            <p class="company__text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${hobby.hType}]]</font></font></p>
+            <h2 class="company__title">
+                <a href="#" th:text="${hobby.hName}">兴趣名称</a>
+            </h2>
+            <p class="company__text" th:text="${hobby.hType}">兴趣类型</p>
         </div>
-        <a class="post__actions-btn post__actions-btn--green" th:onclick="@{'likeit('+${hobby.id}+')'}"
-           style="position: absolute;top: 65px;left: 150px;" th:id="@{'btn-'+${hobby.id}}">
+        <a class="post__actions-btn post__actions-btn--green"
+           th:attr="onclick=|likeit(${hobby.id})|, id=|btn-${hobby.id}|"
+           style="position: absolute; top: 65px; left: 150px;">
             <i class="icon ion-ios-bookmark"></i>
         </a>
     </div>
 </div>
 
-<div th:fragment="myhobbies(hobbies)" class="col-12 col-sm-6 col-md-12 col-lg-4"
-     th:each="hobby:${hobbies}" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="myHobbies(hobbies)" class="col-12 col-sm-6 col-md-12 col-lg-4"
+     th:each="hobby : ${hobbies}" >
     <div class="company">
         <div class="company__logo">
             <img src="/img/company.svg" alt="">
         </div>
         <div class="company__wrap">
-            <h2 class="company__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${hobby.hName}]]</font></font></a></h2>
-            <p class="company__text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${hobby.hType}]]</font></font></p>
+            <h2 class="company__title">
+                <a href="#" th:text="${hobby.hName}">兴趣名称</a>
+            </h2>
+            <p class="company__text" th:text="${hobby.hType}">兴趣类型</p>
         </div>
-        <a class="post__actions-btn post__actions-btn--red" th:onclick="@{'unlikeit('+${hobby.id}+')'}"
-           style="position: absolute;top: 65px;left: 150px;" th:id="@{'btn-'+${hobby.id}}">
+        <a class="post__actions-btn post__actions-btn--red"
+           th:attr="onclick=|unlikeit(${hobby.id})|, id=|btn-${hobby.id}|"
+           style="position: absolute; top: 65px; left: 150px;">
             <i class="icon ion-ios-bookmark"></i>
         </a>
     </div>

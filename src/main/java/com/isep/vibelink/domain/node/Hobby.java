@@ -12,9 +12,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 public class Hobby extends BaseNode {
     @Property(name = "hName")
     private String hName;
+
     @Property(name = "hType")
     private String hType;
-    public Hobby(String hName) {
-        this.hName = hName;
-    }
 }

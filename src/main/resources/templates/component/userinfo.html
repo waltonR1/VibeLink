@@ -1,40 +1,42 @@
-<div class="col-12 col-md-5 col-lg-4 col-xl-3" th:fragment="userinfo(user)" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="col-12 col-md-5 col-lg-4 col-xl-3" th:fragment="userinfo(user)" xmlns:th="http://www.thymeleaf.org">
     <!-- user -->
     <div class="user">
         <div class="user__head">
             <div class="user__img">
-                <img th:if="${user.imgUrl} != null" th:src="${user.imgUrl}" alt="用户头像">
+                <img th:if="${user.imgUrl != null}" th:src="${user.imgUrl}" alt="">
             </div>
         </div>
         <div class="user__title">
-            <h2><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.nickname}]]</font></font></h2>
-            <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.email}]]</font></font></p>
+            <h2 th:text="${user.nickname}">昵称</h2>
+            <p th:text="${user.email}">邮箱</p>
             <div class="profile__actions">
                 <div class="post__location">
                     <i class="icon ion-ios-navigate"></i>
-                    <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.address}]]</font></font></span>
+                    <span th:text="${user.address}">地址</span>
                 </div>
             </div>
         </div>
+
         <ul class="user__list">
-            <li><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">账号：</font></font></span> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.account}]]</font></font></span></li>
-            <li><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">年龄：</font></font></span> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.age}]]</font></font></span></li>
-            <li><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">性别：</font></font></span> <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${user.gender}]]</font></font></span></li>
+            <li><span>账号：</span> <span th:text="${user.account}">账号</span></li>
+            <li><span>年龄：</span> <span th:text="${user.age}">年龄</span></li>
+            <li><span>性别：</span> <span th:text="${user.gender}">性别</span></li>
         </ul>
+
         <ul class="user__stats">
             <li>
-                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">我的关注</font></font></p>
-                <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                    <a th:if="${myFollowing}>0" href="/user/myFollowing">[[${myFollowing}]]</a>
-                    <a th:if="${myFollowing}==0" onclick="alert('您还没有关注任何人呢～')">[[${myFollowing}]]</a>
-                </font></font></span>
+                <p>我的关注</p>
+                <span>
+                    <a th:if="${myFollowing > 0}" th:href="@{/user/myFollowing}" th:text="${myFollowing}">0</a>
+                    <a th:unless="${myFollowing > 0}" href="javascript:void(0)" onclick="alert('您还没有关注任何人呢～')" th:text="${myFollowing}">0</a>
+                </span>
             </li>
             <li>
-                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关注者</font></font></p>
-                <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                    <a th:if="${follower}>0" href="/user/follower">[[${follower}]]</a>
-                    <a th:if="${follower}==0" onclick="alert('还没有人关注你呢～')">[[${follower}]]</a>
-                </font></font></span>
+                <p>关注者</p>
+                <span>
+                    <a th:if="${follower > 0}" th:href="@{/user/follower}" th:text="${follower}">0</a>
+                    <a th:unless="${follower > 0}" href="javascript:void(0)" onclick="alert('还没有人关注你呢～')" th:text="${follower}">0</a>
+                </span>
             </li>
         </ul>
     </div>
@@ -43,7 +45,7 @@
     <!-- social -->
     <div class="sidebox">
         <div class="sidebox__share">
-            <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">社交：</font></font></span>
+            <span>社交：</span>
             <ul>
                 <li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
                 <li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>

@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{cssloader::cssloader('个人信息')}"></head>
+<body>
+
+<!-- Header -->
+<header th:replace="~{component/header::header(${user})}"></header>
+
+<!-- Main Content -->
+<main class="main main--breadcrumb">
+	<!-- 面包屑导航 -->
+	<div class="breadcrumb">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<ul class="breadcrumb__wrap">
+						<li class="breadcrumb__item"><a href="#">首页</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">个人信息</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 页面主体 -->
+	<div class="container" id="app"
+		 th:data-account="${user.account}"
+		 th:data-nickname="${user.nickname}"
+		 th:data-age="${user.age}"
+		 th:data-address="${user.address}"
+		 th:data-email="${user.email}"
+		 th:data-imgurl="${user.imgUrl}">
+		<div class="row">
+			<!-- 用户信息 -->
+			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+
+			<!-- 左侧：资料修改 -->
+			<div class="col-12 col-md-7 col-lg-8 col-xl-6">
+				<div class="tab-content">
+					<!-- 修改基本资料 -->
+					<form class="form">
+						<div class="row">
+							<div class="col-12"><h2 class="form__title">个人资料修改</h2></div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="nickname" class="form__label">昵称：</label>
+									<input id="nickname" type="text" class="form__input" v-model="nickname">
+								</div>
+							</div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="email" class="form__label">电子邮件：</label>
+									<input id="email" type="email" class="form__input" v-model="email">
+								</div>
+							</div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="address" class="form__label">地址：</label>
+									<input id="address" type="text" class="form__input" v-model="address">
+								</div>
+							</div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="age" class="form__label">年龄：</label>
+									<input id="age" type="number" class="form__input" v-model="age">
+								</div>
+							</div>
+							<div class="col-12">
+								<button class="form__btn" type="button" @click="fixInfo">保存更改</button>
+							</div>
+						</div>
+					</form>
+
+					<!-- 修改密码 -->
+					<form class="form mt-4">
+						<div class="row">
+							<div class="col-12"><h2 class="form__title">更改密码</h2></div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="newPass" class="form__label">新密码：</label>
+									<input id="newPass" type="password" class="form__input" v-model="newPass">
+								</div>
+							</div>
+							<div class="col-12 col-lg-6">
+								<div class="form__group">
+									<label for="confirmpass" class="form__label">确认新密码：</label>
+									<input id="confirmpass" type="password" class="form__input" v-model="confirmpass">
+								</div>
+							</div>
+							<div class="col-12">
+								<button class="form__btn" type="button" @click="fixPass">更改密码</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- 右侧：头像上传 -->
+			<div class="col-12 col-md-5 col-lg-4 col-xl-3">
+				<form class="form">
+					<div class="row">
+						<div class="col-12"><h2 class="form__title">头像修改</h2></div>
+						<div class="col-12">
+							<div class="form__group">
+								<label for="filepath" class="form__label">上传图片：</label>
+								<input id="filepath" type="file" class="form__input" accept="image/*">
+							</div>
+						</div>
+						<div class="col-12">
+							<img v-if="imgUrl" :src="imgUrl" alt="" style="max-width: 100%; margin-bottom: 10px;">
+						</div>
+						<div class="col-12">
+							<button class="form__btn" type="button" @click="uploadImg">上传图片</button>
+						</div>
+						<div class="col-12">
+							<button class="form__btn" type="button" @click="fixImg">更改头像</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- 脚本区 -->
+<script src="/js/vue.min.js"></script>
+<script src="/js/vue-resource.min.js"></script>
+<script>
+	new Vue({
+		el: '#app',
+		data: {
+			account: '',
+			nickname: '',
+			age: '',
+			address: '',
+			email: '',
+			imgUrl: '',
+			newPass: '',
+			confirmpass: ''
+		},
+		created() {
+			const app = document.getElementById("app");
+			this.account = app.dataset.account;
+			this.nickname = app.dataset.nickname;
+			this.age = app.dataset.age;
+			this.address = app.dataset.address;
+			this.email = app.dataset.email;
+			this.imgUrl = app.dataset.imgurl;
+		},
+		methods: {
+			uploadImg() {
+				const file = document.getElementById("filepath").files[0];
+				if (!file) return alert("请您先选择图片");
+				const formData = new FormData();
+				formData.append("file", file);
+				this.$http.post('/upload', formData, {emulateJSON: true}).then(res => {
+					if (res.status === 200) {
+						this.imgUrl = "/upload/" + res.data.data;
+						alert("上传成功");
+					}
+				});
+			},
+			fixImg() {
+				if (!this.imgUrl) return alert("请您先上传图片");
+				this.$http.post('/user/fixImg', {
+					account: this.account,
+					imgUrl: this.imgUrl
+				}, {emulateJSON: true}).then(res => {
+					if (res.status === 200) alert("头像更改成功，请重新登录更新状态！");
+				});
+			},
+			fixPass() {
+				if (!this.newPass || !this.confirmpass) return alert("请填写完整密码");
+				if (this.newPass !== this.confirmpass) return alert("两次输入的密码不一致！");
+				this.$http.post('/user/fixPass', {
+					account: this.account,
+					newPass: this.newPass
+				}, {emulateJSON: true}).then(res => {
+					if (res.status === 200) alert("密码修改成功！");
+				});
+			},
+			fixInfo() {
+				if (!this.nickname || !this.age || !this.address || !this.email) return alert("请填写完整信息");
+				this.$http.post('/user/fixInfo', {
+					account: this.account,
+					nickname: this.nickname,
+					age: this.age,
+					address: this.address,
+					email: this.email
+				}, {emulateJSON: true}).then(res => {
+					if (res.status === 200) alert("修改成功，请重新登录系统更新状态！");
+				});
+			}
+		}
+	});
+</script>
+
+<div th:replace="~{jsloader::jsloader}"></div>
+</body>
+</html>

@@ -36,6 +36,10 @@ public class User extends BaseNode {
     @Relationship(type = "Follow", direction = Relationship.Direction.OUTGOING)
     private List<Follow> followings;
 
+    // 用户被其他用户关注（INCOMING 表示别人关注当前用户）
+    @Relationship(type = "Follow", direction = Relationship.Direction.INCOMING)
+    private List<Follow> followers;
+
     @Relationship(type = "Like")
     private List<Like> myHobbies;
 

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{cssloader::cssloader(${title})}"></head>
+<body>
+
+<!-- Header -->
+<header th:replace="~{component/header::header(${user})}"></header>
+
+<!-- Main Content -->
+<main class="main main--breadcrumb">
+	<!-- Breadcrumb -->
+	<div class="breadcrumb">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<ul class="breadcrumb__wrap">
+						<li class="breadcrumb__item">
+							<a href="#" th:text="${index}">首页</a>
+						</li>
+						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">标题</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Page Content -->
+	<div class="container">
+		<div class="row">
+			<!-- 用户信息模块 -->
+			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+
+			<!-- 用户动态 -->
+			<div class="col-12 col-md-7 col-lg-8 col-xl-6">
+				<div th:replace="~{component/shareItem::shareitem(${shares})}"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- JS 资源 -->
+<div th:replace="~{jsloader::jsloader}"></div>
+
+</body>
+</html>

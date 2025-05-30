@@ -1,23 +1,25 @@
 <!-- profile -->
-<div th:fragment="unfollowitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="item:${recommends}" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="unfollowitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
+     th:each="item : ${recommends}">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgUrl}" alt="用户头像">
+            <img th:src="${item.imgUrl}" alt="">
         </div>
         <div class="profile__wrap">
-            <h2 class="profile__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h2>
-            <p class="profile__text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.account}]]</font></font></p>
+            <h2 class="profile__title">
+                <a href="#" th:text="${item.nickname}">昵称</a>
+            </h2>
+            <p class="profile__text" th:text="${item.account}">账号</p>
         </div>
         <div class="profile__actions">
             <div class="post__location">
                 <i class="icon ion-ios-navigate"></i>
-                <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.address}]]</font></font></span>
+                <span th:text="${item.address}">地址</span>
             </div>
             <div class="post__actions">
-                <button class="post__actions-btn post__actions-btn--blue" th:onclick="@{'followIt(this.id)'}" th:id="@{'btn-'+${item.account}}">
-											<span>
-												<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">关注</font></font>
-											</span>
+                <button class="post__actions-btn post__actions-btn--blue"
+                        th:attr="id=|btn-${item.account}|, onclick=|followIt(this.id)|">
+                    <span>关注</span>
                 </button>
             </div>
         </div>
@@ -25,25 +27,29 @@
 </div>
 <!-- end profile -->
 
-<div th:fragment="followitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="item:${recommends}" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<!-- profile -->
+<div th:fragment="followitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
+     th:each="item : ${recommends}">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgUrl}" alt="用户头像">
+            <img th:src="${item.imgUrl}" alt="">
         </div>
         <div class="profile__wrap">
-            <h2 class="profile__title"><a href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.nickname}]]</font></font></a></h2>
-            <p class="profile__text"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.account}]]</font></font></p>
+            <h2 class="profile__title">
+                <a href="#" th:text="${item.nickname}">昵称</a>
+            </h2>
+            <p class="profile__text" th:text="${item.account}">账号</p>
         </div>
         <div class="profile__actions">
             <div class="post__location">
                 <i class="icon ion-ios-navigate"></i>
-                <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[[${item.address}]]</font></font></span>
+                <span th:text="${item.address}">地址</span>
             </div>
             <div class="post__actions">
-                <button class="post__actions-btn post__actions-btn--blue" th:onclick="@{'unfollowit(this.id)'}" th:id="@{'btn-'+${item.account}}">
-											<span>
-												<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取关</font></font>
-											</span>
+                <button class="post__actions-btn post__actions-btn--blue"
+                        th:attr="id=|btn-${item.account}|, onclick=|unfollowit(this.id)|">
+                    <span>取关</span>
                 </button>
             </div>
         </div>

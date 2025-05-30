@@ -1,6 +1,7 @@
 package com.isep.vibelink.service;
 
 import com.isep.vibelink.configuration.FileConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -18,16 +19,18 @@ import java.util.Date;
 /**
  * 上传文件的service
  */
+@Slf4j
 @Service
 public class FileService {
     private final Path fileStorageLocation;
+
     @Autowired
     public FileService(FileConfiguration conf){
         this.fileStorageLocation= Paths.get(conf.getUploadDir()).toAbsolutePath().normalize();
         try{
             Files.createDirectories(this.fileStorageLocation);
         }catch (Exception e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -39,8 +42,9 @@ public class FileService {
      */
     public String storeFile(MultipartFile file) throws Exception{
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String oriname=file.getOriginalFilename();
-        String[] parts=oriname.split("\\.");
+        String oriName=file.getOriginalFilename();
+        assert oriName != null;
+        String[] parts=oriName.split("\\.");
         String fileName= StringUtils.cleanPath(df.format(new Date()))+"."+parts[parts.length-1];
         Path targetLocation=this.fileStorageLocation.resolve(fileName);
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);

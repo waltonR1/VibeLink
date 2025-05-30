@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{cssloader::cssloader(${title})}"></head>
+<body>
+
+<script src="/js/axios.min.js"></script>
+<script src="/js/vue.min.js"></script>
+<script src="/js/vue-resource.min.js"></script>
+
+<!-- header -->
+<header th:replace="~{component/header::header(${user})}"></header>
+
+<main class="main main--breadcrumb">
+    <!-- breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <ul class="breadcrumb__wrap">
+                        <li class="breadcrumb__item">
+                            <a href="#" th:text="${index}">首页</a>
+                        </li>
+                        <li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">发布动态</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- main -->
+    <div class="container">
+        <div class="row" id="app">
+            <!-- 左侧兴趣选择 -->
+            <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+                <div class="sidebox">
+                    <h4 class="sidebox__title">设置相关兴趣</h4>
+                    <div class="sidebox__search">
+                        <input type="text" class="filter__input" placeholder="搜索相关兴趣" v-model="keyword">
+                        <button type="button" @click="searchHobby">
+                            <i class="icon ion-ios-search"></i>
+                        </button>
+                    </div>
+                    <div class="sidebox__nav">点击设置相关兴趣（话题）</div>
+                    <ul class="post__tags sidebox__nav">
+                        <li v-for="hobby in hobbies" :key="hobby.id">
+                            <a @click="select(hobby.id)" :class="{ selected: hobby.selected }">
+                                {{ hobby.hName }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 右侧动态表单 -->
+            <div class="col-12 col-md-7 col-lg-8 col-xl-9">
+                <form class="form">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="form__title">发布动态</h2>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form__group">
+                                <label for="title" class="form__label">动态标题：</label>
+                                <input id="title" type="text" class="form__input" placeholder="输入动态标题" v-model="title">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form__group">
+                                <label for="content" class="form__label">动态内容：</label>
+                                <textarea id="content" class="form__textarea" placeholder="动态内容" v-model="content"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-6">
+                            <div class="form__group">
+                                <label for="filepath" class="form__label">上传图片：</label>
+                                <input id="filepath" type="file" accept="image/*" class="form__input">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <div class="form__group">
+                                <button class="form__btn" type="button" @click="uploadImg" style="top: 18px">
+                                    上传图片
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <img alt="上传图片预览" id="upload_img" :src="imgUrl || '/img/upload.jpg'" style="max-width: 70%; margin-bottom: 20px;">
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form__group">
+                                <label for="location" class="form__label">所在位置：</label>
+                                <input id="location" type="text" class="form__input" placeholder="输入所在位置" v-model="address">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="form__btn" type="button" @click="publishShare">
+                                发布动态
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue 脚本 -->
+    <script th:inline="javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                keyword: '',
+                hobbies: [],
+                relatedHobby: '',
+                hobbyId: '',
+
+                title: '',
+                content: '',
+                address: '',
+                imgUrl: '',
+
+                account: /*[[${user.account}]]*/ '',
+                publisherImg: /*[[${user.imgUrl}]]*/ '',
+                publisher: /*[[${user.nickname}]]*/ ''
+            },
+            methods: {
+                uploadImg() {
+                    const fileInput = document.getElementById("filepath");
+                    const file = fileInput.files[0];
+
+                    if (!file) {
+                        alert("请先选择图片");
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append("file", file);
+
+                    this.$http.post('/upload', formData, { emulateJSON: true }).then(res => {
+                        if (res.status === 200) {
+                            this.imgUrl = "/upload/" + res.data.data;
+                        } else {
+                            alert("上传失败：" + res.status);
+                        }
+                    }, res => {
+                        console.error(res.status);
+                        alert("上传出错");
+                    });
+                },
+
+                searchHobby() {
+                    this.$http.get('/hobby/search', { params: { hName: this.keyword } }).then(res => {
+                        if (res.status === 200) {
+                            const hobbies = res.data.data.map(h => ({ ...h, selected: false }));
+                            this.hobbies = hobbies;
+                        }
+                    }, res => {
+                        console.error(res.status);
+                    });
+                },
+
+                select(hobbyId) {
+                    this.hobbies.forEach(h => {
+                        h.selected = h.id === hobbyId;
+                        if (h.selected) {
+                            this.relatedHobby = h.hName;
+                            this.hobbyId = h.id;
+                        }
+                    });
+                },
+
+                publishShare() {
+                    const missingFields = [
+                        this.hobbyId, this.relatedHobby, this.title, this.content,
+                        this.address, this.imgUrl, this.account, this.publisher, this.publisherImg
+                    ].some(f => !f || f.trim() === '');
+
+                    if (missingFields) {
+                        alert("请填写完整信息");
+                        return;
+                    }
+
+                    const payload = {
+                        hobbyId: this.hobbyId,
+                        relatedHobby: this.relatedHobby,
+                        title: this.title,
+                        content: this.content,
+                        address: this.address,
+                        imgUrl: this.imgUrl,
+                        account: this.account,
+                        publisherImg: this.publisherImg,
+                        publisher: this.publisher
+                    };
+
+                    this.$http.post('/share/add', payload, { emulateJSON: true }).then(res => {
+                        if (res.status === 200) {
+                            alert("发布成功！");
+                        } else {
+                            alert("发布失败：" + res.status);
+                        }
+                    }, res => {
+                        console.error(res.status);
+                        alert("网络错误");
+                    });
+                }
+            }
+        });
+    </script>
+</main>
+
+<!-- Footer JS -->
+<div th:replace="~{jsloader::jsloader}"></div>
+</body>
+</html>
