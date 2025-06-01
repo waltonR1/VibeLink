@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{cssloader::cssloader(${title})}"></head>
+<head th:replace="~{cssloader::cssloader(${title})}">
+	<title>VibeLink</title>
+</head>
 <body>
 
 <!-- header -->
@@ -14,9 +16,9 @@
 				<div class="col-12">
 					<ul class="breadcrumb__wrap">
 						<li class="breadcrumb__item">
-							<a href="#" th:text="${index}">首页</a>
+							<a href="#" th:text="${index}">Home</a>
 						</li>
-						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">好友推荐</li>
+						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">Following</li>
 					</ul>
 				</div>
 			</div>
@@ -27,13 +29,13 @@
 	<div class="container">
 		<div class="row">
 			<!-- 用户信息展示 -->
-			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+			<div th:replace="~{component/userInfo::userInfo(${user})}"></div>
 
 			<!-- 推荐用户列表 -->
 			<div class="col-12 col-md-7 col-lg-8 col-xl-9">
 				<div class="row">
 					<!-- 推荐用户列表组件 -->
-					<div th:replace="~{component/useritem::followitem(${recommends})}"></div>
+					<div th:replace="~{component/userItem::followItem(${recommends})}"></div>
 				</div>
 			</div>
 		</div>
@@ -61,7 +63,7 @@
 					alert("已成功关注");
 					btn.className = "post__actions-btn post__actions-btn--blue";
 					btn.innerHTML = '<span>取关</span>';
-					btn.setAttribute("onclick", "unfollowit(this.id)");
+					btn.setAttribute("onclick", "unfollowIt(this.id)");
 				} else {
 					alert("操作失败！");
 				}
@@ -72,7 +74,7 @@
 		xhr.send(formData);
 	}
 
-	function unfollowit(id) {
+	function unfollowIt(id) {
 		const account = id.split("-")[1];
 		const formData = new FormData();
 		formData.append("follower", /*[[${user.account}]]*/ '');

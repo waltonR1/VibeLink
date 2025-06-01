@@ -1,8 +1,10 @@
 package com.isep.vibelink.domain.node;
 
 import com.isep.vibelink.domain.BaseNode;
+import com.isep.vibelink.domain.relationship.Praised;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.List;
@@ -39,5 +41,21 @@ public class Share extends BaseNode {
     private String account;
 
     @Relationship(type = "Praised",direction = Relationship.Direction.OUTGOING)
-    private List<User> praisedUser;
+    private List<Praised> praisedUser;
+
+    @Transient
+    private boolean praisedByCurrentUser; // 页面显示是否已点赞
+
+    public void updatePraisedStatus(String currentAccount) {
+        if (praisedUser != null) {
+            for (Praised p : praisedUser) {
+                User u = p.getUser();
+                if (u != null && currentAccount.equals(u.getAccount())) {
+                    this.praisedByCurrentUser = true;
+                    return;
+                }
+            }
+        }
+        this.praisedByCurrentUser = false;
+    }
 }

@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{cssloader::cssloader('兴趣部落')}"></head>
+<head th:replace="~{cssloader::cssloader('Interest Hubs')}">
+	<title>VibeLink</title>
+</head>
 <body>
 
 <!-- header -->
@@ -14,8 +16,8 @@
 			<div class="row">
 				<div class="col-12">
 					<ul class="breadcrumb__wrap">
-						<li class="breadcrumb__item"><a href="#">首页</a></li>
-						<li class="breadcrumb__item breadcrumb__item--active">兴趣部落</li>
+						<li class="breadcrumb__item"><a href="#">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Interest Hubs</li>
 					</ul>
 				</div>
 			</div>
@@ -25,13 +27,13 @@
 	<div class="container">
 		<div class="row">
 			<!-- 用户信息 -->
-			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+			<div th:replace="~{component/userInfo::userInfo(${user})}"></div>
 
 			<!-- 兴趣列表 -->
 			<div class="col-12 col-md-7 col-lg-8 col-xl-6">
 				<!-- 兴趣操作脚本 -->
 				<script type="text/javascript" th:inline="javascript">
-					function likeit(hobbyId) {
+					function toggleLike(hobbyId, liked) {
 						const btn = document.getElementById("btn-" + hobbyId);
 						btn.disabled = true;
 
@@ -39,51 +41,39 @@
 						formData.append("account", /*[[${user.account}]]*/ '');
 						formData.append("hobbyId", hobbyId);
 
+						const url = liked ? "/user/unlike" : "/user/like";
+
 						const xhr = new XMLHttpRequest();
-						xhr.open("POST", "/user/like");
+						xhr.open("POST", url);
 						xhr.onload = function () {
 							btn.disabled = false;
 							if (xhr.status === 200) {
-								alert("关注成功！");
-								btn.className = "post__actions-btn post__actions-btn--red";
-								btn.setAttribute("onclick", "unlikeit(" + hobbyId + ")");
-								btn.innerHTML = "<span>取消关注</span>";
+								if (liked) {
+									// 取消关注状态
+									btn.className = "post__actions-btn post__actions-btn--green";
+									btn.setAttribute("onclick", `toggleLike(${hobbyId}, false)`);
+									btn.innerHTML = "<i class='icon ion-ios-bookmark'></i>";
+									alert("Conceal liked");
+								} else {
+									// 关注成功
+									btn.className = "post__actions-btn post__actions-btn--red";
+									btn.setAttribute("onclick", `toggleLike(${hobbyId}, true)`);
+									btn.innerHTML = "<i class='icon ion-ios-bookmark'></i>";
+									alert("Liked! ");
+								}
 							} else {
-								alert("操作失败，请联系管理员!");
+								alert("Failed, please connect to admin");
 							}
 						};
 						xhr.send(formData);
 					}
 
-					function unlikeit(hobbyId) {
-						const btn = document.getElementById("btn-" + hobbyId);
-						btn.disabled = true;
-
-						const formData = new FormData();
-						formData.append("account", /*[[${user.account}]]*/ '');
-						formData.append("hobbyId", hobbyId);
-
-						const xhr = new XMLHttpRequest();
-						xhr.open("POST", "/user/unlike");
-						xhr.onload = function () {
-							btn.disabled = false;
-							if (xhr.status === 200) {
-								alert("已取消关注");
-								btn.className = "post__actions-btn post__actions-btn--green";
-								btn.setAttribute("onclick", "likeit(" + hobbyId + ")");
-								btn.innerHTML = "<span>关注</span>";
-							} else {
-								alert("操作失败，请联系管理员!");
-							}
-						};
-						xhr.send(formData);
-					}
 				</script>
 
 				<!-- 兴趣展示卡片 -->
 				<div class="row">
-					<div th:replace="~{component/hobbyitem::hobbyitem(${hobbies})}"></div>
-					<div th:replace="~{component/hobbyitem::myHobbies(${myHobbies})}"></div>
+					<div th:replace="~{component/hobbyItem::hobbyItem(${hobbies})}"></div>
+					<div th:replace="~{component/hobbyItem::myHobbies(${myHobbies})}"></div>
 				</div>
 			</div>
 
@@ -94,22 +84,22 @@
 						<form class="form">
 							<div class="row">
 								<div class="col-12">
-									<h2 class="form__title">创建兴趣</h2>
+									<h2 class="form__title">Create Hobby</h2>
 								</div>
 								<div class="col-12">
 									<div class="form__group">
-										<label for="hName" class="form__label">兴趣名称</label>
+										<label for="hName" class="form__label">Hobby Name</label>
 										<input name="hName" id="hName" type="text" class="form__input">
 									</div>
 								</div>
 								<div class="col-12">
 									<div class="form__group">
-										<label for="hType" class="form__label">兴趣类型</label>
+										<label for="hType" class="form__label">Hobby Type</label>
 										<input name="hType" id="hType" type="text" class="form__input">
 									</div>
 								</div>
 								<div class="col-12">
-									<button class="form__btn" type="button" onclick="addHobby()">添加兴趣</button>
+									<button class="form__btn" type="button" onclick="addHobby()"><span>Add Hobby</span></button>
 								</div>
 							</div>
 						</form>
@@ -121,7 +111,7 @@
 								const hType = document.getElementById("hType").value.trim();
 
 								if (!hName || !hType) {
-									alert("请您输入完整的信息");
+									alert("Please enter all fields");
 									return;
 								}
 
@@ -133,10 +123,10 @@
 								xhr.open("POST", "/hobby/addHobby");
 								xhr.onload = function () {
 									if (xhr.status === 200) {
-										alert("添加成功");
+										alert("Add successful");
 										location.reload(); // 自动刷新兴趣列表
 									} else {
-										alert("操作失败，请联系管理员!");
+										alert("Add failed");
 									}
 								};
 								xhr.send(formData);

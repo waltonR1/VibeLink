@@ -20,34 +20,34 @@
                     <!-- 顶部导航栏 -->
                     <ul class="header__nav">
                         <li class="header__nav-item">
-                            <a th:href="@{/content}" class="header__nav-link">首页</a>
+                            <a th:href="@{/content}" class="header__nav-link">Home</a>
                         </li>
 
                         <li class="header__nav-item dropdown">
                             <a class="dropdown-toggle header__nav-link" href="#" role="button"
                                id="dropdownMenuProjects" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                朋友推荐
+                                Friends Recommendation
                             </a>
                             <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuProjects">
-                                <li><a th:href="@{/recommend/user/byFriend}">可能认识</a></li>
-                                <li><a th:href="@{/recommend/user/byShare}">最常互动</a></li>
-                                <li><a th:href="@{/recommend/user/byHobby}">兴趣相投</a></li>
+                                <li><a th:href="@{/recommend/user/byFriend}">Discover Friends</a></li>
+                                <li><a th:href="@{/recommend/user/byShare}">Close Friends</a></li>
+                                <li><a th:href="@{/recommend/user/byHobby}">Common Interests</a></li>
                             </ul>
                         </li>
 
                         <li class="header__nav-item">
-                            <a th:href="@{/hobby/getAll}" class="header__nav-link">兴趣部落</a>
+                            <a th:href="@{/hobby/getAll}" class="header__nav-link">Interest Hubs</a>
                         </li>
 
                         <li class="header__nav-item dropdown">
                             <a class="dropdown-toggle header__nav-link" href="#" role="button"
                                id="dropdownMenuCompanies" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                发现动态
+                                Discover Feeds
                             </a>
                             <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCompanies">
-                                <li><a th:href="@{/share/friend}">好友动态</a></li>
-                                <li><a th:href="@{/share/recommend}">推荐动态</a></li>
-                                <li><a th:href="@{/share/publish}">发布动态</a></li>
+                                <li><a th:href="@{/share/friend}">Friends' Feed</a></li>
+                                <li><a th:href="@{/share/recommend}">Recommend Feed</a></li>
+                                <li><a th:href="@{/share/publish}">Publish Feed</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -60,13 +60,13 @@
                     <div class="header__profile">
                         <a class="dropdown-toggle header__profile-btn" href="#" role="button"
                            id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img  th:src="${user.imgUrl}" alt="">
-                            <span th:text="${user.nickname}">昵称</span>
+                            <img th:if="${user.imgUrl} != null" th:src="${user.imgUrl}" alt="User Avatar">
+                            <span th:text="${user.nickname}">nickname</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right header__dropdown-menu header__dropdown-menu--right"
                             aria-labelledby="dropdownMenuProfile">
-                            <li><a th:href="@{/user/personInfo}"><i class="icon ion-ios-settings"></i> 设置</a></li>
-                            <li><a th:href="@{/logout}"><i class="icon ion-ios-exit"></i> 登出</a></li>
+                            <li><a th:href="@{/user/personInfo}"><i class="icon ion-ios-settings"></i> Setting </a></li>
+                            <li><a th:href="@{/logout}"><i class="icon ion-ios-exit"></i> Logout </a></li>
                         </ul>
                     </div>
                 </div>

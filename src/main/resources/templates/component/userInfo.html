@@ -1,41 +1,41 @@
-<div class="col-12 col-md-5 col-lg-4 col-xl-3" th:fragment="userinfo(user)" xmlns:th="http://www.thymeleaf.org">
+<div class="col-12 col-md-5 col-lg-4 col-xl-3" th:fragment="userInfo(user)" xmlns:th="http://www.thymeleaf.org">
     <!-- user -->
     <div class="user">
         <div class="user__head">
             <div class="user__img">
-                <img th:if="${user.imgUrl != null}" th:src="${user.imgUrl}" alt="">
+                <img th:if="${user.imgUrl != null}" th:src="${user.imgUrl}" alt="User Avatar">
             </div>
         </div>
         <div class="user__title">
-            <h2 th:text="${user.nickname}">昵称</h2>
-            <p th:text="${user.email}">邮箱</p>
+            <h2 th:text="${user.nickname}">nickname</h2>
+            <p th:text="${user.email}">email</p>
             <div class="profile__actions">
                 <div class="post__location">
                     <i class="icon ion-ios-navigate"></i>
-                    <span th:text="${user.address}">地址</span>
+                    <span th:text="${user.address}">Address</span>
                 </div>
             </div>
         </div>
 
         <ul class="user__list">
-            <li><span>账号：</span> <span th:text="${user.account}">账号</span></li>
-            <li><span>年龄：</span> <span th:text="${user.age}">年龄</span></li>
-            <li><span>性别：</span> <span th:text="${user.gender}">性别</span></li>
+            <li><span>Account: </span> <span th:text="${user.account}">account</span></li>
+            <li><span>Age: </span> <span th:text="${user.age}">age</span></li>
+            <li><span>Gender: </span> <span th:text="${user.gender}">gender</span></li>
         </ul>
 
         <ul class="user__stats">
             <li>
-                <p>我的关注</p>
+                <p>My Following</p>
                 <span>
                     <a th:if="${myFollowing > 0}" th:href="@{/user/myFollowing}" th:text="${myFollowing}">0</a>
-                    <a th:unless="${myFollowing > 0}" href="javascript:void(0)" onclick="alert('您还没有关注任何人呢～')" th:text="${myFollowing}">0</a>
+                    <a th:unless="${myFollowing > 0}" href="javascript:void(0)" onclick="alert('You are not following anyone yet.')" th:text="${myFollowing}">0</a>
                 </span>
             </li>
             <li>
-                <p>关注者</p>
+                <p>Follower</p>
                 <span>
                     <a th:if="${follower > 0}" th:href="@{/user/follower}" th:text="${follower}">0</a>
-                    <a th:unless="${follower > 0}" href="javascript:void(0)" onclick="alert('还没有人关注你呢～')" th:text="${follower}">0</a>
+                    <a th:unless="${follower > 0}" href="javascript:void(0)" onclick="alert('Nobody is paying attention to you yet.')" th:text="${follower}">0</a>
                 </span>
             </li>
         </ul>
@@ -43,9 +43,9 @@
     <!-- end user -->
 
     <!-- social -->
-    <div class="sidebox">
-        <div class="sidebox__share">
-            <span>社交：</span>
+    <div class="sideBox">
+        <div class="sideBox__share">
+            <span>Social: </span>
             <ul>
                 <li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
                 <li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>

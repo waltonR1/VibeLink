@@ -79,7 +79,8 @@ public interface ShareDao extends Neo4jRepository<Share, Long> {
      */
     @Query("""
                 MATCH (:User {account: $account})-[:Publish]->(share:Share)
-                RETURN share
+                OPTIONAL MATCH (s)-[r:Praised]->(u:User)
+                RETURN share, collect(r), collect(u)
             """)
     List<Share> getShareByAccount(@Param("account") String account);
 
@@ -91,8 +92,9 @@ public interface ShareDao extends Neo4jRepository<Share, Long> {
      * @return 朋友发布的动态列表
      */
     @Query("""
-                MATCH (:User {account: $account})-[:Follow]->(:User)-[:Publish]->(share:Share)
-                RETURN share
+            MATCH (:User {account: $account})-[:Follow]->(:User)-[:Publish]->(s:Share)
+            OPTIONAL MATCH (s)-[r:Praised]->(u:User)
+            RETURN s, collect(r), collect(u)
             """)
     List<Share> getFriendShares(@Param("account") String account);
 
@@ -107,7 +109,8 @@ public interface ShareDao extends Neo4jRepository<Share, Long> {
                 MATCH (user:User {account: $account})-[:Like]->(h:Hobby)
                 MATCH (share:Share)
                 WHERE share.relatedHobby = h.hName
-                RETURN DISTINCT share
+                OPTIONAL MATCH (s)-[r:Praised]->(u:User)
+                RETURN DISTINCT share, collect(r), collect(u)
             """)
     List<Share> recommendByHobby(@Param("account") String account);
 

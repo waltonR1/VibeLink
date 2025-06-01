@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{cssloader::cssloader('个人信息')}"></head>
+<head th:replace="~{cssloader::cssloader('Person Information')}">
+	<title>VibeLink</title>
+</head>
 <body>
 
 <!-- Header -->
@@ -14,8 +16,8 @@
 			<div class="row">
 				<div class="col-12">
 					<ul class="breadcrumb__wrap">
-						<li class="breadcrumb__item"><a href="#">首页</a></li>
-						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">个人信息</li>
+						<li class="breadcrumb__item"><a href="#">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Person Information</li>
 					</ul>
 				</div>
 			</div>
@@ -23,72 +25,76 @@
 	</div>
 
 	<!-- 页面主体 -->
-	<div class="container" id="app"
-		 th:data-account="${user.account}"
-		 th:data-nickname="${user.nickname}"
-		 th:data-age="${user.age}"
-		 th:data-address="${user.address}"
-		 th:data-email="${user.email}"
-		 th:data-imgurl="${user.imgUrl}">
+	<div class="container" id="profile-container">
+		<!-- account 作为隐藏域，供 JS 使用 -->
+		<input type="hidden" id="account" th:value="${user.account}">
 		<div class="row">
-			<!-- 用户信息 -->
-			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+			<!-- 复用用户信息组件 -->
+			<div th:replace="~{component/userInfo::userInfo(${user})}"></div>
 
 			<!-- 左侧：资料修改 -->
 			<div class="col-12 col-md-7 col-lg-8 col-xl-6">
 				<div class="tab-content">
 					<!-- 修改基本资料 -->
-					<form class="form">
+					<form class="form" onsubmit="return false;">
 						<div class="row">
-							<div class="col-12"><h2 class="form__title">个人资料修改</h2></div>
+							<div class="col-12"><h2 class="form__title">Personal Information</h2></div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="nickname" class="form__label">昵称：</label>
-									<input id="nickname" type="text" class="form__input" v-model="nickname">
+									<label for="nickname" class="form__label">Nickname: </label>
+									<input id="nickname" name="nickname" type="text" class="form__input" th:value="${user.nickname}">
 								</div>
 							</div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="email" class="form__label">电子邮件：</label>
-									<input id="email" type="email" class="form__input" v-model="email">
+									<label for="email" class="form__label">Email: </label>
+									<input id="email" name="email" type="email" class="form__input" th:value="${user.email}">
 								</div>
 							</div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="address" class="form__label">地址：</label>
-									<input id="address" type="text" class="form__input" v-model="address">
+									<label for="address" class="form__label">Address: </label>
+									<input id="address" name="address" type="text" class="form__input" th:value="${user.address}">
 								</div>
 							</div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="age" class="form__label">年龄：</label>
-									<input id="age" type="number" class="form__input" v-model="age">
+									<label for="age" class="form__label">Age: </label>
+									<input id="age" name="age" type="number" min="0" class="form__input" th:value="${user.age}">
 								</div>
 							</div>
+
 							<div class="col-12">
-								<button class="form__btn" type="button" @click="fixInfo">保存更改</button>
+								<button class="form__btn" id="saveInfoBtn" type="button"><span>Save</span></button>
 							</div>
 						</div>
 					</form>
 
 					<!-- 修改密码 -->
-					<form class="form mt-4">
+					<form class="form mt-4" onsubmit="return false;">
 						<div class="row">
-							<div class="col-12"><h2 class="form__title">更改密码</h2></div>
+							<div class="col-12"><h2 class="form__title">Change Password</h2></div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="newPass" class="form__label">新密码：</label>
-									<input id="newPass" type="password" class="form__input" v-model="newPass">
+									<label for="newPass" class="form__label">New Password: </label>
+									<input id="newPass" type="password" class="form__input">
 								</div>
 							</div>
+
 							<div class="col-12 col-lg-6">
 								<div class="form__group">
-									<label for="confirmpass" class="form__label">确认新密码：</label>
-									<input id="confirmpass" type="password" class="form__input" v-model="confirmpass">
+									<label for="confirmPass" class="form__label">Confirm New Password: </label>
+									<input id="confirmPass" type="password" class="form__input">
 								</div>
 							</div>
+
 							<div class="col-12">
-								<button class="form__btn" type="button" @click="fixPass">更改密码</button>
+								<button class="form__btn" id="changePassBtn" type="button"><span>Change Password</span></button>
 							</div>
 						</div>
 					</form>
@@ -97,23 +103,28 @@
 
 			<!-- 右侧：头像上传 -->
 			<div class="col-12 col-md-5 col-lg-4 col-xl-3">
-				<form class="form">
+				<form class="form" onsubmit="return false;">
 					<div class="row">
-						<div class="col-12"><h2 class="form__title">头像修改</h2></div>
+						<div class="col-12"><h2 class="form__title">Change Avatar</h2></div>
+
 						<div class="col-12">
 							<div class="form__group">
-								<label for="filepath" class="form__label">上传图片：</label>
+								<label for="filepath" class="form__label">Upload Photo: </label>
 								<input id="filepath" type="file" class="form__input" accept="image/*">
 							</div>
 						</div>
+
 						<div class="col-12">
-							<img v-if="imgUrl" :src="imgUrl" alt="" style="max-width: 100%; margin-bottom: 10px;">
+							<img id="avatarPreview" th:if="${user.imgUrl != null}" th:src="@{${user.imgUrl}}" alt="Avatar" style="max-width: 100%; margin-bottom: 10px;">
+							<input type="hidden" id="imgUrl">
 						</div>
+
 						<div class="col-12">
-							<button class="form__btn" type="button" @click="uploadImg">上传图片</button>
+							<button class="form__btn" id="uploadBtn" type="button"><span>Upload Photo</span></button>
 						</div>
+
 						<div class="col-12">
-							<button class="form__btn" type="button" @click="fixImg">更改头像</button>
+							<button class="form__btn" id="fixImgBtn" type="button"><span>Change Avatar</span></button>
 						</div>
 					</div>
 				</form>
@@ -122,77 +133,118 @@
 	</div>
 </main>
 
-<!-- 脚本区 -->
-<script src="/js/vue.min.js"></script>
-<script src="/js/vue-resource.min.js"></script>
 <script>
-	new Vue({
-		el: '#app',
-		data: {
-			account: '',
-			nickname: '',
-			age: '',
-			address: '',
-			email: '',
-			imgUrl: '',
-			newPass: '',
-			confirmpass: ''
-		},
-		created() {
-			const app = document.getElementById("app");
-			this.account = app.dataset.account;
-			this.nickname = app.dataset.nickname;
-			this.age = app.dataset.age;
-			this.address = app.dataset.address;
-			this.email = app.dataset.email;
-			this.imgUrl = app.dataset.imgurl;
-		},
-		methods: {
-			uploadImg() {
-				const file = document.getElementById("filepath").files[0];
-				if (!file) return alert("请您先选择图片");
-				const formData = new FormData();
-				formData.append("file", file);
-				this.$http.post('/upload', formData, {emulateJSON: true}).then(res => {
-					if (res.status === 200) {
-						this.imgUrl = "/upload/" + res.data.data;
-						alert("上传成功");
-					}
-				});
-			},
-			fixImg() {
-				if (!this.imgUrl) return alert("请您先上传图片");
-				this.$http.post('/user/fixImg', {
-					account: this.account,
-					imgUrl: this.imgUrl
-				}, {emulateJSON: true}).then(res => {
-					if (res.status === 200) alert("头像更改成功，请重新登录更新状态！");
-				});
-			},
-			fixPass() {
-				if (!this.newPass || !this.confirmpass) return alert("请填写完整密码");
-				if (this.newPass !== this.confirmpass) return alert("两次输入的密码不一致！");
-				this.$http.post('/user/fixPass', {
-					account: this.account,
-					newPass: this.newPass
-				}, {emulateJSON: true}).then(res => {
-					if (res.status === 200) alert("密码修改成功！");
-				});
-			},
-			fixInfo() {
-				if (!this.nickname || !this.age || !this.address || !this.email) return alert("请填写完整信息");
-				this.$http.post('/user/fixInfo', {
-					account: this.account,
-					nickname: this.nickname,
-					age: this.age,
-					address: this.address,
-					email: this.email
-				}, {emulateJSON: true}).then(res => {
-					if (res.status === 200) alert("修改成功，请重新登录系统更新状态！");
-				});
+	document.addEventListener('DOMContentLoaded', () => {
+
+		/* 上传图片 */
+		document.getElementById('uploadBtn').addEventListener('click', () => {
+			const fileInput = document.getElementById('filepath');
+			const file = fileInput.files[0];
+			if (!file) return alert('Please select a Photo');
+			const formData = new FormData();
+			formData.append('file', file);
+			fetch('/upload', {
+				method: 'POST',
+				body: formData
+			})
+					.then(r => r.json())
+					.then(json => {
+						if (json.ok) {
+							const full = '/upload/' + json.data;
+							document.getElementById('avatarPreview').src = full;
+							document.getElementById('imgUrl').value = full;
+						} else {
+							alert('Upload Failed');
+						}
+					});
+		});
+
+		document.getElementById('fixImgBtn').addEventListener('click', () => {
+			const account = document.getElementById('account').value;
+			const imgUrl = document.getElementById('imgUrl').value.trim();
+			if (!imgUrl) return alert('Please select a Photo');
+
+			const formData = new FormData();
+			formData.append('account', account);
+			formData.append('imgUrl', imgUrl);
+			fetch('/user/fixImg', {
+				method: 'POST',
+				body: formData
+			})
+			.then(r => r.json())
+			.then(json => {
+				if (json.ok) {
+					alert('Update Avatar successfully, you will be logged out now.');
+					window.location = '/logout';
+				}else {
+					alert('Update Avatar failed');
+				}
+			});
+		});
+
+		document.getElementById('changePassBtn').addEventListener('click', () => {
+			const account = document.getElementById('account').value;
+			const newPass = document.getElementById('newPass').value;
+			const confirmPass = document.getElementById('confirmPass').value;
+
+			if (!newPass) return alert('Please select a Photo');
+			if (!confirmPass) return alert('Please select a Photo');
+			if (newPass !== confirmPass) {
+				return  alert('Passwords do not match.');
 			}
-		}
+
+			const formData = new FormData();
+			formData.append('account', account);
+			formData.append('newPass', newPass);
+			fetch('/user/fixPass', {
+				method: 'POST',
+				body: formData
+			})
+			.then(r => r.json())
+			.then(json => {
+				if (json.ok) {
+					alert('Update Password successfully, you will be logged out now.');
+					window.location.href = '/logout';
+				} else {
+					alert('Update Password failed');
+				}
+			});
+		});
+
+		document.getElementById('saveInfoBtn').addEventListener('click', () => {
+			const account = document.getElementById('account').value;
+			const nickname = document.getElementById('nickname').value.trim();
+			const age = document.getElementById('age').value.trim();
+			const address = document.getElementById('address').value.trim();
+			const email = document.getElementById('email').value.trim();
+
+			// 校验是否有空字段
+			if ([account,nickname,age,address,email].some(v => !v)) {
+				return alert('Please write all fields');
+			}
+
+			const formData = new FormData();
+			formData.append('account', account);
+			formData.append('nickname', nickname);
+			formData.append('age', age);
+			formData.append('address', address);
+			formData.append('email', email);
+			fetch('/user/fixInfo', {
+				method: 'POST',
+				body: formData
+			})
+			.then(r => r.json())
+			.then(json => {
+				if (json.ok) {
+					alert('Update Info successfully, you will be logged out now.');
+					window.location.href = '/logout';
+				}else {
+					alert('Update Info failed');
+				}
+			});
+		});
 	});
+
 </script>
 
 <div th:replace="~{jsloader::jsloader}"></div>

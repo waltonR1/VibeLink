@@ -2,6 +2,8 @@ package com.isep.vibelink.controller;
 
 import com.isep.vibelink.dao.FollowDao;
 import com.isep.vibelink.dao.ShareDao;
+import com.isep.vibelink.dao.HobbyDao;
+import com.isep.vibelink.domain.node.Hobby;
 import com.isep.vibelink.domain.node.Share;
 import com.isep.vibelink.domain.node.User;
 import com.isep.vibelink.util.ResponseInfo;
@@ -26,13 +28,15 @@ public class ShareController {
 
     private final ShareDao shareDao;
     private final FollowDao followDao;
+    private final HobbyDao hobbyDao;
 
     /**
      * 构造函数注入依赖
      */
-    public ShareController(ShareDao shareDao, FollowDao followDao) {
+    public ShareController(ShareDao shareDao, FollowDao followDao, HobbyDao hobbyDao) {
         this.shareDao = shareDao;
         this.followDao = followDao;
+        this.hobbyDao = hobbyDao;
     }
 
     /**
@@ -100,6 +104,9 @@ public class ShareController {
     @ResponseBody
     public ResponseInfo<List<Share>> getShareByAccount(@RequestParam("account") String account) {
         List<Share> shares = shareDao.getShareByAccount(account);
+        for (Share share : shares) {
+            share.updatePraisedStatus(account);
+        }
         return ResponseInfo.success("Shares retrieved successfully", shares);
     }
 
@@ -119,7 +126,10 @@ public class ShareController {
             return "login";
         }
 
+        List<Hobby> allHobbies = hobbyDao.getMyHobby(user.getAccount());
+
         map.put("user", user);
+        map.put("hobbies",allHobbies);
         map.put("index", "Discover");
         map.put("title", "Post Share");
         return "addShare";
@@ -148,12 +158,15 @@ public class ShareController {
 
         // 读取动态内容
         List<Share> shares = shareDao.getFriendShares(user.getAccount());
+        for (Share share : shares) {
+            share.updatePraisedStatus(user.getAccount());
+        }
         map.put("shares", shares);
         map.put("user", user);
         map.put("myFollowing", following_num);
         map.put("follower", follower_num);
-        map.put("index", "发现动态");
-        map.put("title", "好友动态");
+        map.put("index", "Discover Shares");
+        map.put("title", "Friends' Feed");
         return "shareList";
     }
 
@@ -177,12 +190,15 @@ public class ShareController {
 
         // 读取动态内容
         List<Share> shares = shareDao.recommendByHobby(user.getAccount());
+        for (Share share : shares) {
+            share.updatePraisedStatus(user.getAccount());
+        }
         map.put("shares", shares);
         map.put("user", user);
         map.put("myFollowing", following_num);
         map.put("follower", follower_num);
-        map.put("index", "发现动态");
-        map.put("title", "好友动态");
+        map.put("index", "Discover Shares");
+        map.put("title", "Friends' Feed");
         return "shareList";
     }
 }

@@ -1,67 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>注册页面</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Register</title>
 
-	<link rel="stylesheet" href="login/css/style.css" type="text/css" media="all" />
-	<link href="login/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="/login/css/style.css" type="text/css" media="all" />
+	<link href="/login/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
 <section class="w3l-form-36">
-	<div class="form-36-mian section-gap">
+	<div class="form-36-main section-gap">
 		<div class="wrapper">
 			<div class="form-inner-cont">
-				<h3>创建你的账号</h3>
+				<h3>Create Your Account</h3>
 
-				<form action="/user/addUser" method="post" class="signin-form" onsubmit="return checkPasswordMatch()">
+				<form action="/user/addUser" method="post" class="signIn-form" onsubmit="return checkPasswordMatch()">
 					<div class="form-input">
 						<span class="fa fa-id-card-o" aria-hidden="true"></span>
-						<input type="text" name="account" placeholder="输入账号" required />
+						<label>
+							<input type="text" name="account" placeholder="Enter Account" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-user-o" aria-hidden="true"></span>
-						<input type="text" name="nickname" placeholder="输入昵称" required />
+						<label>
+							<input type="text" name="nickname" placeholder="Enter Nickname" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-yelp" aria-hidden="true"></span>
-						<select name="gender">
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
+						<label>
+							<select name="gender">
+								<option value="Male">Male</option>
+								<option value="Female">Female</option>
+							</select>
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-user-circle" aria-hidden="true"></span>
-						<input type="text" name="age" placeholder="年龄" required />
+						<label>
+							<input type="text" name="age" placeholder="Age" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-envelope-o" aria-hidden="true"></span>
-						<input type="email" name="email" placeholder="输入邮箱" required />
+						<label>
+							<input type="email" name="email" placeholder="Entre Email" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-address-book-o" aria-hidden="true"></span>
-						<input type="text" name="address" placeholder="输入地址" required />
+						<label>
+							<input type="text" name="address" placeholder="Enter Address" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-key" aria-hidden="true"></span>
-						<input type="password" name="password" placeholder="输入您的密码" id="password1" required />
+						<label>
+							<input type="password" name="password" placeholder="Enter Password" id="password1" required />
+						</label>
 					</div>
 					<div class="form-input">
 						<span class="fa fa-key" aria-hidden="true"></span>
-						<input type="password" placeholder="确认您的密码" id="password2" required />
+						<label>
+							<input type="password" name="confirm-password" placeholder="Confirm Password" id="password2" required />
+						</label>
 					</div>
 
 					<div class="login-remember d-grid">
-						<button class="btn theme-button" style="width: 336px;" type="submit">注册账号</button>
+						<button class="btn theme-button" style="width: 336px;" type="submit">Register</button>
 					</div>
 				</form>
 
 				<!-- 错误提示 -->
 				<p style="color: red;" th:if="${msg != null}" th:text="${msg}"></p>
 
-				<p class="signup">已经有账号了? <a href="/" class="signuplink">直接登录</a></p>
+				<p class="signup">Already have an account? <a href="/" class="main">Login</a></p>
 			</div>
 
 			<div class="copy-right">
@@ -77,7 +92,7 @@
 		const pass1 = document.getElementById("password1").value;
 		const pass2 = document.getElementById("password2").value;
 		if (pass1 !== pass2) {
-			alert("两次输入的密码不一致！");
+			alert("The passwords entered twice do not match!");
 			return false;
 		}
 		return true;

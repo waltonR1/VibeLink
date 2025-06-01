@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{cssloader::cssloader('社交推荐系统')}"></head>
+<head th:replace="~{cssloader::cssloader(title='VibeLink')}">
+	<title>VibLink</title>
+</head>
 <body>
 
 <!-- Header -->
@@ -11,71 +13,71 @@
 	<div class="container">
 		<div class="row">
 			<!-- 用户信息 -->
-			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+			<div th:replace="~{component/userInfo::userInfo(${user})}"></div>
 
 			<!-- 好友动态内容 -->
 			<div class="col-12 col-md-7 col-lg-8 col-xl-6">
 				<ul class="nav nav-tabs main__nav" id="main__nav" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" role="tab" aria-selected="true">好友动态</a>
+						<a class="nav-link active" role="tab" aria-selected="true">Friends' Feed</a>
 					</li>
 				</ul>
 				<!-- 动态内容 -->
-				<div th:replace="~{component/shareItem::shareitem(${shares})}"></div>
+				<div th:replace="~{component/shareItem::shareItem(${shares})}"></div>
 			</div>
 
 			<!-- 推荐侧栏 -->
 			<div class="col-12 col-md-5 col-lg-4 col-xl-3">
 
 				<!-- 可能认识 -->
-				<div class="sidebox sidebox--desk">
-					<h4 class="sidebox__title">可能认识</h4>
-					<div class="sidebox__content" th:if="${byFriend.size()} > 0">
-						<div class="sidebox__user" th:each="item : ${byFriend}">
-							<a href="#" class="sidebox__user-img">
-								<img th:src="${item.imgUrl}" alt="">
+				<div class="sideBox sideBox--desk">
+					<h4 class="sideBox__title">Discover Friends</h4>
+					<div class="sideBox__content" th:if="${byFriend.size()} > 0">
+						<div class="sideBox__user" th:each="item : ${byFriend}">
+							<a href="#" class="sideBox__user-img">
+								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
-							<div class="sidebox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">昵称</a></h5>
-								<p th:text="${item.account}">账号</p>
+							<div class="sideBox__user-title">
+								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<p th:text="${item.account}">account</p>
 							</div>
 						</div>
 					</div>
-					<a th:href="@{/recommend/user/byFriend}" class="sidebox__more" role="button">查看更多</a>
+					<a th:href="@{/recommend/user/byFriend}" class="sideBox__more" role="button">Learn More</a>
 				</div>
 
 				<!-- 最常互动 -->
-				<div class="sidebox sidebox--desk">
-					<h4 class="sidebox__title">最常互动</h4>
-					<div class="sidebox__content" th:if="${byShare.size()} > 0">
-						<div class="sidebox__user" th:each="item : ${byShare}">
-							<a href="#" class="sidebox__user-img">
-								<img th:src="${item.imgUrl}" alt="">
+				<div class="sideBox sideBox--desk">
+					<h4 class="sideBox__title">Close Friends</h4>
+					<div class="sideBox__content" th:if="${byShare.size()} > 0">
+						<div class="sideBox__user" th:each="item : ${byShare}">
+							<a href="#" class="sideBox__user-img">
+								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
-							<div class="sidebox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">昵称</a></h5>
-								<p th:text="${item.account}">账号</p>
+							<div class="sideBox__user-title">
+								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<p th:text="${item.account}">account</p>
 							</div>
 						</div>
 					</div>
-					<a th:href="@{/recommend/user/byShare}" class="sidebox__more" role="button">查看更多</a>
+					<a th:href="@{/recommend/user/byShare}" class="sideBox__more" role="button">Learn More</a>
 				</div>
 
 				<!-- 相同兴趣 -->
-				<div class="sidebox sidebox--desk">
-					<h4 class="sidebox__title">相同兴趣</h4>
-					<div class="sidebox__content" th:if="${byHobby.size()} > 0">
-						<div class="sidebox__user" th:each="item : ${byHobby}">
-							<a href="#" class="sidebox__user-img">
-								<img th:src="${item.imgUrl}" alt="">
+				<div class="sideBox sideBox--desk">
+					<h4 class="sideBox__title">Common Interests</h4>
+					<div class="sideBox__content" th:if="${byHobby.size()} > 0">
+						<div class="sideBox__user" th:each="item : ${byHobby}">
+							<a href="#" class="sideBox__user-img">
+								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
-							<div class="sidebox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">昵称</a></h5>
-								<p th:text="${item.account}">账号</p>
+							<div class="sideBox__user-title">
+								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<p th:text="${item.account}">account</p>
 							</div>
 						</div>
 					</div>
-					<a th:href="@{/recommend/user/byHobby}" class="sidebox__more" role="button">查看更多</a>
+					<a th:href="@{/recommend/user/byHobby}" class="sideBox__more" role="button">Learn More</a>
 				</div>
 
 			</div>

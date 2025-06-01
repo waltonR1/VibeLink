@@ -1,0 +1,38 @@
+<div th:fragment="hobbyItem(hobbies)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="hobby : ${hobbies}">
+    <div class="company" style="position: relative;">
+        <div class="company__logo">
+            <img src="/img/company.svg" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+        </div>
+        <div class="company__wrap">
+            <h2 class="company__title">
+                <a href="#" th:text="${hobby.hName}">hName</a>
+            </h2>
+            <p class="company__text" th:text="${hobby.hType}">hType</p>
+        </div>
+        <a class="post__actions-btn post__actions-btn--green"
+           th:attr="onclick=|toggleLike(${hobby.id}, false)|, id=|btn-${hobby.id}|"
+           style="position: absolute; top: 65px; left: 150px;">
+            <i class="icon ion-ios-bookmark"></i>
+        </a>
+    </div>
+</div>
+
+
+<div th:fragment="myHobbies(hobbies)" class="col-12 col-sm-6 col-md-12 col-lg-4" th:each="hobby : ${hobbies}" >
+    <div class="company" style="position: relative;">
+        <div class="company__logo">
+            <img src="/img/company.svg" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+        </div>
+        <div class="company__wrap">
+            <h2 class="company__title">
+                <a href="#" th:text="${hobby.hName}">hName</a>
+            </h2>
+            <p class="company__text" th:text="${hobby.hType}">hType</p>
+        </div>
+        <a class="post__actions-btn post__actions-btn--red"
+           th:attr="onclick=|toggleLike(${hobby.id}, true)|, id=|btn-${hobby.id}|"
+           style="position: absolute; top: 65px; left: 150px;">
+            <i class="icon ion-ios-bookmark"></i>
+        </a>
+    </div>
+</div>

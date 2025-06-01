@@ -1,5 +1,5 @@
 :root {
-    --theme-color: #E48925;
+    --theme-color: #3796f6;
     --title-color: #051b35;
     --text-color: #333333;}
 /* reset code */
@@ -126,7 +126,7 @@ ol {
     color: #000000;
 }
 
-.form-36-mian {
+.form-36-main {
     background-size: cover;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.31)), url(../images/bg.jpg);
     background-attachment: fixed;

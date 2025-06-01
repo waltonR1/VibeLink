@@ -1,25 +1,25 @@
 <!-- profile -->
-<div th:fragment="unfollowitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
+<div th:fragment="unfollowItem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
      th:each="item : ${recommends}">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgUrl}" alt="">
+            <img th:src="${item.imgUrl}" alt="User Avatar">
         </div>
         <div class="profile__wrap">
             <h2 class="profile__title">
-                <a href="#" th:text="${item.nickname}">昵称</a>
+                <a href="#" th:text="${item.nickname}">nickname</a>
             </h2>
-            <p class="profile__text" th:text="${item.account}">账号</p>
+            <p class="profile__text" th:text="${item.account}">account</p>
         </div>
         <div class="profile__actions">
             <div class="post__location">
                 <i class="icon ion-ios-navigate"></i>
-                <span th:text="${item.address}">地址</span>
+                <span th:text="${item.address}">address</span>
             </div>
             <div class="post__actions">
                 <button class="post__actions-btn post__actions-btn--blue"
                         th:attr="id=|btn-${item.account}|, onclick=|followIt(this.id)|">
-                    <span>关注</span>
+                    <span>Follow</span>
                 </button>
             </div>
         </div>
@@ -29,27 +29,27 @@
 
 
 <!-- profile -->
-<div th:fragment="followitem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
+<div th:fragment="followItem(recommends)" class="col-12 col-sm-6 col-md-12 col-lg-4"
      th:each="item : ${recommends}">
     <div class="profile">
         <div class="profile__logo">
-            <img th:src="${item.imgUrl}" alt="">
+            <img th:src="${item.imgUrl}" alt="User Avatar">
         </div>
         <div class="profile__wrap">
             <h2 class="profile__title">
-                <a href="#" th:text="${item.nickname}">昵称</a>
+                <a href="#" th:text="${item.nickname}">nickname</a>
             </h2>
-            <p class="profile__text" th:text="${item.account}">账号</p>
+            <p class="profile__text" th:text="${item.account}">account</p>
         </div>
         <div class="profile__actions">
             <div class="post__location">
                 <i class="icon ion-ios-navigate"></i>
-                <span th:text="${item.address}">地址</span>
+                <span th:text="${item.address}">address</span>
             </div>
             <div class="post__actions">
                 <button class="post__actions-btn post__actions-btn--blue"
-                        th:attr="id=|btn-${item.account}|, onclick=|unfollowit(this.id)|">
-                    <span>取关</span>
+                        th:attr="id=|btn-${item.account}|, onclick=|unfollowIt(this.id)|">
+                    <span>UnFollow</span>
                 </button>
             </div>
         </div>

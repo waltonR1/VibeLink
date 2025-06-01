@@ -40,7 +40,7 @@ public class PraiseController {
 
         Long relationshipId = praiseDao.praisedIt(account, shareId);
         boolean success = (relationshipId != null);
-        return success ? ResponseInfo.success("Praise successful", totalPraised) : ResponseInfo.fail("Praise failed");
+        return success ? ResponseInfo.success("Praise successful", totalPraised+1) : ResponseInfo.fail("Praise failed");
     }
 
 

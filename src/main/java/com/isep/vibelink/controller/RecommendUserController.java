@@ -84,7 +84,7 @@ public class RecommendUserController {
         map.put("follower", followerCount);
         map.put("recommends", recommends);
         map.put("user", user);
-        map.put("index", "Friend Recommendation");
+        map.put("index", "Friends Recommendation");
         map.put("title", title);
         map.put("reverse", false);
 
@@ -101,7 +101,7 @@ public class RecommendUserController {
      */
     @GetMapping("/recommend/user/byFriend")
     public String recommendFriendsByFriend(HttpServletRequest request, Map<String, Object> map) {
-        return recommend(request, map, "People You May Know", "byFriend");
+        return recommend(request, map, "Discover Friends", "byFriend");
     }
 
 
@@ -114,7 +114,7 @@ public class RecommendUserController {
      */
     @GetMapping("/recommend/user/byShare")
     public String recommendFriendsByShare(HttpServletRequest request, Map<String, Object> map) {
-        return recommend(request, map, "Most Interacted Users", "byShare");
+        return recommend(request, map, "Close Friends", "byShare");
     }
 
     /**
@@ -126,6 +126,6 @@ public class RecommendUserController {
      */
     @GetMapping("/recommend/user/byHobby")
     public String recommendFriendsByHobby(HttpServletRequest request, Map<String, Object> map) {
-        return recommend(request, map, "Users With Similar Interests", "byHobby");
+        return recommend(request, map, "Common Interests", "byHobby");
     }
 }

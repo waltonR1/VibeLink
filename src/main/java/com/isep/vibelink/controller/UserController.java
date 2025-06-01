@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户控制器，用于处理用户相关功能，如登录、注册、主页展示等。
@@ -42,21 +43,29 @@ public class UserController {
 
 
     /**
-     * 截取列表前 length 个不为当前用户的用户，避免推荐到自己
+     * 推荐用户列表：排除自己和已关注用户
      *
-     * @param list    原始用户列表
-     * @param length  最大推荐数量
-     * @param account 当前用户账号
-     * @return 去除自身后的推荐用户集合
+     * @param candidates 候选用户列表
+     * @param length     最大推荐数量
+     * @param account    当前用户账号
+     * @return 推荐结果集合
      */
-    public static Set<User> subList(List<User> list, int length, String account) {
-        Set<User> res = new HashSet<>();
-        for (int i = 0; i < Math.min(list.size(), length); i++) {
-            if (!list.get(i).getAccount().equals(account)) {
-                res.add(list.get(i));
+    public Set<User> filterRecommendedUsers(List<User> candidates, int length, String account) {
+        // 查询当前用户关注的用户列表
+        List<User> followed = followDao.getMyFollowing(account);
+        Set<String> followedAccounts = followed.stream()
+                .map(User::getAccount)
+                .collect(Collectors.toSet());
+
+        Set<User> result = new HashSet<>();
+        for (User user : candidates) {
+            String targetAccount = user.getAccount();
+            if (!account.equals(targetAccount) && !followedAccounts.contains(targetAccount)) {
+                result.add(user);
             }
+            if (result.size() >= length) break;
         }
-        return res;
+        return result;
     }
 
 
@@ -122,14 +131,17 @@ public class UserController {
         Long followerCount = followDao.howManyPeopleFollowMe(user.getAccount());
         // 读取动态内容
         List<Share> shares = shareDao.getFriendShares(user.getAccount());
+        for (Share share : shares) {
+            share.updatePraisedStatus(user.getAccount());
+        }
         // 读取推荐用户列表
         List<User> byFriend = recommendDao.byFriend(user.getAccount());
         List<User> byShare = recommendDao.byShare(user.getAccount());
         List<User> byHobby = recommendDao.byHobby(user.getAccount());
 
-        paramMap.put("byFriend", subList(byFriend, 3, user.getAccount()));
-        paramMap.put("byShare", subList(byShare, 3, user.getAccount()));
-        paramMap.put("byHobby", subList(byHobby, 3, user.getAccount()));
+        paramMap.put("byFriend", filterRecommendedUsers(byFriend, 3, user.getAccount()));
+        paramMap.put("byShare", filterRecommendedUsers(byShare, 3, user.getAccount()));
+        paramMap.put("byHobby", filterRecommendedUsers(byHobby, 3, user.getAccount()));
 
         paramMap.put("shares", shares);
         paramMap.put("user", user);

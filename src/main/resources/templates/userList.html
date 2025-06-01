@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{cssloader::cssloader(${title})}"></head>
+<head th:replace="~{cssloader::cssloader(${title})}">
+	<title>VibeLink</title>
+</head>
 <body>
 
 <!-- header -->
@@ -16,31 +18,30 @@
 				<div class="col-12">
 					<ul class="breadcrumb__wrap">
 						<li class="breadcrumb__item">
-							<a href="#" th:text="${index}">首页</a>
+							<a href="#" th:text="${index}">Friends Recommendation</a>
 						</li>
-						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}">标题</li>
+						<li class="breadcrumb__item breadcrumb__item--active" th:text="${title}"> title </li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end breadcrumb -->
 
 	<div class="container">
 		<div class="row">
 
 			<!-- 用户信息展示 -->
-			<div th:replace="~{component/userinfo::userinfo(${user})}"></div>
+			<div th:replace="~{component/userInfo::userInfo(${user})}"></div>
 
 			<!-- 推荐区域 -->
 			<div class="col-12 col-md-7 col-lg-8 col-xl-9">
 				<div class="row">
 
 					<!-- 已关注用户 -->
-					<div th:if="${hasCategory}" th:replace="~{component/useritem::followitem(${myStar})}"></div>
+					<div th:if="${hasCategory}" th:replace="~{component/userItem::followItem(${myStar})}"></div>
 
 					<!-- 推荐关注用户 -->
-					<div th:replace="~{component/useritem::unfollowitem(${recommends})}"></div>
+					<div th:replace="~{component/userItem::unfollowItem(${recommends})}"></div>
 
 					<!-- 关注 / 取消关注脚本 -->
 					<script type="text/javascript" th:inline="javascript">
@@ -56,22 +57,22 @@
 								if (xhr.status === 200) {
 									let response = JSON.parse(xhr.responseText);
 									if (response.ok) {
-										alert("已成功关注");
+										alert("Follow Success");
 										let btn = document.getElementById("btn-" + account);
 										btn.className = "post__actions-btn post__actions-btn--blue";
-										btn.innerHTML = '<span>取关</span>';
-										btn.setAttribute("onclick", "unfollowit(this.id)");
+										btn.innerHTML = '<span>UnFollow</span>';
+										btn.setAttribute("onclick", "unfollowIt(this.id)");
 									} else {
-										alert("操作失败！");
+										alert("Failed");
 									}
 								} else {
-									alert("操作失败，请联系管理员!");
+									alert("Failed, please contact the admin");
 								}
 							};
 							xhr.send(formData);
 						}
 
-						function unfollowit(buttonId) {
+						function unfollowIt(buttonId) {
 							let account = buttonId.split("-")[1];
 							let formData = new FormData();
 							formData.append("follower", /*[[${user.account}]]*/ '');
@@ -83,16 +84,16 @@
 								if (xhr.status === 200) {
 									let response = JSON.parse(xhr.responseText);
 									if (response.ok) {
-										alert("已取消关注");
+										alert("UnFollow Success");
 										let btn = document.getElementById("btn-" + account);
 										btn.className = "post__actions-btn post__actions-btn--blue";
-										btn.innerHTML = '<span>关注</span>';
+										btn.innerHTML = '<span>Follow</span>';
 										btn.setAttribute("onclick", "followIt(this.id)");
 									} else {
-										alert("操作失败！");
+										alert("Failed ");
 									}
 								} else {
-									alert("操作失败，请联系管理员!");
+									alert("Failed, please contact the admin");
 								}
 							};
 							xhr.send(formData);
