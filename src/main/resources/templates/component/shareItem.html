@@ -52,11 +52,11 @@
     <!-- 动态内容展示 -->
     <div class="post" th:each="item : ${shares}">
         <div class="post__head">
-            <a href="#" class="post__head-img">
+            <a th:href="@{/publisherShare(publisher=${item.account})}" class="post__head-img">
                 <img th:src="${item.publisherImg}" alt="Img">
             </a>
             <div class="post__head-title">
-                <h5><a href="#" th:text="${item.publisher}">publisher</a></h5>
+                <h5><a th:href="@{/publisherShare(publisher=${item.account})}" th:text="${item.publisher}">publisher</a></h5>
                 <p th:text="${item.time}">publish Time</p>
             </div>
         </div>

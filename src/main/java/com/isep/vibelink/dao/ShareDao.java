@@ -29,7 +29,7 @@ public interface ShareDao extends Neo4jRepository<Share, Long> {
     @Query("""
                 MATCH (user:User) WHERE user.account = $account
                 CREATE (share:Share {
-                    publishAccount: $account,
+                    publisherAccount: $account,
                     publisher: $publisher,
                     publisherImg: $publisherImg,
                     title: $title,

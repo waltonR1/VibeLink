@@ -311,4 +311,48 @@ public class UserController {
         return result > 0 ? ResponseInfo.success("Modified successfully", result) : ResponseInfo.fail("Modification Failure");
 
     }
+
+    /**
+     * 主页面展示内容：推荐用户和好友动态等信息
+     *
+     * @param request  HTTP 请求对象
+     * @param paramMap 页面传参容器
+     * @return 主页面视图
+     */
+    @GetMapping("/publisherShare")
+    public String publisherShare(@RequestParam("publisher") String publisher,HttpServletRequest request, Map<String, Object> paramMap) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "login";
+        }
+
+
+        System.out.println("Publisher User: " + publisher);
+
+        Long followingCount = followDao.howManyIFollow(user.getAccount());
+        Long followerCount = followDao.howManyPeopleFollowMe(user.getAccount());
+        // 读取动态内容
+        List<Share> shares = shareDao.getShareByAccount(publisher);
+        System.out.println("Shares: " + shares);
+
+        for (Share share : shares) {
+            share.updatePraisedStatus(user.getAccount());
+        }
+
+        // 读取推荐用户列表
+        List<User> byFriend = recommendDao.byFriend(user.getAccount());
+        List<User> byShare = recommendDao.byShare(user.getAccount());
+        List<User> byHobby = recommendDao.byHobby(user.getAccount());
+
+        paramMap.put("byFriend", filterRecommendedUsers(byFriend, 3, user.getAccount()));
+        paramMap.put("byShare", filterRecommendedUsers(byShare, 3, user.getAccount()));
+        paramMap.put("byHobby", filterRecommendedUsers(byHobby, 3, user.getAccount()));
+
+        paramMap.put("shares", shares);
+        paramMap.put("user", user);
+        paramMap.put("myFollowing", followingCount);
+        paramMap.put("follower", followerCount);
+        return "publisherShare";
+    }
 }

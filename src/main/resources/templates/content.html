@@ -34,11 +34,11 @@
 					<h4 class="sideBox__title">Discover Friends</h4>
 					<div class="sideBox__content" th:if="${byFriend.size()} > 0">
 						<div class="sideBox__user" th:each="item : ${byFriend}">
-							<a href="#" class="sideBox__user-img">
+							<a th:href="@{/publisherShare(publisher=${item.account})}" class="sideBox__user-img">
 								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
 							<div class="sideBox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<h5><a th:href="@{/publisherShare(publisher=${item.account})}" th:text="${item.nickname}">nickname</a></h5>
 								<p th:text="${item.account}">account</p>
 							</div>
 						</div>
@@ -51,11 +51,11 @@
 					<h4 class="sideBox__title">Close Friends</h4>
 					<div class="sideBox__content" th:if="${byShare.size()} > 0">
 						<div class="sideBox__user" th:each="item : ${byShare}">
-							<a href="#" class="sideBox__user-img">
+							<a th:href="@{/publisherShare(publisher=${item.account})}" class="sideBox__user-img">
 								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
 							<div class="sideBox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<h5><a th:href="@{/publisherShare(publisher=${item.account})}" th:text="${item.nickname}">nickname</a></h5>
 								<p th:text="${item.account}">account</p>
 							</div>
 						</div>
@@ -68,11 +68,11 @@
 					<h4 class="sideBox__title">Common Interests</h4>
 					<div class="sideBox__content" th:if="${byHobby.size()} > 0">
 						<div class="sideBox__user" th:each="item : ${byHobby}">
-							<a href="#" class="sideBox__user-img">
+							<a th:href="@{/publisherShare(publisher=${item.account})}" class="sideBox__user-img">
 								<img th:src="${item.imgUrl}" alt="User Avatar">
 							</a>
 							<div class="sideBox__user-title">
-								<h5><a href="#" th:text="${item.nickname}">nickname</a></h5>
+								<h5><a th:href="@{/publisherShare(publisher=${item.account})}" th:text="${item.nickname}">nickname</a></h5>
 								<p th:text="${item.account}">account</p>
 							</div>
 						</div>

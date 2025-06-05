@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{cssloader::cssloader(title='VibeLink')}">
+    <title>VibLink</title>
+</head>
+<body>
+
+<!-- Header -->
+<header th:replace="~{component/header::header(${user})}"></header>
+
+<!-- Main Content -->
+<main class="main">
+    <div class="container">
+        <div class="row">
+            <!-- 用户信息 -->
+            <div th:replace="~{component/userInfo::userInfo(${user})}"></div>
+
+            <!-- 好友动态内容 -->
+            <div class="col-12 col-md-7 col-lg-8 col-xl-6">
+                <!-- 动态内容 -->
+                <div th:replace="~{component/shareItem::shareItem(${shares})}"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- JS 引入 -->
+<div th:replace="~{jsloader::jsloader}"></div>
+
+</body>
+</html>
