@@ -1,0 +1,870 @@
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 1 – Reset
+MATCH (n) DETACH DELETE n;
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 2A – Users u1 - u10
+CREATE
+  (u1:User  {account:'u1',  password:'123456', nickname:'Alice',   age:25, gender:'female', email:'alice@mail.com',   address:'Paris',       imgUrl:'https://picsum.photos/id/1011/200/200'}),
+  (u2:User  {account:'u2',  password:'abcdef', nickname:'Bob',     age:28, gender:'male',   email:'bob@mail.com',     address:'Lyon',        imgUrl:'https://picsum.photos/id/1012/200/200'}),
+  (u3:User  {account:'u3',  password:'qwerty', nickname:'Charlie', age:30, gender:'male',   email:'charlie@mail.com', address:'Marseille',   imgUrl:'https://picsum.photos/id/1013/200/200'}),
+  (u4:User  {account:'u4',  password:'654321', nickname:'Diana',   age:27, gender:'female', email:'diana@mail.com',   address:'Nice',        imgUrl:'https://picsum.photos/id/1014/200/200'}),
+  (u5:User  {account:'u5',  password:'xyz789', nickname:'Eve',     age:26, gender:'female', email:'eve@mail.com',     address:'Toulouse',    imgUrl:'https://picsum.photos/id/1015/200/200'}),
+  (u6:User  {account:'u6',  password:'pw6',    nickname:'Mark',    age:18, gender:'male',   email:'user6@mail.com',   address:'Lake Joshuabury', imgUrl:'https://picsum.photos/id/1016/200/200'}),
+  (u7:User  {account:'u7',  password:'pw7',    nickname:'Brenda',  age:25, gender:'female', email:'user7@mail.com',   address:'Lake Joyside',   imgUrl:'https://picsum.photos/id/1017/200/200'}),
+  (u8:User  {account:'u8',  password:'pw8',    nickname:'Brandon', age:22, gender:'male',   email:'user8@mail.com',   address:'Johnsonland',    imgUrl:'https://picsum.photos/id/1018/200/200'}),
+  (u9:User  {account:'u9',  password:'pw9',    nickname:'Daniel',  age:35, gender:'male',   email:'user9@mail.com',   address:'New Jamesside',  imgUrl:'https://picsum.photos/id/1019/200/200'}),
+  (u10:User {account:'u10', password:'pw10',   nickname:'Jason',   age:31, gender:'male',   email:'user10@mail.com',  address:'Lawrencetown',  imgUrl:'https://picsum.photos/id/1020/200/200'});
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 2B – Users u11 - u20
+CREATE
+  (u11:User {account:'u11', password:'pw11', nickname:'Peter',    age:18, gender:'male',   email:'user11@mail.com', address:'Lake Roberto',     imgUrl:'https://picsum.photos/id/1021/200/200'}),
+  (u12:User {account:'u12', password:'pw12', nickname:'Donald',   age:24, gender:'male',   email:'user12@mail.com', address:'Port Matthew',     imgUrl:'https://picsum.photos/id/1022/200/200'}),
+  (u13:User {account:'u13', password:'pw13', nickname:'Brandon',  age:34, gender:'male',   email:'user13@mail.com', address:'West Melanieview', imgUrl:'https://picsum.photos/id/1023/200/200'}),
+  (u14:User {account:'u14', password:'pw14', nickname:'Robert',   age:35, gender:'male',   email:'user14@mail.com', address:'Herrerafurt',       imgUrl:'https://picsum.photos/id/1024/200/200'}),
+  (u15:User {account:'u15', password:'pw15', nickname:'Blake',    age:35, gender:'male',   email:'user15@mail.com', address:'Mariastad',         imgUrl:'https://picsum.photos/id/1025/200/200'}),
+  (u16:User {account:'u16', password:'pw16', nickname:'Laura',    age:25, gender:'female', email:'user16@mail.com', address:'North Donnaport',    imgUrl:'https://picsum.photos/id/1026/200/200'}),
+  (u17:User {account:'u17', password:'pw17', nickname:'Victoria', age:26, gender:'female', email:'user17@mail.com', address:'Port Craig',         imgUrl:'https://picsum.photos/id/1027/200/200'}),
+  (u18:User {account:'u18', password:'pw18', nickname:'Donald',   age:23, gender:'male',   email:'user18@mail.com', address:'Franciscostad',      imgUrl:'https://picsum.photos/id/1028/200/200'}),
+  (u19:User {account:'u19', password:'pw19', nickname:'Christine',age:28, gender:'female', email:'user19@mail.com', address:'Jacquelineland',      imgUrl:'https://picsum.photos/id/1029/200/200'}),
+  (u20:User {account:'u20', password:'pw20', nickname:'Lisa',     age:22, gender:'female', email:'user20@mail.com', address:'New Jessica',         imgUrl:'https://picsum.photos/id/1030/200/200'});
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 3 – Hobbies
+CREATE
+  (h1:Hobby {hName:'Reading',     hType:'Literature'}),
+  (h2:Hobby {hName:'Gaming',      hType:'Entertainment'}),
+  (h3:Hobby {hName:'Cooking',     hType:'Lifestyle'}),
+  (h4:Hobby {hName:'Hiking',      hType:'Outdoor'}),
+  (h5:Hobby {hName:'Photography', hType:'Art'});
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 4A – Shares s1 - s10
+CREATE
+  (s1:Share {
+      content:'Exploring Neo4j!',
+      imgUrl:'https://picsum.photos/id/150/400/300',
+      time:'2024-05-01T10:00:00',
+      address:'Paris',
+      title:'Neo4j Intro',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'Alice',
+      publisherImg:'https://picsum.photos/id/1011/200/200',
+      publisherAccount:'u1'
+  }),
+  (s2:Share {
+      content:'Best hiking trails around Lyon.',
+      imgUrl:'https://picsum.photos/id/151/400/300',
+      time:'2024-05-05T15:20:00',
+      address:'Lyon',
+      title:'Hiking Guide',
+      relatedHobby:'Hiking',
+      hobbyId:4,
+      publisher:'Bob',
+      publisherImg:'https://picsum.photos/id/1012/200/200',
+      publisherAccount:'u2'
+  }),
+  (s3:Share {
+      content:'Gourmet cooking tips for beginners.',
+      imgUrl:'https://picsum.photos/id/152/400/300',
+      time:'2024-05-10T18:45:00',
+      address:'Nice',
+      title:'Chef at Home',
+      relatedHobby:'Cooking',
+      hobbyId:3,
+      publisher:'Diana',
+      publisherImg:'https://picsum.photos/id/1014/200/200',
+      publisherAccount:'u4'
+  }),
+  (s4:Share {
+      content:'Street photography tricks you should know.',
+      imgUrl:'https://picsum.photos/id/153/400/300',
+      time:'2024-05-15T09:10:00',
+      address:'Marseille',
+      title:'Photo Walk',
+      relatedHobby:'Photography',
+      hobbyId:5,
+      publisher:'Charlie',
+      publisherImg:'https://picsum.photos/id/1013/200/200',
+      publisherAccount:'u3'
+  }),
+  (s5:Share {
+      content:'Top 10 indie games released this year.',
+      imgUrl:'https://picsum.photos/id/154/400/300',
+      time:'2024-05-20T20:00:00',
+      address:'Toulouse',
+      title:'Indie Games TOP10',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'Eve',
+      publisherImg:'https://picsum.photos/id/1015/200/200',
+      publisherAccount:'u5'
+  }),
+  (s6:Share {
+      content:'Left establish understand read.',
+      imgUrl:'https://picsum.photos/id/155/400/300',
+      time:'2024-05-22T00:00:00',
+      address:'Lake Mark',
+      title:'Director allow',
+      relatedHobby:'Cooking',
+      hobbyId:3,
+      publisher:'u6',
+      publisherImg:'https://picsum.photos/id/1016/200/200',
+      publisherAccount:'u6'
+  }),
+  (s7:Share {
+      content:'Husband at tree note responsibility defense.',
+      imgUrl:'https://picsum.photos/id/156/400/300',
+      time:'2024-05-18T00:00:00',
+      address:'Fostermouth',
+      title:'Enter east',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'u7',
+      publisherImg:'https://picsum.photos/id/1017/200/200',
+      publisherAccount:'u7'
+  }),
+  (s8:Share {
+      content:'Much section investment on gun young catch.',
+      imgUrl:'https://picsum.photos/id/157/400/300',
+      time:'2024-05-19T00:00:00',
+      address:'Daviston',
+      title:'Check civil',
+      relatedHobby:'Photography',
+      hobbyId:5,
+      publisher:'u8',
+      publisherImg:'https://picsum.photos/id/1018/200/200',
+      publisherAccount:'u8'
+  }),
+  (s9:Share {
+      content:'Others his other life edge network.',
+      imgUrl:'https://picsum.photos/id/158/400/300',
+      time:'2024-05-26T00:00:00',
+      address:'Lake Jenniferside',
+      title:'Shoulder future',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'u9',
+      publisherImg:'https://picsum.photos/id/1019/200/200',
+      publisherAccount:'u9'
+  }),
+  (s10:Share {
+      content:'Itself law west then enjoy.',
+      imgUrl:'https://picsum.photos/id/159/400/300',
+      time:'2024-05-07T00:00:00',
+      address:'New Rita',
+      title:'Fear police participant check',
+      relatedHobby:'Hiking',
+      hobbyId:4,
+      publisher:'u10',
+      publisherImg:'https://picsum.photos/id/1020/200/200',
+      publisherAccount:'u10'
+  });
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 4B – Shares s11 - s20
+CREATE
+  (s11:Share {
+      content:'Much single morning a.',
+      imgUrl:'https://picsum.photos/id/160/400/300',
+      time:'2024-05-22T00:00:00',
+      address:'Tracyville',
+      title:'These story film',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u11',
+      publisherImg:'https://picsum.photos/id/1021/200/200',
+      publisherAccount:'u11'
+  }),
+  (s12:Share {
+      content:'Drive note bad rule.',
+      imgUrl:'https://picsum.photos/id/161/400/300',
+      time:'2024-05-14T00:00:00',
+      address:'Port Amandaberg',
+      title:'Process water',
+      relatedHobby:'Cooking',
+      hobbyId:3,
+      publisher:'u12',
+      publisherImg:'https://picsum.photos/id/1022/200/200',
+      publisherAccount:'u12'
+  }),
+  (s13:Share {
+      content:'Enter their institution deep.',
+      imgUrl:'https://picsum.photos/id/162/400/300',
+      time:'2024-05-28T00:00:00',
+      address:'Lake Larry',
+      title:'Just military building',
+      relatedHobby:'Hiking',
+      hobbyId:4,
+      publisher:'u13',
+      publisherImg:'https://picsum.photos/id/1023/200/200',
+      publisherAccount:'u13'
+  }),
+  (s14:Share {
+      content:'Ask again network open according.',
+      imgUrl:'https://picsum.photos/id/163/400/300',
+      time:'2024-05-22T00:00:00',
+      address:'East Carloston',
+      title:'Audience draw protect',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u17',
+      publisherImg:'https://picsum.photos/id/1027/200/200',
+      publisherAccount:'u17'
+  }),
+  (s15:Share {
+      content:'Much rich think office drug.',
+      imgUrl:'https://picsum.photos/id/164/400/300',
+      time:'2024-05-02T00:00:00',
+      address:'Aguirreborough',
+      title:'Best issue',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u16',
+      publisherImg:'https://picsum.photos/id/1026/200/200',
+      publisherAccount:'u16'
+  }),
+  (s16:Share {
+      content:'In tell approach president position art.',
+      imgUrl:'https://picsum.photos/id/165/400/300',
+      time:'2024-05-26T00:00:00',
+      address:'Laurenville',
+      title:'Court movie',
+      relatedHobby:'Cooking',
+      hobbyId:3,
+      publisher:'u12',
+      publisherImg:'https://picsum.photos/id/1022/200/200',
+      publisherAccount:'u12'
+  }),
+  (s17:Share {
+      content:'Instead everything economic type.',
+      imgUrl:'https://picsum.photos/id/166/400/300',
+      time:'2024-05-08T00:00:00',
+      address:'Mortonside',
+      title:'Anything yourself',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u19',
+      publisherImg:'https://picsum.photos/id/1029/200/200',
+      publisherAccount:'u19'
+  }),
+  (s18:Share {
+      content:'Why unit support.',
+      imgUrl:'https://picsum.photos/id/167/400/300',
+      time:'2024-05-18T00:00:00',
+      address:'South Todd',
+      title:'Ten total',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'u18',
+      publisherImg:'https://picsum.photos/id/1028/200/200',
+      publisherAccount:'u18'
+  }),
+  (s19:Share {
+      content:'Her world enter six.',
+      imgUrl:'https://picsum.photos/id/168/400/300',
+      time:'2024-05-14T00:00:00',
+      address:'Mitchellside',
+      title:'Choice father why',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'u13',
+      publisherImg:'https://picsum.photos/id/1023/200/200',
+      publisherAccount:'u13'
+  }),
+  (s20:Share {
+      content:'Save article finish anyone live try most arm.',
+      imgUrl:'https://picsum.photos/id/169/400/300',
+      time:'2024-05-15T00:00:00',
+      address:'Port Jacobland',
+      title:'Identify walk',
+      relatedHobby:'Cooking',
+      hobbyId:3,
+      publisher:'u8',
+      publisherImg:'https://picsum.photos/id/1018/200/200',
+      publisherAccount:'u8'
+  });
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 4C – Shares s21 - s25
+CREATE
+  (s21:Share {
+      content:'East organization people information on mission various.',
+      imgUrl:'https://picsum.photos/id/170/400/300',
+      time:'2024-05-15T00:00:00',
+      address:'Lake Jennifer',
+      title:'Enter capital',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u9',
+      publisherImg:'https://picsum.photos/id/1019/200/200',
+      publisherAccount:'u9'
+  }),
+  (s22:Share {
+      content:'Lead upon very act perform.',
+      imgUrl:'https://picsum.photos/id/171/400/300',
+      time:'2024-05-04T00:00:00',
+      address:'North Amandahaven',
+      title:'Car give',
+      relatedHobby:'Photography',
+      hobbyId:5,
+      publisher:'u18',
+      publisherImg:'https://picsum.photos/id/1028/200/200',
+      publisherAccount:'u18'
+  }),
+  (s23:Share {
+      content:'These hard citizen street.',
+      imgUrl:'https://picsum.photos/id/172/400/300',
+      time:'2024-05-27T00:00:00',
+      address:'Cherylhaven',
+      title:'Region',
+      relatedHobby:'Photography',
+      hobbyId:5,
+      publisher:'u6',
+      publisherImg:'https://picsum.photos/id/1016/200/200',
+      publisherAccount:'u6'
+  }),
+  (s24:Share {
+      content:'Federal professional voice care break blood network.',
+      imgUrl:'https://picsum.photos/id/173/400/300',
+      time:'2024-05-30T00:00:00',
+      address:'Juanborough',
+      title:'Data plant enough',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'u6',
+      publisherImg:'https://picsum.photos/id/1016/200/200',
+      publisherAccount:'u6'
+  }),
+  (s25:Share {
+      content:'Economy traditional anything plant stop analysis four.',
+      imgUrl:'https://picsum.photos/id/174/400/300',
+      time:'2024-05-06T00:00:00',
+      address:'Lake Tina',
+      title:'Scientist necessary',
+      relatedHobby:'Gaming',
+      hobbyId:2,
+      publisher:'u18',
+      publisherImg:'https://picsum.photos/id/1028/200/200',
+      publisherAccount:'u18'
+  });
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 5 – Core Relationships
+MATCH
+  (u1:User {account:'u1'}), (u2:User {account:'u2'}),
+  (u3:User {account:'u3'}), (u4:User {account:'u4'}),
+  (u5:User {account:'u5'}),
+  (h1:Hobby {hName:'Reading'}),     (h2:Hobby {hName:'Gaming'}),
+  (h3:Hobby {hName:'Cooking'}),     (h4:Hobby {hName:'Hiking'}),
+  (h5:Hobby {hName:'Photography'}),
+  (s1:Share {title:'Neo4j Intro'}), (s2:Share {title:'Hiking Guide'}),
+  (s3:Share {title:'Chef at Home'}), (s4:Share {title:'Photo Walk'}),
+  (s5:Share {title:'Indie Games TOP10'})
+CREATE
+  // Follow
+  (u1)-[:Follow]->(u2),
+  (u1)-[:Follow]->(u3),
+  (u2)-[:Follow]->(u1),
+  (u2)-[:Follow]->(u4),
+  (u3)-[:Follow]->(u1),
+  (u4)-[:Follow]->(u5),
+  (u5)-[:Follow]->(u3),
+
+  // Like
+  (u1)-[:Like]->(h1),
+  (u1)-[:Like]->(h4),
+  (u2)-[:Like]->(h2),
+  (u3)-[:Like]->(h5),
+  (u4)-[:Like]->(h3),
+  (u5)-[:Like]->(h1),
+
+  // Publish
+  (u1)-[:Publish]->(s1),
+  (u2)-[:Publish]->(s2),
+  (u4)-[:Publish]->(s3),
+  (u3)-[:Publish]->(s4),
+  (u5)-[:Publish]->(s5),
+
+  // Praised
+  (s1)-[:Praised]->(u2),
+  (s1)-[:Praised]->(u3),
+  (s2)-[:Praised]->(u1),
+  (s3)-[:Praised]->(u1),
+  (s3)-[:Praised]->(u5),
+  (s4)-[:Praised]->(u2),
+  (s5)-[:Praised]->(u4);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 6A – Bulk Follow (with MATCH)
+MATCH
+  (u1:User {account:'u1'}),  (u2:User {account:'u2'}),
+  (u3:User {account:'u3'}),  (u4:User {account:'u4'}),
+  (u5:User {account:'u5'}),  (u6:User {account:'u6'}),
+  (u7:User {account:'u7'}),  (u8:User {account:'u8'}),
+  (u9:User {account:'u9'}),  (u10:User {account:'u10'}),
+  (u11:User {account:'u11'}), (u12:User {account:'u12'}),
+  (u13:User {account:'u13'}), (u14:User {account:'u14'}),
+  (u15:User {account:'u15'}), (u16:User {account:'u16'}),
+  (u17:User {account:'u17'}), (u18:User {account:'u18'}),
+  (u19:User {account:'u19'}), (u20:User {account:'u20'})
+CREATE
+  (u1)-[:Follow]->(u11),
+  (u1)-[:Follow]->(u4),
+  (u1)-[:Follow]->(u3),
+  (u2)-[:Follow]->(u4),
+  (u2)-[:Follow]->(u12),
+  (u2)-[:Follow]->(u19),
+  (u2)-[:Follow]->(u9),
+  (u3)-[:Follow]->(u18),
+  (u3)-[:Follow]->(u4),
+  (u3)-[:Follow]->(u13),
+  (u3)-[:Follow]->(u10),
+  (u4)-[:Follow]->(u19),
+  (u4)-[:Follow]->(u7),
+  (u4)-[:Follow]->(u3),
+  (u4)-[:Follow]->(u2),
+  (u5)-[:Follow]->(u10),
+  (u5)-[:Follow]->(u3),
+  (u5)-[:Follow]->(u8),
+  (u6)-[:Follow]->(u13),
+  (u6)-[:Follow]->(u9),
+  (u7)-[:Follow]->(u12),
+  (u7)-[:Follow]->(u6),
+  (u7)-[:Follow]->(u20),
+  (u7)-[:Follow]->(u18),
+  (u8)-[:Follow]->(u3),
+  (u8)-[:Follow]->(u6),
+  (u8)-[:Follow]->(u18),
+  (u9)-[:Follow]->(u15),
+  (u9)-[:Follow]->(u13),
+  (u10)-[:Follow]->(u11),
+  (u10)-[:Follow]->(u2),
+  (u10)-[:Follow]->(u8),
+  (u11)-[:Follow]->(u13),
+  (u12)-[:Follow]->(u3),
+  (u12)-[:Follow]->(u7),
+  (u12)-[:Follow]->(u11),
+  (u12)-[:Follow]->(u19),
+  (u13)-[:Follow]->(u15),
+  (u13)-[:Follow]->(u5),
+  (u13)-[:Follow]->(u9),
+  (u13)-[:Follow]->(u18),
+  (u14)-[:Follow]->(u18),
+  (u14)-[:Follow]->(u20),
+  (u14)-[:Follow]->(u9),
+  (u15)-[:Follow]->(u19),
+  (u15)-[:Follow]->(u13),
+  (u15)-[:Follow]->(u12),
+  (u15)-[:Follow]->(u8),
+  (u15)-[:Follow]->(u5),
+  (u16)-[:Follow]->(u3),
+  (u16)-[:Follow]->(u2),
+  (u16)-[:Follow]->(u4),
+  (u16)-[:Follow]->(u5),
+  (u16)-[:Follow]->(u6),
+  (u17)-[:Follow]->(u20),
+  (u17)-[:Follow]->(u3),
+  (u17)-[:Follow]->(u13),
+  (u17)-[:Follow]->(u18),
+  (u17)-[:Follow]->(u15),
+  (u18)-[:Follow]->(u1),
+  (u18)-[:Follow]->(u4),
+  (u18)-[:Follow]->(u9),
+  (u19)-[:Follow]->(u4),
+  (u19)-[:Follow]->(u10),
+  (u19)-[:Follow]->(u14),
+  (u19)-[:Follow]->(u6),
+  (u20)-[:Follow]->(u1),
+  (u20)-[:Follow]->(u9),
+  (u20)-[:Follow]->(u17),
+  (u20)-[:Follow]->(u6),
+  (u20)-[:Follow]->(u4);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 6B – Bulk Like (with MATCH)
+MATCH
+  (u1:User {account:'u1'}),  (u2:User {account:'u2'}),
+  (u3:User {account:'u3'}),  (u4:User {account:'u4'}),
+  (u5:User {account:'u5'}),  (u6:User {account:'u6'}),
+  (u7:User {account:'u7'}),  (u8:User {account:'u8'}),
+  (u9:User {account:'u9'}),  (u10:User {account:'u10'}),
+  (u11:User {account:'u11'}), (u12:User {account:'u12'}),
+  (u13:User {account:'u13'}), (u14:User {account:'u14'}),
+  (u15:User {account:'u15'}), (u16:User {account:'u16'}),
+  (u17:User {account:'u17'}), (u18:User {account:'u18'}),
+  (u19:User {account:'u19'}), (u20:User {account:'u20'}),
+  (h1:Hobby {hName:'Reading'}),
+  (h2:Hobby {hName:'Gaming'}),
+  (h3:Hobby {hName:'Cooking'}),
+  (h4:Hobby {hName:'Hiking'}),
+  (h5:Hobby {hName:'Photography'})
+CREATE
+  (u1)-[:Like]->(h3),
+  (u1)-[:Like]->(h2),
+  (u1)-[:Like]->(h1),
+  (u2)-[:Like]->(h2),
+  (u2)-[:Like]->(h1),
+  (u3)-[:Like]->(h3),
+  (u3)-[:Like]->(h4),
+  (u3)-[:Like]->(h1),
+  (u4)-[:Like]->(h3),
+  (u5)-[:Like]->(h2),
+  (u5)-[:Like]->(h1),
+  (u6)-[:Like]->(h5),
+  (u7)-[:Like]->(h1),
+  (u8)-[:Like]->(h4),
+  (u8)-[:Like]->(h1),
+  (u8)-[:Like]->(h3),
+  (u9)-[:Like]->(h2),
+  (u10)-[:Like]->(h4),
+  (u10)-[:Like]->(h2),
+  (u10)-[:Like]->(h5),
+  (u11)-[:Like]->(h5),
+  (u11)-[:Like]->(h4),
+  (u11)-[:Like]->(h1),
+  (u12)-[:Like]->(h2),
+  (u12)-[:Like]->(h3),
+  (u12)-[:Like]->(h5),
+  (u13)-[:Like]->(h3),
+  (u13)-[:Like]->(h4),
+  (u13)-[:Like]->(h5),
+  (u14)-[:Like]->(h1),
+  (u14)-[:Like]->(h2),
+  (u15)-[:Like]->(h1),
+  (u16)-[:Like]->(h1),
+  (u16)-[:Like]->(h2),
+  (u17)-[:Like]->(h2),
+  (u17)-[:Like]->(h1),
+  (u17)-[:Like]->(h4),
+  (u18)-[:Like]->(h1),
+  (u18)-[:Like]->(h2),
+  (u18)-[:Like]->(h5),
+  (u19)-[:Like]->(h3),
+  (u20)-[:Like]->(h5);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 6C – Bulk Publish (with MATCH)
+MATCH
+  // Users
+  (u6:User {account:'u6'}),   (u7:User {account:'u7'}),
+  (u8:User {account:'u8'}),   (u9:User {account:'u9'}),
+  (u12:User {account:'u12'}), (u13:User {account:'u13'}),
+  (u16:User {account:'u16'}), (u17:User {account:'u17'}),
+  (u18:User {account:'u18'}), (u19:User {account:'u19'}),
+  // Shares s6 – s25
+  (s6:Share  {title:'Director allow'}),
+  (s7:Share  {title:'Enter east'}),
+  (s8:Share  {title:'Check civil'}),
+  (s9:Share  {title:'Shoulder future'}),
+  (s10:Share {title:'Fear police participant check'}),
+  (s11:Share {title:'These story film'}),
+  (s12:Share {title:'Process water'}),
+  (s13:Share {title:'Just military building'}),
+  (s14:Share {title:'Audience draw protect'}),
+  (s15:Share {title:'Best issue'}),
+  (s16:Share {title:'Court movie'}),
+  (s17:Share {title:'Anything yourself'}),
+  (s18:Share {title:'Ten total'}),
+  (s19:Share {title:'Choice father why'}),
+  (s20:Share {title:'Identify walk'}),
+  (s21:Share {title:'Enter capital'}),
+  (s22:Share {title:'Car give'}),
+  (s23:Share {title:'Region'}),
+  (s24:Share {title:'Data plant enough'}),
+  (s25:Share {title:'Scientist necessary'})
+CREATE
+  (u9)-[:Publish]->(s6),
+  (u13)-[:Publish]->(s7),
+  (u8)-[:Publish]->(s8),
+  (u13)-[:Publish]->(s9),
+  (u13)-[:Publish]->(s10),
+  (u7)-[:Publish]->(s11),
+  (u12)-[:Publish]->(s12),
+  (u12)-[:Publish]->(s13),
+  (u17)-[:Publish]->(s14),
+  (u16)-[:Publish]->(s15),
+  (u12)-[:Publish]->(s16),
+  (u19)-[:Publish]->(s17),
+  (u9)-[:Publish]->(s18),
+  (u13)-[:Publish]->(s19),
+  (u8)-[:Publish]->(s20),
+  (u9)-[:Publish]->(s21),
+  (u18)-[:Publish]->(s22),
+  (u6)-[:Publish]->(s23),
+  (u6)-[:Publish]->(s24),
+  (u18)-[:Publish]->(s25);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 6D – Bulk Praised (with MATCH)
+MATCH
+  // All users needed
+  (u1:User {account:'u1'}),  (u2:User {account:'u2'}),
+  (u3:User {account:'u3'}),  (u4:User {account:'u4'}),
+  (u5:User {account:'u5'}),  (u6:User {account:'u6'}),
+  (u7:User {account:'u7'}),  (u8:User {account:'u8'}),
+  (u9:User {account:'u9'}),  (u10:User {account:'u10'}),
+  (u11:User {account:'u11'}), (u12:User {account:'u12'}),
+  (u13:User {account:'u13'}), (u14:User {account:'u14'}),
+  (u15:User {account:'u15'}), (u16:User {account:'u16'}),
+  (u17:User {account:'u17'}), (u18:User {account:'u18'}),
+  (u19:User {account:'u19'}), (u20:User {account:'u20'}),
+  // Shares s6 – s25
+  (s6:Share  {title:'Director allow'}),
+  (s7:Share  {title:'Enter east'}),
+  (s8:Share  {title:'Check civil'}),
+  (s9:Share  {title:'Shoulder future'}),
+  (s10:Share {title:'Fear police participant check'}),
+  (s11:Share {title:'These story film'}),
+  (s12:Share {title:'Process water'}),
+  (s13:Share {title:'Just military building'}),
+  (s14:Share {title:'Audience draw protect'}),
+  (s15:Share {title:'Best issue'}),
+  (s16:Share {title:'Court movie'}),
+  (s17:Share {title:'Anything yourself'}),
+  (s18:Share {title:'Ten total'}),
+  (s19:Share {title:'Choice father why'}),
+  (s20:Share {title:'Identify walk'}),
+  (s21:Share {title:'Enter capital'}),
+  (s22:Share {title:'Car give'}),
+  (s23:Share {title:'Region'}),
+  (s24:Share {title:'Data plant enough'}),
+  (s25:Share {title:'Scientist necessary'})
+CREATE
+  (s6)-[:Praised]->(u16),
+  (s6)-[:Praised]->(u20),
+  (s6)-[:Praised]->(u7),
+  (s6)-[:Praised]->(u13),
+  (s7)-[:Praised]->(u6),
+  (s8)-[:Praised]->(u1),
+  (s8)-[:Praised]->(u13),
+  (s8)-[:Praised]->(u9),
+  (s8)-[:Praised]->(u15),
+  (s9)-[:Praised]->(u14),
+  (s9)-[:Praised]->(u18),
+  (s9)-[:Praised]->(u16),
+  (s10)-[:Praised]->(u7),
+  (s10)-[:Praised]->(u10),
+  (s11)-[:Praised]->(u2),
+  (s11)-[:Praised]->(u19),
+  (s12)-[:Praised]->(u11),
+  (s13)-[:Praised]->(u2),
+  (s14)-[:Praised]->(u17),
+  (s14)-[:Praised]->(u20),
+  (s14)-[:Praised]->(u6),
+  (s14)-[:Praised]->(u2),
+  (s15)-[:Praised]->(u6),
+  (s16)-[:Praised]->(u20),
+  (s17)-[:Praised]->(u8),
+  (s18)-[:Praised]->(u4),
+  (s18)-[:Praised]->(u19),
+  (s18)-[:Praised]->(u8),
+  (s18)-[:Praised]->(u2),
+  (s19)-[:Praised]->(u14),
+  (s20)-[:Praised]->(u9),
+  (s20)-[:Praised]->(u7),
+  (s20)-[:Praised]->(u11),
+  (s21)-[:Praised]->(u9),
+  (s21)-[:Praised]->(u13),
+  (s22)-[:Praised]->(u10),
+  (s22)-[:Praised]->(u15),
+  (s23)-[:Praised]->(u3),
+  (s23)-[:Praised]->(u1),
+  (s23)-[:Praised]->(u15),
+  (s24)-[:Praised]->(u3),
+  (s25)-[:Praised]->(u17),
+  (s25)-[:Praised]->(u9);
+///////////////////////////////////////////////////////////////////////////
+// 1. 新增 Share s26、s27 并关联到 u1
+MATCH (u1:User {account:'u1'})
+CREATE
+  (s26:Share {
+      content:'Cypher tricks you need to know',
+      imgUrl:'https://picsum.photos/id/180/400/300',
+      time:'2024-06-01T12:00:00',
+      address:'Paris',
+      title:'Cypher Tips',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'Alice',
+      publisherImg:'https://picsum.photos/id/1011/200/200',
+      publisherAccount:'u1'
+  }),
+  (s27:Share {
+      content:'Graph data modelling best-practice',
+      imgUrl:'https://picsum.photos/id/181/400/300',
+      time:'2024-06-02T16:30:00',
+      address:'Paris',
+      title:'Graph Design',
+      relatedHobby:'Reading',
+      hobbyId:1,
+      publisher:'Alice',
+      publisherImg:'https://picsum.photos/id/1011/200/200',
+      publisherAccount:'u1'
+  }),
+  (u1)-[:Publish]->(s26),
+  (u1)-[:Publish]->(s27);
+///////////////////////////////////////////////////////////////////////////
+// 2. 批量 Praised → 更多用户赞了 u1 的动态
+MATCH
+  (s1:Share  {title:'Neo4j Intro'}),
+  (s26:Share {title:'Cypher Tips'}),
+  (s27:Share {title:'Graph Design'}),
+  // 选些用户做“点赞者”
+  (u4:User {account:'u4'}),
+  (u5:User {account:'u5'}),
+  (u6:User {account:'u6'}),
+  (u7:User {account:'u7'}),
+  (u8:User {account:'u8'})
+CREATE
+  // 旧动态 s1 再添 3 个点赞
+  (s1)-[:Praised]->(u4),
+  (s1)-[:Praised]->(u5),
+  (s1)-[:Praised]->(u6),
+
+  // 新动态 s26、s27 各挂 2~3 个点赞
+  (s26)-[:Praised]->(u4),
+  (s26)-[:Praised]->(u7),
+  (s26)-[:Praised]->(u8),
+
+  (s27)-[:Praised]->(u5),
+  (s27)-[:Praised]->(u6),
+  (s27)-[:Praised]->(u7);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 7A – Extra Shares to enrich the graph
+MATCH
+  (u2:User {account:'u2'}), (u3:User {account:'u3'}),
+  (u4:User {account:'u4'}), (u5:User {account:'u5'}),
+  (u6:User {account:'u6'}), (u7:User {account:'u7'})
+CREATE
+  (s28:Share {
+      content:'24-hour gaming marathon highlights',
+      imgUrl:'https://picsum.photos/id/182/400/300',
+      time:'2024-06-03T09:00:00',
+      address:'Lyon',
+      title:'Gaming Marathon',
+      relatedHobby:'Gaming', hobbyId:2,
+      publisher:'Bob', publisherImg:'https://picsum.photos/id/1012/200/200',
+      publisherAccount:'u2'
+  })<-[:Publish]-(u2),
+
+  (s29:Share {
+      content:'Hands-on review of three budget lenses',
+      imgUrl:'https://picsum.photos/id/183/400/300',
+      time:'2024-06-03T11:30:00',
+      address:'Marseille',
+      title:'Photo Gear Review',
+      relatedHobby:'Photography', hobbyId:5,
+      publisher:'Charlie', publisherImg:'https://picsum.photos/id/1013/200/200',
+      publisherAccount:'u3'
+  })<-[:Publish]-(u3),
+
+  (s30:Share {
+      content:'Hidden mountain trails around Nice',
+      imgUrl:'https://picsum.photos/id/184/400/300',
+      time:'2024-06-03T14:15:00',
+      address:'Nice',
+      title:'Mountain Trail Tips',
+      relatedHobby:'Hiking', hobbyId:4,
+      publisher:'Diana', publisherImg:'https://picsum.photos/id/1014/200/200',
+      publisherAccount:'u4'
+  })<-[:Publish]-(u4),
+
+  (s31:Share {
+      content:'Top 5 epic fantasy novels of 2024',
+      imgUrl:'https://picsum.photos/id/185/400/300',
+      time:'2024-06-03T17:45:00',
+      address:'Toulouse',
+      title:'Top Fantasy Books',
+      relatedHobby:'Reading', hobbyId:1,
+      publisher:'Eve', publisherImg:'https://picsum.photos/id/1015/200/200',
+      publisherAccount:'u5'
+  })<-[:Publish]-(u5),
+
+  (s32:Share {
+      content:'Three 10-min healthy meals for students',
+      imgUrl:'https://picsum.photos/id/186/400/300',
+      time:'2024-06-04T08:20:00',
+      address:'Lake Mark',
+      title:'Quick Healthy Recipes',
+      relatedHobby:'Cooking', hobbyId:3,
+      publisher:'Mark', publisherImg:'https://picsum.photos/id/1016/200/200',
+      publisherAccount:'u6'
+  })<-[:Publish]-(u6),
+
+  (s33:Share {
+      content:'Indie game dev spotlight: June picks',
+      imgUrl:'https://picsum.photos/id/187/400/300',
+      time:'2024-06-04T10:10:00',
+      address:'Lake Joyside',
+      title:'Indie Game Spotlight',
+      relatedHobby:'Gaming', hobbyId:2,
+      publisher:'Brenda', publisherImg:'https://picsum.photos/id/1017/200/200',
+      publisherAccount:'u7'
+  })<-[:Publish]-(u7);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 7B – More Praised relationships (u1 ↔ others)
+MATCH
+  // u1 及其 3 条动态
+  (u1:User {account:'u1'}),
+  (s1 :Share {title:'Neo4j Intro'}),
+  (s26:Share {title:'Cypher Tips'}),
+  (s27:Share {title:'Graph Design'}),
+
+  // 新增的 6 条动态
+  (s28:Share {title:'Gaming Marathon'}),
+  (s29:Share {title:'Photo Gear Review'}),
+  (s30:Share {title:'Mountain Trail Tips'}),
+  (s31:Share {title:'Top Fantasy Books'}),
+  (s32:Share {title:'Quick Healthy Recipes'}),
+  (s33:Share {title:'Indie Game Spotlight'}),
+
+  // 点赞用户
+  (u2:User {account:'u2'}), (u3:User {account:'u3'}),
+  (u4:User {account:'u4'}), (u5:User {account:'u5'}),
+  (u6:User {account:'u6'}), (u7:User {account:'u7'})
+CREATE
+  // 别人夸 u1（新增 6×2=12 个点赞）
+  (s26)-[:Praised]->(u2),
+  (s26)-[:Praised]->(u4),
+  (s26)-[:Praised]->(u6),
+  (s27)-[:Praised]->(u3),
+  (s27)-[:Praised]->(u5),
+  (s27)-[:Praised]->(u7),
+  (s1)-[:Praised]->(u4),   // s1 再补 3 个
+  (s1)-[:Praised]->(u5),
+  (s1)-[:Praised]->(u6),
+
+  // u1 也去点赞别人的新动态
+  (s28)-[:Praised]->(u1),
+  (s29)-[:Praised]->(u1),
+  (s30)-[:Praised]->(u1),
+  (s31)-[:Praised]->(u1),
+  (s32)-[:Praised]->(u1),
+  (s33)-[:Praised]->(u1);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 7C – Extra Follow edges for richer graph
+MATCH
+  (u1:User {account:'u1'}),
+  (u6:User {account:'u6'}),
+  (u7:User {account:'u7'}),
+  (u2:User {account:'u2'}), (u3:User {account:'u3'}),
+  (u4:User {account:'u4'})
+CREATE
+  // u1 再关注几位内容创作者
+  (u1)-[:Follow]->(u6),
+  (u1)-[:Follow]->(u7),
+
+  // 他们也回关 u1
+  (u6)-[:Follow]->(u1),
+  (u7)-[:Follow]->(u1),
+
+  // 多做些互相关注以便演示共同好友逻辑
+  (u2)-[:Follow]->(u3),
+  (u3)-[:Follow]->(u4),
+  (u4)-[:Follow]->(u2);
+///////////////////////////////////////////////////////////////////////////
+// SEGMENT 7D – Extra Hobby Likes
+MATCH
+  (u1:User {account:'u1'}),
+  (u2:User {account:'u2'}), (u3:User {account:'u3'}),
+  (u4:User {account:'u4'}), (u5:User {account:'u5'}),
+  (h5:Hobby {hName:'Photography'}),  // u1 还未喜欢过的兴趣
+  (h4:Hobby {hName:'Hiking'})
+CREATE
+  (u1)-[:Like]->(h5),    // u1 补拍 Photography
+  (u2)-[:Like]->(h4),    // 更多交集
+  (u3)-[:Like]->(h5),
+  (u4)-[:Like]->(h5),
+  (u5)-[:Like]->(h4);
