@@ -1,5 +1,6 @@
 # TSN: Customizable Social Network
 
+[![zh-hans](https://raw.githubusercontent.com/bulgogi-framework/.github/main/res/img/badge_zh-hans.svg)](README.zh-hans.md)
 ## 1. Project Overview
 
 VibeLink is a simulated social platform where users can share content related to their interests, such as reading, gaming, cooking, hiking, and photography. The platform supports social interactions like following and liking between users. This project uses the Neo4j graph database to store and manage data, utilizing Cypher queries for data creation, retrieval, and relationship establishment.
@@ -17,7 +18,7 @@ social-recommend/
 │	├── templates			 # Front-end pages (e.g., HTML)
 │    	└── application.properties 	 # Key configuration file
 ├── .gitignore                           # Git ignore file configuration
-├── LICENSE                              # License file, under MIT license
+├── NOTICE.md                            # Third Party Acknowledgements
 ├── README.md                            # Project documentation
 └── pom.xml                              # Maven build configuration file
 ```
@@ -25,7 +26,7 @@ social-recommend/
 * `src/`: Contains the system's core business logic and controller classes.
 * `resources/`: Configuration and template resources, especially `application.properties` which sets runtime parameters.
 * `pom.xml` is the Maven configuration file that defines dependencies and build settings.
-* `LICENSE`: Project license (MIT).
+* `NOTICE.md`: Third Party Acknowledgements
 * `README.md`: Provides an overview of the system, setup instructions, and configuration notes.
 
 ## 3. Project Configuration File

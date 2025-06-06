@@ -1,6 +1,6 @@
 # TSN：定制化社交网络
 
-
+[![Back to README](https://img.shields.io/badge/%20Back%20to%20README-brown?style=for-the-badge)](README.md)
 
 ## 一、项目概述
 
@@ -21,18 +21,18 @@ social-recommend/
 │	├── templates			 # 前端页面（如HTML
 │    	└── application.properties 	 # 关键配置文件
 ├── .gitignore                           # Git忽略文件配置
-├── LICENSE                              # 许可证文件，遵循MIT协议
+├── NOTICE.md                            # 第三方鸣谢
 ├── README.md                            # 项目说明文档
 └── pom.xml                              # Maven 构建配置文件
 ```
 
 
 
-- src/：包含系统的核心业务逻辑与控制器类。
-- resources/：配置和模板资源，特别是 application.properties 用于系统运行时参数配置。
-- pom.xml 是Maven构建项目的配置文件，定义了依赖项、编译设置等。
-- LICENSE 项目许可证（MIT）
-- README.md 提供系统概览、运行步骤和配置说明。
+- src/：包含系统的核心业务逻辑与控制器类
+- resources/：配置和模板资源，特别是 application.properties 用于系统运行时参数配置
+- pom.xml 是Maven构建项目的配置文件，定义了依赖项、编译设置等
+- NOTICE.md 第三方鸣谢
+- README.md 提供系统概览、运行步骤和配置说明
 
 
 
