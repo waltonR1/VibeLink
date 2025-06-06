@@ -1,7 +1,7 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
-import com.isep.vibelink.dao.HobbyDao;
+import com.isep.vibelink.dao.FollowDAO;
+import com.isep.vibelink.dao.HobbyDAO;
 import com.isep.vibelink.domain.node.Hobby;
 import com.isep.vibelink.domain.node.User;
 import com.isep.vibelink.util.ResponseInfo;
@@ -22,15 +22,15 @@ import java.util.Map;
  */
 @Controller
 public class HobbyController {
-    private final HobbyDao hobbyDao;
-    private final FollowDao followDao;
+    private final HobbyDAO hobbyDAO;
+    private final FollowDAO followDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public HobbyController(HobbyDao hobbyDao, FollowDao followDao) {
-        this.hobbyDao = hobbyDao;
-        this.followDao = followDao;
+    public HobbyController(HobbyDAO hobbyDAO, FollowDAO followDAO) {
+        this.hobbyDAO = hobbyDAO;
+        this.followDAO = followDAO;
     }
 
 
@@ -63,8 +63,8 @@ public class HobbyController {
         User user = (User) session.getAttribute("user");
         if (user == null) return "login";
 
-        List<Hobby> allHobbies = hobbyDao.getAllHobbies();
-        List<Hobby> myHobbies = hobbyDao.getMyHobby(user.getAccount());
+        List<Hobby> allHobbies = hobbyDAO.getAllHobbies();
+        List<Hobby> myHobbies = hobbyDAO.getMyHobby(user.getAccount());
 
         List<Hobby> res = new ArrayList<>();
         for (Hobby hobby : allHobbies) {
@@ -73,8 +73,8 @@ public class HobbyController {
             }
         }
 
-        int followingCount = followDao.getMyFollowing(user.getAccount()).size();
-        int followerCount = followDao.getPeopleWhoFollowMe(user.getAccount()).size();
+        int followingCount = followDAO.getMyFollowing(user.getAccount()).size();
+        int followerCount = followDAO.getPeopleWhoFollowMe(user.getAccount()).size();
 
         map.put("myFollowing", followingCount);
         map.put("follower", followerCount);
@@ -96,7 +96,7 @@ public class HobbyController {
     @PostMapping("/hobby/addHobby")
     @ResponseBody
     public ResponseInfo<Hobby> addHobby(@RequestParam("hName") String hName, @RequestParam("hType") String hType) {
-        Hobby hobby = hobbyDao.addHobby(hName, hType);
+        Hobby hobby = hobbyDAO.addHobby(hName, hType);
         if (hobby == null) {
             return ResponseInfo.fail("Failed to add hobby");
         }
@@ -113,7 +113,7 @@ public class HobbyController {
     @PostMapping("/hobby/delete")
     @ResponseBody
     public ResponseInfo<Void> deleteHobby(@RequestParam("id") Long id) {
-        boolean success = hobbyDao.deleteWithId(id);
+        boolean success = hobbyDAO.deleteWithId(id);
         if (success) {
             return ResponseInfo.success("Hobby deleted successfully", null);
         } else {
@@ -131,7 +131,7 @@ public class HobbyController {
     @GetMapping("/hobby/search")
     @ResponseBody
     public ResponseInfo<List<Hobby>> search(@RequestParam("hName") String hName) {
-        List<Hobby> hobbies = hobbyDao.searchHobbyByName(".*" + hName + ".*");
+        List<Hobby> hobbies = hobbyDAO.searchHobbyByName(".*" + hName + ".*");
         return ResponseInfo.success("Search completed", hobbies);
     }
 
@@ -147,7 +147,7 @@ public class HobbyController {
     @PostMapping("/hobby/fix")
     @ResponseBody
     public ResponseInfo<Hobby> fix(@RequestParam("id") Long id, @RequestParam("hName") String hName, @RequestParam("hType") String hType) {
-        Hobby hobby = hobbyDao.fixHobby(id, hName, hType);
+        Hobby hobby = hobbyDAO.fixHobby(id, hName, hType);
         if (hobby != null) {
             return ResponseInfo.success("Hobby updated successfully", hobby);
         }

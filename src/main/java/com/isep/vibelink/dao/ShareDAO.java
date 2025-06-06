@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ShareDao extends Neo4jRepository<Share, Long> {
+public interface ShareDAO extends Neo4jRepository<Share, Long> {
 
     /**
      * 用户发布一条新动态（Share），并建立发布关系

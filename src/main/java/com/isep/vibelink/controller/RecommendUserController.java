@@ -1,7 +1,8 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
-import com.isep.vibelink.dao.RecommendDao;
+import com.isep.vibelink.dao.FollowDAO;
+import com.isep.vibelink.dao.RecommendDAO;
+import com.isep.vibelink.dao.UserDAO;
 import com.isep.vibelink.domain.node.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -9,37 +10,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户推荐控制器，基于朋友、兴趣和分享推荐可能认识的人
  */
 @Controller
 public class RecommendUserController {
-    private final FollowDao followDao;
-    private final RecommendDao recommendDao;
+    private final FollowDAO followDAO;
+    private final RecommendDAO recommendDAO;
+    private final UserDAO userDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public RecommendUserController(FollowDao followDao, RecommendDao recommendDao) {
-        this.followDao = followDao;
-        this.recommendDao = recommendDao;
-    }
-
-    /**
-     * 判断某用户是否在列表中
-     *
-     * @param list    用户列表
-     * @param target 目标用户
-     * @return 是否包含该用户
-     */
-    @SuppressWarnings("JavaExistingMethodCanBeUsed")
-    public static boolean contains(List<User> list, User target) {
-        for (User user : list) {
-            if (user.getId().equals(target.getId()))
-                return true;
-        }
-        return false;
+    public RecommendUserController(FollowDAO followDAO, RecommendDAO recommendDAO, UserDAO userDAO) {
+        this.followDAO = followDAO;
+        this.recommendDAO = recommendDAO;
+        this.userDAO = userDAO;
     }
 
     /**
@@ -59,26 +47,58 @@ public class RecommendUserController {
             return "login";
         }
 
-        List<User> candidates;
-        switch (source) {
-            case "byFriend" -> candidates = recommendDao.byFriend(user.getAccount());
-            case "byShare" -> candidates = recommendDao.byShare(user.getAccount());
-            case "byHobby" -> candidates = recommendDao.byHobby(user.getAccount());
-            default -> candidates = new ArrayList<>();
-        }
+        /* ---------- 1. 三张榜单 ---------- */
+        List<User> byFriend = recommendDAO.byFriend(user.getAccount());
+        List<User> byShare = recommendDAO.byShare(user.getAccount());
+        List<User> byHobby = recommendDAO.byHobby(user.getAccount());
 
-        List<User> myFollowing = followDao.getMyFollowing(user.getAccount());
-        Set<User> recommends = new HashSet<>();
+        /* ---------- 2. 权重表 ---------- */
+        Map<String, Integer> weight = switch (source) {
+            case "byFriend" -> Map.of("friend", 5, "share", 3, "hobby", 1);
+            case "byShare"  -> Map.of("friend", 3, "share", 5, "hobby", 1);
+            case "byHobby"  -> Map.of("friend", 3, "share", 1, "hobby", 5);
+            default         -> Map.of("friend", 3, "share", 2, "hobby", 1);
+        };
 
-        for (User candidate : candidates) {
-            if (!candidate.getAccount().equals(user.getAccount()) &&
-                    !contains(myFollowing, candidate)) {
-                recommends.add(candidate);
-            }
+        /* ---------- 3. 计算总分 ---------- */
+        Map<User, Integer> scoreMap = new HashMap<>();
+        byFriend.forEach(u -> scoreMap.merge(u, weight.get("friend"), Integer::sum));
+        byShare .forEach(u -> scoreMap.merge(u, weight.get("share"),  Integer::sum));
+        byHobby .forEach(u -> scoreMap.merge(u, weight.get("hobby"),  Integer::sum));
+
+        /* ---------- 4. 过滤：排除自己 & 已关注 ---------- */
+        List<User> myFollowing = followDAO.getMyFollowing(user.getAccount());
+
+        // 方便 contains 判断
+        Set<String> myFollowingAccount = myFollowing.stream()
+                .map(User::getAccount)
+                .collect(Collectors.toSet());
+
+        /* ---------- 5. 按分排序，取前 10 ---------- */
+        List<User> recommends = scoreMap.entrySet().stream()
+                .filter(e -> {                       // 排除自己 / 已关注
+                    String acc = e.getKey().getAccount();
+                    return !acc.equals(user.getAccount())
+                            && !myFollowingAccount.contains(acc);
+                })
+                .sorted((a, b) -> b.getValue() - a.getValue()) // 倒序
+                .limit(9)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        /* ---------- 6. 兜底：若为空则随机推荐 ---------- */
+        if (recommends.isEmpty()) {
+            List<User> allUsers = userDAO.getAllUser();           // ← 调用图数据库接口
+            Collections.shuffle(allUsers);                        // 打乱顺序
+            recommends = allUsers.stream()
+                    .filter(u -> !u.getAccount().equals(user.getAccount()) &&
+                            !myFollowingAccount.contains(u.getAccount()))
+                    .limit(10)
+                    .collect(Collectors.toList());
         }
 
         int followingCount = myFollowing.size();
-        int followerCount = followDao.getPeopleWhoFollowMe(user.getAccount()).size();
+        int followerCount = followDAO.getPeopleWhoFollowMe(user.getAccount()).size();
 
         map.put("myFollowing", followingCount);
         map.put("follower", followerCount);
@@ -106,7 +126,7 @@ public class RecommendUserController {
 
 
     /**
-     * 基于点赞/评论等互动推荐
+     * 基于点赞互动推荐
      *
      * @param request 请求对象
      * @param map     模板数据

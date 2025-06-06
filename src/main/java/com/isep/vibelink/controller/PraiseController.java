@@ -1,6 +1,6 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.PraiseDao;
+import com.isep.vibelink.dao.PraiseDAO;
 import com.isep.vibelink.util.ResponseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class PraiseController {
-    private final PraiseDao praiseDao;
+    private final PraiseDAO praiseDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public PraiseController(PraiseDao praiseDao) {
-        this.praiseDao = praiseDao;
+    public PraiseController(PraiseDAO praiseDAO) {
+        this.praiseDAO = praiseDAO;
     }
 
     /**
@@ -31,14 +31,14 @@ public class PraiseController {
     @PostMapping("/praised/thumbsUp")
     @ResponseBody
     public ResponseInfo<Long> praiseShare(@RequestParam("account") String account, @RequestParam("shareId") Integer shareId) {
-        Integer hasPraised = praiseDao.isPraised(shareId, account);
-        Long totalPraised = praiseDao.getPraisedNumber(shareId);
+        Integer hasPraised = praiseDAO.isPraised(shareId, account);
+        Long totalPraised = praiseDAO.getPraisedNumber(shareId);
 
         if (hasPraised > 0) {
             return ResponseInfo.success("Already praised", totalPraised);
         }
 
-        Long relationshipId = praiseDao.praisedIt(account, shareId);
+        Long relationshipId = praiseDAO.praisedIt(account, shareId);
         boolean success = (relationshipId != null);
         return success ? ResponseInfo.success("Praise successful", totalPraised+1) : ResponseInfo.fail("Praise failed");
     }
@@ -55,8 +55,8 @@ public class PraiseController {
     @ResponseBody
     public ResponseInfo<Long> unPraiseShare(@RequestParam("account") String account, @RequestParam("shareId") Integer shareId) {
 
-        Integer affected = praiseDao.cancelPraised(account, shareId);
-        Long totalPraised = praiseDao.getPraisedNumber(shareId);
+        Integer affected = praiseDAO.cancelPraised(account, shareId);
+        Long totalPraised = praiseDAO.getPraisedNumber(shareId);
         return affected > 0 ? ResponseInfo.success("Cancel praise successful", totalPraised) : ResponseInfo.fail("Cancel praise failed");
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LikeDao extends Neo4jRepository<Like, Long> {
+public interface LikeDAO extends Neo4jRepository<Like, Long> {
     /**
      * 用户点赞一个兴趣（建立双向 Like 关系）
      *

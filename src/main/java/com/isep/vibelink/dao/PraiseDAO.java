@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PraiseDao extends Neo4jRepository<Praised, Long> {
+public interface PraiseDAO extends Neo4jRepository<Praised, Long> {
     /**
      * 用户点赞一条动态（Share），创建 Praised 关系
      *

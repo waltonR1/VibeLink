@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RecommendDao extends Neo4jRepository<User, Long> {
+public interface RecommendDAO extends Neo4jRepository<User, Long> {
 
     /**
      * 基于“朋友的朋友”推荐用户列表
@@ -47,7 +47,7 @@ public interface RecommendDao extends Neo4jRepository<User, Long> {
      * @return 点赞了我发布内容的用户列表（去重）
      */
     @Query("""
-                MATCH (me:User {account: $account})-[:Publish]->(:Share)<-[:Praised]-(user:User)
+                MATCH (me:User {account: $account})-[:Publish]->(:Share)-[:Praised]->(user:User)
                 RETURN DISTINCT user
             """)
     List<User> byShare(@Param("account") String account);

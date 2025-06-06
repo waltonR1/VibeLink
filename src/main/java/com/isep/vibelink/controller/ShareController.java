@@ -1,8 +1,8 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
-import com.isep.vibelink.dao.ShareDao;
-import com.isep.vibelink.dao.HobbyDao;
+import com.isep.vibelink.dao.FollowDAO;
+import com.isep.vibelink.dao.ShareDAO;
+import com.isep.vibelink.dao.HobbyDAO;
 import com.isep.vibelink.domain.node.Hobby;
 import com.isep.vibelink.domain.node.Share;
 import com.isep.vibelink.domain.node.User;
@@ -26,17 +26,17 @@ import java.util.Map;
 @Controller
 public class ShareController {
 
-    private final ShareDao shareDao;
-    private final FollowDao followDao;
-    private final HobbyDao hobbyDao;
+    private final ShareDAO shareDAO;
+    private final FollowDAO followDAO;
+    private final HobbyDAO hobbyDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public ShareController(ShareDao shareDao, FollowDao followDao, HobbyDao hobbyDao) {
-        this.shareDao = shareDao;
-        this.followDao = followDao;
-        this.hobbyDao = hobbyDao;
+    public ShareController(ShareDAO shareDAO, FollowDAO followDAO, HobbyDAO hobbyDAO) {
+        this.shareDAO = shareDAO;
+        this.followDAO = followDAO;
+        this.hobbyDAO = hobbyDAO;
     }
 
     /**
@@ -67,7 +67,7 @@ public class ShareController {
             @RequestParam("address") String address) {
 
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        Share share = shareDao.publishShare(account, publisher, publisherImg, title, content, relatedHobby, hobbyId, imgUrl, address, time);
+        Share share = shareDAO.publishShare(account, publisher, publisherImg, title, content, relatedHobby, hobbyId, imgUrl, address, time);
 
         return share != null
                 ? ResponseInfo.success("Share published successfully", share)
@@ -86,7 +86,7 @@ public class ShareController {
     @ResponseBody
     public ResponseInfo<Integer> deleteShare(@RequestParam("account") String account, @RequestParam("shareId") Long shareId) {
 
-        int affectedRows = shareDao.deleteShareById(account, shareId);
+        int affectedRows = shareDAO.deleteShareById(account, shareId);
         return affectedRows > 0
                 ? ResponseInfo.success("Share deleted successfully", affectedRows)
                 : ResponseInfo.fail("Failed to delete share");
@@ -103,7 +103,7 @@ public class ShareController {
     @GetMapping("/share/getByAccount")
     @ResponseBody
     public ResponseInfo<List<Share>> getShareByAccount(@RequestParam("account") String account) {
-        List<Share> shares = shareDao.getShareByAccount(account);
+        List<Share> shares = shareDAO.getShareByAccount(account);
         for (Share share : shares) {
             share.updatePraisedStatus(account);
         }
@@ -126,7 +126,7 @@ public class ShareController {
             return "login";
         }
 
-        List<Hobby> allHobbies = hobbyDao.getMyHobby(user.getAccount());
+        List<Hobby> allHobbies = hobbyDAO.getMyHobby(user.getAccount());
 
         map.put("user", user);
         map.put("hobbies",allHobbies);
@@ -151,13 +151,13 @@ public class ShareController {
             return "login";
         }
 
-        Long following_num = followDao.howManyIFollow(user.getAccount());
-        Long follower_num = followDao.howManyPeopleFollowMe(user.getAccount());
+        Long following_num = followDAO.howManyIFollow(user.getAccount());
+        Long follower_num = followDAO.howManyPeopleFollowMe(user.getAccount());
         session.setAttribute("follower", follower_num);
         session.setAttribute("myFollowing", following_num);
 
         // 读取动态内容
-        List<Share> shares = shareDao.getFriendShares(user.getAccount());
+        List<Share> shares = shareDAO.getFriendShares(user.getAccount());
         for (Share share : shares) {
             share.updatePraisedStatus(user.getAccount());
         }
@@ -183,13 +183,13 @@ public class ShareController {
         User user = (User) session.getAttribute("user");
         if (user == null)
             return "login";
-        Long following_num = followDao.howManyIFollow(user.getAccount());
-        Long follower_num = followDao.howManyPeopleFollowMe(user.getAccount());
+        Long following_num = followDAO.howManyIFollow(user.getAccount());
+        Long follower_num = followDAO.howManyPeopleFollowMe(user.getAccount());
         session.setAttribute("follower", follower_num);
         session.setAttribute("myFollowing", following_num);
 
         // 读取动态内容
-        List<Share> shares = shareDao.recommendByHobby(user.getAccount());
+        List<Share> shares = shareDAO.recommendByHobby(user.getAccount());
         for (Share share : shares) {
             share.updatePraisedStatus(user.getAccount());
         }

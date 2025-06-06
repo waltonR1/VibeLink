@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HobbyDao extends Neo4jRepository<Hobby, Long> {
+public interface HobbyDAO extends Neo4jRepository<Hobby, Long> {
     /**
      * 查询图数据库中所有的兴趣（Hobby）节点
      *

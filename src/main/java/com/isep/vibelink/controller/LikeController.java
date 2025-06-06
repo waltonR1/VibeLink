@@ -1,6 +1,6 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.LikeDao;
+import com.isep.vibelink.dao.LikeDAO;
 import com.isep.vibelink.util.ResponseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class LikeController {
-    private final LikeDao likeDao;
+    private final LikeDAO likeDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public LikeController(LikeDao likeDao) {
-        this.likeDao = likeDao;
+    public LikeController(LikeDAO likeDAO) {
+        this.likeDAO = likeDAO;
     }
 
 
@@ -32,7 +32,7 @@ public class LikeController {
     @PostMapping("/user/like")
     @ResponseBody
     public ResponseInfo<Integer> likeHobby(@RequestParam("account") String account, @RequestParam("hobbyId") Long hobbyId){
-        Integer result=likeDao.likeHobby(account,hobbyId);
+        Integer result=likeDAO.likeHobby(account,hobbyId);
         boolean success = (result == 2);
         String msg = success ? "Hobby liked successfully" : "Failed to like hobby";
         return new ResponseInfo<>(msg, success, result);
@@ -49,7 +49,7 @@ public class LikeController {
     @PostMapping("/user/unlike")
     @ResponseBody
     public ResponseInfo<Integer> unlikeHobby(@RequestParam("account") String account, @RequestParam("hobbyId") Long hobbyId) {
-        Integer result = likeDao.unlikeHobby(account, hobbyId);
+        Integer result = likeDAO.unlikeHobby(account, hobbyId);
         boolean success = (result > 0);
         String msg = success ? "Hobby unliked successfully" : "Failed to unlike hobby";
         return new ResponseInfo<>(msg, success, result);

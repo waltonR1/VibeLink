@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserDao extends Neo4jRepository<User, Long> {
+public interface UserDAO extends Neo4jRepository<User, Long> {
     /**
      * 创建一个新用户节点
      *

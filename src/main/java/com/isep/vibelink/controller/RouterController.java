@@ -1,6 +1,6 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
+import com.isep.vibelink.dao.FollowDAO;
 import com.isep.vibelink.domain.node.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,13 +15,13 @@ import java.util.Map;
 @Controller
 public class RouterController {
 
-    private final FollowDao followDao;
+    private final FollowDAO followDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public RouterController(FollowDao followDao) {
-        this.followDao = followDao;
+    public RouterController(FollowDAO followDAO) {
+        this.followDAO = followDAO;
     }
 
 
@@ -40,8 +40,8 @@ public class RouterController {
             return "login";
         }
 
-        int followingCount = followDao.getMyFollowing(user.getAccount()).size();
-        int followerCount = followDao.getPeopleWhoFollowMe(user.getAccount()).size();
+        int followingCount = followDAO.getMyFollowing(user.getAccount()).size();
+        int followerCount = followDAO.getPeopleWhoFollowMe(user.getAccount()).size();
 
         map.put("user", user);
         map.put("myFollowing", followingCount);

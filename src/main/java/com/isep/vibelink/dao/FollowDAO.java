@@ -10,7 +10,7 @@ import java.util.List;
 
 //follower ——关注——> following
 @Repository
-public interface FollowDao extends Neo4jRepository<User, Long> {
+public interface FollowDAO extends Neo4jRepository<User, Long> {
     /**
      * 创建一条关注关系（follower -> following）
      *

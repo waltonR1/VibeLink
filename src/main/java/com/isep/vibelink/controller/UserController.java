@@ -1,9 +1,9 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
-import com.isep.vibelink.dao.RecommendDao;
-import com.isep.vibelink.dao.ShareDao;
-import com.isep.vibelink.dao.UserDao;
+import com.isep.vibelink.dao.FollowDAO;
+import com.isep.vibelink.dao.RecommendDAO;
+import com.isep.vibelink.dao.ShareDAO;
+import com.isep.vibelink.dao.UserDAO;
 import com.isep.vibelink.domain.node.Share;
 import com.isep.vibelink.domain.node.User;
 import com.isep.vibelink.util.ResponseInfo;
@@ -23,22 +23,22 @@ import java.util.stream.Collectors;
  */
 @Controller
 public class UserController {
-    private final UserDao userDao;
-    private final FollowDao followDao;
-    private final ShareDao shareDao;
-    private final RecommendDao recommendDao;
+    private final UserDAO userDAO;
+    private final FollowDAO followDAO;
+    private final ShareDAO shareDAO;
+    private final RecommendDAO recommendDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public UserController(UserDao userDao,
-                          FollowDao followDao,
-                          ShareDao shareDao,
-                          RecommendDao recommendDao) {
-        this.userDao = userDao;
-        this.followDao = followDao;
-        this.shareDao = shareDao;
-        this.recommendDao = recommendDao;
+    public UserController(UserDAO userDAO,
+                          FollowDAO followDAO,
+                          ShareDAO shareDAO,
+                          RecommendDAO recommendDAO) {
+        this.userDAO = userDAO;
+        this.followDAO = followDAO;
+        this.shareDAO = shareDAO;
+        this.recommendDAO = recommendDAO;
     }
 
 
@@ -52,7 +52,7 @@ public class UserController {
      */
     public Set<User> filterRecommendedUsers(List<User> candidates, int length, String account) {
         // 查询当前用户关注的用户列表
-        List<User> followed = followDao.getMyFollowing(account);
+        List<User> followed = followDAO.getMyFollowing(account);
         Set<String> followedAccounts = followed.stream()
                 .map(User::getAccount)
                 .collect(Collectors.toSet());
@@ -101,7 +101,7 @@ public class UserController {
                         @RequestParam("password") String password,
                         Map<String, Object> paramMap,
                         HttpServletRequest request) {
-        User user = userDao.checkUser(account, password);
+        User user = userDAO.checkUser(account, password);
         if (user == null) {
             paramMap.put("msg", "Wrong username or password");
             return "login";
@@ -127,21 +127,21 @@ public class UserController {
             return "login";
         }
 
-        Long followingCount = followDao.howManyIFollow(user.getAccount());
-        Long followerCount = followDao.howManyPeopleFollowMe(user.getAccount());
+        Long followingCount = followDAO.howManyIFollow(user.getAccount());
+        Long followerCount = followDAO.howManyPeopleFollowMe(user.getAccount());
         // 读取动态内容
-        List<Share> shares = shareDao.getFriendShares(user.getAccount());
+        List<Share> shares = shareDAO.getFriendShares(user.getAccount());
         for (Share share : shares) {
             share.updatePraisedStatus(user.getAccount());
         }
         // 读取推荐用户列表
-        List<User> byFriend = recommendDao.byFriend(user.getAccount());
-        List<User> byShare = recommendDao.byShare(user.getAccount());
-        List<User> byHobby = recommendDao.byHobby(user.getAccount());
+        List<User> byFriend = recommendDAO.byFriend(user.getAccount());
+        List<User> byShare = recommendDAO.byShare(user.getAccount());
+        List<User> byHobby = recommendDAO.byHobby(user.getAccount());
 
-        paramMap.put("byFriend", filterRecommendedUsers(byFriend, 3, user.getAccount()));
-        paramMap.put("byShare", filterRecommendedUsers(byShare, 3, user.getAccount()));
-        paramMap.put("byHobby", filterRecommendedUsers(byHobby, 3, user.getAccount()));
+        paramMap.put("byFriend", filterRecommendedUsers(byFriend, 2, user.getAccount()));
+        paramMap.put("byShare", filterRecommendedUsers(byShare, 2, user.getAccount()));
+        paramMap.put("byHobby", filterRecommendedUsers(byHobby, 2, user.getAccount()));
 
         paramMap.put("shares", shares);
         paramMap.put("user", user);
@@ -183,7 +183,7 @@ public class UserController {
     @GetMapping("/user/getUser")
     @ResponseBody
     public ResponseInfo<User> getUser(@RequestParam("account") String account) {
-        User user = userDao.getUserByAccount(account);
+        User user = userDAO.getUserByAccount(account);
         if (user != null) {
             return ResponseInfo.success("1", user);
         }
@@ -199,7 +199,7 @@ public class UserController {
     @GetMapping("/user/all")
     @ResponseBody
     public ResponseInfo<List<User>> getAllUser() {
-        List<User> users = userDao.getAllUser();
+        List<User> users = userDAO.getAllUser();
         return ResponseInfo.success(Integer.toString(users.size()), users);
     }
 
@@ -226,13 +226,13 @@ public class UserController {
                           @RequestParam("address") String address,
                           @RequestParam("nickname") String nickname,
                           Map<String, Object> map) {
-        User user = userDao.getUserByAccount(account);
+        User user = userDAO.getUserByAccount(account);
         if (user != null) {
             map.put("msg", "This account already exists, please log in");
             return "login";
         }
 
-        user = userDao.addUser(account, password, nickname, age, gender, email, address);
+        user = userDAO.addUser(account, password, nickname, age, gender, email, address);
         if (user != null) {
             return "redirect:/content";
         }
@@ -251,7 +251,7 @@ public class UserController {
     @PostMapping("/user/deleteUser")
     @ResponseBody
     public ResponseInfo<Void> deleteUser(@RequestParam("account") String account) {
-        boolean deleted = userDao.deleteUserByAccount(account);
+        boolean deleted = userDAO.deleteUserByAccount(account);
         if (deleted) {
             return ResponseInfo.success("Deleted successfully", null);
         } else {
@@ -277,7 +277,7 @@ public class UserController {
                                       @RequestParam("age") Integer age,
                                       @RequestParam("email") String email,
                                       @RequestParam("address") String address) {
-        Long result = userDao.fixInfo(account, nickname, age, address, email);
+        Long result = userDAO.fixInfo(account, nickname, age, address, email);
         return result > 0 ? ResponseInfo.success("Modified successfully", result) : ResponseInfo.fail("Modification Failure");
     }
 
@@ -292,7 +292,7 @@ public class UserController {
     @PostMapping("/user/fixPass")
     @ResponseBody
     public ResponseInfo<Long> fixPass(@RequestParam("account") String account, @RequestParam("newPass") String password) {
-        Long result = userDao.fixPass(account, password);
+        Long result = userDAO.fixPass(account, password);
         return result > 0 ? ResponseInfo.success("Modified successfully", result) : ResponseInfo.fail("Modification Failure");
     }
 
@@ -307,7 +307,7 @@ public class UserController {
     @PostMapping("/user/fixImg")
     @ResponseBody
     public ResponseInfo<Long> fixImg(@RequestParam("account") String account, @RequestParam("imgUrl") String imgUrl) {
-        Long result = userDao.fixImg(account, imgUrl);
+        Long result = userDAO.fixImg(account, imgUrl);
         return result > 0 ? ResponseInfo.success("Modified successfully", result) : ResponseInfo.fail("Modification Failure");
 
     }
@@ -330,10 +330,10 @@ public class UserController {
 
         System.out.println("Publisher User: " + publisher);
 
-        Long followingCount = followDao.howManyIFollow(user.getAccount());
-        Long followerCount = followDao.howManyPeopleFollowMe(user.getAccount());
+        Long followingCount = followDAO.howManyIFollow(user.getAccount());
+        Long followerCount = followDAO.howManyPeopleFollowMe(user.getAccount());
         // 读取动态内容
-        List<Share> shares = shareDao.getShareByAccount(publisher);
+        List<Share> shares = shareDAO.getShareByAccount(publisher);
         System.out.println("Shares: " + shares);
 
         for (Share share : shares) {
@@ -341,9 +341,9 @@ public class UserController {
         }
 
         // 读取推荐用户列表
-        List<User> byFriend = recommendDao.byFriend(user.getAccount());
-        List<User> byShare = recommendDao.byShare(user.getAccount());
-        List<User> byHobby = recommendDao.byHobby(user.getAccount());
+        List<User> byFriend = recommendDAO.byFriend(user.getAccount());
+        List<User> byShare = recommendDAO.byShare(user.getAccount());
+        List<User> byHobby = recommendDAO.byHobby(user.getAccount());
 
         paramMap.put("byFriend", filterRecommendedUsers(byFriend, 3, user.getAccount()));
         paramMap.put("byShare", filterRecommendedUsers(byShare, 3, user.getAccount()));

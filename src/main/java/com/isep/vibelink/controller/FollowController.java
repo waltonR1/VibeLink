@@ -1,6 +1,6 @@
 package com.isep.vibelink.controller;
 
-import com.isep.vibelink.dao.FollowDao;
+import com.isep.vibelink.dao.FollowDAO;
 import com.isep.vibelink.domain.node.User;
 import com.isep.vibelink.util.ResponseInfo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,13 +18,13 @@ import java.util.*;
  */
 @Controller
 public class FollowController {
-    private final FollowDao followDao;
+    private final FollowDAO followDAO;
 
     /**
      * 构造函数注入依赖
      */
-    public FollowController(FollowDao followDao) {
-        this.followDao = followDao;
+    public FollowController(FollowDAO followDAO) {
+        this.followDAO = followDAO;
     }
 
 
@@ -55,7 +55,7 @@ public class FollowController {
     @ResponseBody
     public ResponseInfo<Long> followIt(@RequestParam("follower") String follower,
                                        @RequestParam("following") String following) {
-        Long id = followDao.createFollow(follower, following);
+        Long id = followDAO.createFollow(follower, following);
         if (id != null) {
             return ResponseInfo.success("success", id);
         }
@@ -73,7 +73,7 @@ public class FollowController {
     @ResponseBody
     public ResponseInfo<Long> unfollow(@RequestParam("follower") String follower,
                                        @RequestParam("following") String following) {
-        Long count = followDao.deleteRelation(follower, following);
+        Long count = followDAO.deleteRelation(follower, following);
         if (count == 0) {
             return ResponseInfo.fail("Unfollow failed");
         }
@@ -95,8 +95,8 @@ public class FollowController {
             return "login";
         }
 
-        List<User> myFollowing = followDao.getMyFollowing(user.getAccount());
-        List<User> followers = followDao.getPeopleWhoFollowMe(user.getAccount());
+        List<User> myFollowing = followDAO.getMyFollowing(user.getAccount());
+        List<User> followers = followDAO.getPeopleWhoFollowMe(user.getAccount());
 
         Set<User> mutualFollows = new HashSet<>(); // 单向粉丝推荐
         Set<User> recommendations = new HashSet<>(); // 互相关注
@@ -139,9 +139,9 @@ public class FollowController {
             return "login";
         }
 
-        List<User> followingList = followDao.getMyFollowing(user.getAccount());
+        List<User> followingList = followDAO.getMyFollowing(user.getAccount());
         int followingCount = followingList.size();
-        int followerCount = followDao.getPeopleWhoFollowMe(user.getAccount()).size();
+        int followerCount = followDAO.getPeopleWhoFollowMe(user.getAccount()).size();
 
         map.put("myFollowing", followingCount);
         map.put("follower", followerCount);
