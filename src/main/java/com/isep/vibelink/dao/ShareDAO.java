@@ -108,7 +108,7 @@ public interface ShareDAO extends Neo4jRepository<Share, Long> {
     @Query("""
                 MATCH (user:User {account: $account})-[:Like]->(h:Hobby)
                 MATCH (share:Share)
-                WHERE share.relatedHobby = h.hName
+                WHERE share.relatedHobby = h.hName AND share.publisherAccount <> $account
                 OPTIONAL MATCH (s)-[r:Praised]->(u:User)
                 RETURN DISTINCT share, collect(r), collect(u)
             """)
