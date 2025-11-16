@@ -3,12 +3,9 @@
 
 # Mark all frontend resources as vendored so GitHub Linguist ignores them
 # Ignore specific 3rd-party CSS libraries
-src/main/resources/static/css/bootstrap-*.css linguist-vendored
-src/main/resources/static/css/ionicicons.min.css linguist-vendored
-src/main/resources/static/css/jquery.mCustomScrollbar.min.css linguist-vendored
-src/main/resources/static/css/nouislider.min.css linguist-vendored
-src/main/resources/static/css/owl.carousel.min.css linguist-vendored
-src/main/resources/static/css/select2.min.css linguist-vendored
+src/main/resources/static/css/** linguist-vendored
 
 # login page 3rd-party css
-src/main/resources/static/login/css/font-awesome.css linguist-vendored
+src/main/resources/static/login/css/** linguist-vendored
+
+
