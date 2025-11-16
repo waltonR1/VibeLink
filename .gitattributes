@@ -1,2 +1,16 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+
+# Mark all frontend resources as vendored so GitHub Linguist ignores them
+src/main/resources/static/css/** linguist-vendored
+src/main/resources/static/login/css/** linguist-vendored
+
+# Ignore frontend fonts, images, and JS
+src/main/resources/static/fonts/** linguist-vendored
+src/main/resources/static/login/fonts/** linguist-vendored
+src/main/resources/static/img/** linguist-vendored
+src/main/resources/static/login/images/** linguist-vendored
+src/main/resources/static/js/** linguist-vendored
+
+# Ignore templates (optional)
+src/main/resources/templates/** linguist-vendored
