@@ -6,6 +6,5 @@
 src/main/resources/static/css/** linguist-vendored
 
 # login page 3rd-party css
-src/main/resources/static/login/css/** linguist-vendored
-
+src/main/resources/static/login/css/font-awesome.css linguist-vendored
 
